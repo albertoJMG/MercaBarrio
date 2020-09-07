@@ -532,6 +532,12 @@ public class Controlador {
         MercaBarrioModelo.borrarProducto(Long.parseLong(id_producto));
         return casoNavegacion;
     }
+    
+    public void borrarArticuloCarrito(String id){
+//        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        Cliente c = MercaBarrioModelo.borrarArticuloCarrito(Long.parseLong(id));
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", c);
+    }
 
     /*
      <<<>>> Metodos de EDICIÓN<<<>>>  

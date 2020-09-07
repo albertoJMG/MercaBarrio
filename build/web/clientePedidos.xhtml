@@ -55,6 +55,14 @@
                             <h:outputText value="#{sp.producto.nombre}, "/>
                         </ui:repeat>
                     </p:column>
+                    <p:column styleClass="centrar--texto">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['cliente_pedidos.fecha_pedido']}"/>
+                        </f:facet>
+                        <h:outputText value="#{p.importe}" styleClass="centrar--texto">
+                            
+                        </h:outputText>
+                    </p:column>
                 </p:dataTable>
                 <!--FIN Tabla-->
             </h:panelGroup>

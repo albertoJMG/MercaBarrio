@@ -23,26 +23,36 @@
                     </h1>
                 </div>
                 <!--FIN-->
-                <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
-                <h:form id="form" styleClass="container mb-5" >
-                    <p:dataGrid var="p" value="#{tiendaElegida.productos}" 
-                                columns="3" layout="grid" rows="12" paginator="true">
-                        <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
-                            <h:panelGrid columns="1" styleClass="col-12"  >
-                                <h:commandLink action="producto_tInicio" >
-                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
-                                    <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen"/>
-                                </h:commandLink>
-                                <h:outputText value="#{p.nombre}" />
-                                <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))} €/#{p.unidad}" />
-                                <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces">
-                                    <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
-                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
-                                </h:commandLink>
-                            </h:panelGrid>
-                        </p:panel>
-                    </p:dataGrid>
-                </h:form>
+                <h:panelGroup rendered="#{tiendaElegida.productos.size() gt 0}">
+                    <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
+                    <h:form id="form" styleClass="container mb-5" >
+                        <p:dataGrid var="p" value="#{tiendaElegida.productos}" 
+                                    columns="3" layout="grid" rows="12" paginator="true">
+                            <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
+                                <h:panelGrid columns="1" styleClass="col-12"  >
+                                    <h:commandLink action="producto_tInicio" >
+                                        <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                        <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen"/>
+                                    </h:commandLink>
+                                    <h:outputText value="#{p.nombre}" />
+                                    <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))} €/#{p.unidad}" />
+                                    <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces">
+                                        <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
+                                        <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                    </h:commandLink>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataGrid>
+                    </h:form>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{tiendaElegida.productos.size() eq 0}">
+                    <div class="row my-5 mensaje-vacio m-0 p-0" >
+                        <h3 class="centrar--texto mensaje-vacio__texto" >
+                            <h:outputText value="#{msgs['tienda.vacio_mensaje']}" />
+                        </h3>
+                        <h:graphicImage url="resources/images/sin_pedidos.png" styleClass="mensaje-vacio__imagen"/>
+                    </div>
+                </h:panelGroup>
                 <!--FIN-->
             </ui:define>
         </ui:composition>

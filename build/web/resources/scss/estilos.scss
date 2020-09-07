@@ -13,6 +13,7 @@ $colorMercaBarrio_B: #fff; //Blanco
 $colorEnlaces: #007bff; //Azulado
 $colorBotonUnion: #28a745; //Verde
 $colorTransparente: transparent;
+$colorExito: #28a745; //Verde
 $colorOscuro: #343a40;
 $colorBordes: #dee2e6; //Grisaceo
 $colorError: #dc3545; //Rojizo
@@ -436,6 +437,10 @@ $sombra: black;
 
 .texto--blanco{
     color: $colorMercaBarrio_B;
+}
+
+.texto--verde{
+    color: $colorExito;
 }
 
 .texto--gris{

@@ -13,7 +13,7 @@
             <div style="height: 5.2rem"></div>
             <!--FIN espacio-->
             <!--Mensaje de confirmacion-->
-            <h2 class="text-success mt-5 centrar--texto mb-5">
+            <h2 class="texto--verde mt-5 centrar--texto mb-5">
                 <span class="material-icons">check</span>
                 <h:outputText value="#{msgs['producto.exito']}"/>
             </h2>
@@ -49,18 +49,18 @@
                 </h2>
                 <h:form id="form" styleClass="container">
                     <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
-                    <p:dataGrid var="p" value="#{controlador.productosRamdom(tienda.id_usuario)}" columns="3" layout="grid" rows="3" paginator="false">
+                    <p:dataGrid var="random" value="#{controlador.productosRamdom(tienda.id_usuario)}" columns="3" layout="grid" rows="3" paginator="false">
                         <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
                             <h:panelGrid columns="1" styleClass="col-12"  >
                                 <h:commandLink action="producto_tInicio" >
-                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
-                                    <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen"/>
+                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
+                                    <p:graphicImage url="resources/images/#{random.nombreFoto}" styleClass="tablas-datos__imagen"/>
                                 </h:commandLink>
-                                <h:outputText value="#{p.nombre}" />
-                                <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))} €/#{p.unidad}" />
+                                <h:outputText value="#{random.nombre}" />
+                                <h:outputText value="#{random.precio*(1+(random.tipoIVA/100))} €/#{random.unidad}" />
                                 <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces">
                                     <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
-                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
                                 </h:commandLink>
                             </h:panelGrid>
                         </p:panel>

@@ -500,9 +500,9 @@ public class MercaBarrioModelo {
         try {
             ejc.destroy(id);
         } catch (RollbackFailureException ex) {
-            Logger.getLogger(MercaBarrioModelo.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error al borrar Pedido" + ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(MercaBarrioModelo.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error al borrar Pedido" + ex.getMessage());
         }
     }
 
@@ -518,6 +518,26 @@ public class MercaBarrioModelo {
         Producto p = ejc.findProducto(id);
         p.setEstadoProducto(false);
         MercaBarrioModelo.actualizarProducto(p);
+    }
+    
+    public static Cliente borrarArticuloCarrito(Long id){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        SubPedidoJpaController ejc = new SubPedidoJpaController(emf);
+        SubPedido sp = MercaBarrioModelo.buscarSubPedido(id);
+        Pedido p = sp.getPedido();
+        p.getSubPedido().remove(sp);
+        MercaBarrioModelo.actualizarPedido(p);
+        Cliente c = p.getCliente();
+        MercaBarrioModelo.actualizarCliente(c);
+        try {
+            ejc.destroy(id);
+        } catch (RollbackFailureException ex) {
+            System.err.println("Error al borrar SubPedido" + ex.getMessage());
+        } catch (Exception ex) {
+            System.err.println("Error al borrar SubPedido" + ex.getMessage());
+        }
+        
+        return c;
     }
 
     /*

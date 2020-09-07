@@ -16,7 +16,7 @@
             <!--Muestra todos los articulos que compone el Pedido -->
             <h:panelGroup rendered="#{controlador.listaArticulosCarrito().size() gt 0}" >
                 <ui:repeat value="#{controlador.listaArticulosCarrito()}" var="sp">
-                    <div class="container">
+                    <div class="container mb-2">
                         <div class="row producto_detalle p-3 mx-0">
                             <div class="col-2 mx-0">
                                 <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 10em; height: 10em"/>
@@ -24,11 +24,23 @@
                             <div class="col-10 mx-0">
                                 <h3><h:outputText value="#{sp.producto.nombre}"></h:outputText></h3>
                                 <p><h:outputText value="#{sp.producto.descripcion}"></h:outputText></p>
-                                <p class="texto--error texto--der"><h:outputText value="#{sp.producto.precio} €/#{sp.producto.unidad}"></h:outputText></p>
+                                <p><h:outputText value="#{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/></p>
+                                <p class="texto--error texto--der">
+                                    <h:outputText value="#{sp.producto.precio}">
+                                        <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                    </h:outputText>
+                                    <h:outputText value="/#{sp.producto.unidad}"/>
+                                </p>
 
                             </div>
+                            <h:form>
+                                <h:commandLink action="#{controlador.borrarArticuloCarrito(sp.id_subPedido)}" value="Borrar">
+                                    
+                                </h:commandLink>
+                            </h:form>
+                            
                         </div>
-                        <p>Eliminar articulo</p>
+                        
                         
                     </div>
                     
