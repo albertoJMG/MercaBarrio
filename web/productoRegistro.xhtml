@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Página para registrar un producto-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <div class="container" >
+                <div class="row py-5">
+                    <div class="col-2 banner py-2">
+                        <h4 class="banner__titulo">
+                            <h:outputText value="#{msgs['formulario_producto.titulo_registrar']}"/>
+                        </h4>
+                    </div>
+                    <!--Formulario Registro-->
+                    <div class="formulario col-10  py-4">
+                        <h:form id="contact-form" enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <div class="col-md-6 mx-0">
+                                    <div class="md-form">
+                                        <h:inputText id="nombre" value="#{producto.nombre}" required="true" styleClass="formulario__input mr-5"/>
+                                        <h:outputLabel for="nombre" value="#{msgs['formulario_producto.nombre']} " styleClass="mr-5"/>
+                                        <h:message for="nombre" styleClass="mensaje__error"/>
+                                    </div>
+                                </div>
+                                <div class="row col-6 mx-0" >
+                                    <div class="col-4 pl-0">
+                                        <h:inputText id="precio" value="#{producto.precio}" required="true" converterMessage="#{msgs['formulario_producto.mensaje_inputNumber']}" styleClass="formulario__input">
+                                            <f:validateDoubleRange minimum="0.01" />
+                                        </h:inputText>
+                                        <h:outputLabel for="precio" value="#{msgs['formulario_producto.precio']}"/>
+                                        <h:message for="precio" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class=" col-4 mx-0">
+                                        <h:selectOneMenu id="tipoIVA" value="#{producto.tipoIVA}" required="true" styleClass="formulario__input mx-0">
+                                            <f:selectItem itemLabel="4 %" itemValue="4"/>
+                                            <f:selectItem itemLabel="10 %" itemValue="10"/>
+                                            <f:selectItem itemLabel="21 %" itemValue="21"/>
+                                        </h:selectOneMenu>
+                                        <h:outputLabel for="tipoIVA" value="#{msgs['formulario_producto.iva']}"/>
+                                        <h:message for="tipoIVA" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class="col-4 pr-0" >
+                                        <h:selectOneMenu id="unidad" value="#{producto.unidad}" required="true" styleClass="formulario__input">
+                                            <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
+                                            <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
+                                            <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
+                                            <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_unidad']}" itemValue="unidad"/>
+                                        </h:selectOneMenu>
+                                        <br/>
+                                        <h:outputLabel for="unidad" value="#{msgs['formulario_producto.unidad']}"/>
+                                        <h:message for="unidad" styleClass="mensaje__error"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3" >
+                                <div class="col-12">
+                                    <h:inputText id="breveDescripcion" value="#{producto.breve_descripcion}" required="true" styleClass="formulario__input"/>
+                                    <h:outputLabel for="breveDescripcion" value="#{msgs['formulario_producto.breveDescripcion']}"/>
+                                    <h:message for="breveDescripcion" styleClass="mensaje__error"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <h:inputTextarea id="descripcion" value="#{producto.descripcion}" required="true" styleClass="formulario__textarea" cols="30" rows="5"/>
+                                    <h:outputLabel for="descripcion" value="#{msgs['formulario_producto.descripcion']}"/>
+                                    <h:message for="descripcion" styleClass="mensaje__error"/>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <h:inputTextarea id="alergenos" value="#{producto.alergenos}" required="true" styleClass="formulario__textarea" rows="5"/>
+                                    <h:outputLabel for="alergenos" value="#{msgs['formulario_producto.alergenos']}"/>
+                                    <h:message for="alergenos" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-4">
+                                    <h:inputTextarea id="conservacion" value="#{producto.cond_conservacion}" required="true" styleClass="formulario__textarea" rows="5"/>
+                                    <h:outputLabel for="conservacion" value="#{msgs['formulario_producto.conservacion']}"/>
+                                    <h:message for="conservacion" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-4">
+                                    <h:inputTextarea id="controles" value="#{producto.controles}" required="true" styleClass="formulario__textarea" rows="5"/>
+                                    <h:outputLabel for="controles" value="#{msgs['formulario_producto.controles']}"/>
+                                    <h:message for="controles" styleClass="mensaje__error"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <h:inputText id="stock" value="#{producto.stock}" required="true" styleClass="formulario__input" converterMessage="Solo enteros"/>
+                                    <h:outputLabel for="stock" value="#{msgs['formulario_producto.stock']} " styleClass="mr-5"/>
+                                    <h:message for="stock" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-6 ">
+
+                                    <h:inputFile value="#{producto.fotoSubida}" id="foto" required="true" styleClass="enlace--boton"/>
+                                    <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass=""/>
+                                    <h:message for="foto" styleClass="mensaje__error"/>
+                                </div>
+                            </div>
+                            <h:commandButton value="#{msgs['formulario.boton_registro']}" action="#{controlador.addNuevoProducto(producto)}" styleClass="col-12 mt-5 enlace--boton "/>
+                            <h:messages globalOnly="true" errorClass="texto--error" />
+                        </h:form>
+                    </div>
+                    <!--FIN Formulario Registro-->
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+

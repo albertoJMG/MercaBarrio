@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Página que muestra a las Tiendas los sus Productos-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <ui:param name="tiendaG" value="#{session.getValue('usuarioLogeado')}"/>
+            <!--Link para añadir un nuevo producto-->
+            <h:link outcome="productoRegistro" value="#{msgs['tienda.add_producto']}" styleClass="container d-block enlace--boton centrar--texto"/>
+
+            <div class="container-fluid col-10 offset-1">
+                <p:dataTable value="#{controlador.verProductos(tiendaG.id_usuario)}" var="p" styleClass="tabla col-10 offset-1 my-5" >
+                    <p:column>
+                        <f:facet name="header" >ID</f:facet>
+                        <h:outputText value="#{p.id_producto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Foto</f:facet>
+                        <h:graphicImage value="resources/images/#{p.nombreFoto}" style="height: 4em"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Nombre</f:facet>
+                        <h:outputText value="#{p.nombre} "/>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">Gestion</f:facet>
+                        <div class="row border">
+                            <h:form styleClass="col-12 d-flex justify-content-between ">
+                                <h:commandLink value="#{msgs['link.borrar']}" action="#{controlador.borrarProducto()}">
+                                    <f:param name="elProductoABorrar" value="#{p.id_producto}"/>
+                                    <f:param name="destino" value="tiendaProductos"/>
+                                </h:commandLink>
+
+                                <h:commandLink value="#{msgs['link.editar']}" action="productoEditar">
+                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                </h:commandLink>
+                                <h:commandLink value="#{msgs['link.ver']}" action="producto_tInicio">
+                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                </h:commandLink>
+                            </h:form>
+                        </div>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

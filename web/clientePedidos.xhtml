@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Página que muestra el historico de los Pedidos realizados-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <!--Variable Usuario en este caso el Cliente-->
+            <ui:param name="clienteG" value="#{session.getValue('usuarioLogeado')}"/>
+            <!--FIN Variable-->
+            <h1 class="centrar--texto mt-5">
+                <h:outputText value="#{msgs['cliente_pedidos.historico']}"/>
+            </h1>
+            <!--Si no hay Pedidos realizados(que esten confirmados) muestra un mensaje-->
+            <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() == 0 }">
+
+                <div class="row my-5 mensaje-vacio">
+                    <h3 class="centrar--texto mensaje-vacio__texto">
+                        <h:outputText value="#{msgs['pedido.vacio_mensaje']}" />
+                    </h3>
+                    <h:graphicImage url="resources/images/sin_pedidos.png" styleClass="mensaje-vacio__imagen"/>
+                </div>
+
+            </h:panelGroup>
+            <!--Si el cliente ha realizado Pedidos, estos se mostraran-->
+            <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() > 0}">
+                <!--Tabla con la informacion de cada uno de los Pedidos realizados-->
+                <p:dataTable value="#{controlador.verHistoricoPedidos(clienteG.id_usuario)}" var="p" styleClass="tabla-pedidos container my-5 " reflow="true" rows="10" paginator="true">
+                    <p:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msgs['cliente_pedidos.id']}"/>
+                        </f:facet>
+                        <h:outputText value="#{p.id_pedido}"/>
+                    </p:column>
+                    <p:column styleClass="centrar--texto">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['cliente_pedidos.fecha_pedido']}"/>
+                        </f:facet>
+                        <h:outputText value="#{p.fecha_pedido}" styleClass="centrar--texto">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['cliente_pedidos.articulos']}"/>
+                        </f:facet>
+                        <ui:repeat value="#{p.subPedido}" var="sp">
+                            <h:outputText value="#{sp.producto.nombre}, "/>
+                        </ui:repeat>
+                    </p:column>
+                </p:dataTable>
+                <!--FIN Tabla-->
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+

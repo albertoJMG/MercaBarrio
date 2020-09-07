@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Pagina inicial una vez que el Cliente se ha logueado-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--<f:view transient="true">-->
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <h1 class="centrar--texto mb-5">
+                <h:outputText value="#{msgs['cliente.encabezado_parte1']}  #{fn:length(controlador.tiendasBarrio())} #{msgs['cliente.encabezado_parte2']}"/>
+            </h1>
+            <div class="container-fluid">
+                <!--Todas las Tiendas disponibles para el Cliente. Posibilidad de alternar la vista ya sea en modo lista o en modo rejilla-->
+                <h:form id="form" class="container mb-5">
+                    <p:dataView var="t" value="#{controlador.tiendasBarrio()}" gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+                        <!--Mostrara la informacion en forma de parrilla-->
+                        <p:dataViewGridItem>
+                            <p:panel  styleClass="tablas-datos centrar--texto panel--gridView">
+                                <h:panelGrid columns="1" styleClass="col-12" >
+                                    <p:graphicImage url="resources/images/#{t.nombreAvatar}" styleClass="tablas-datos__imagen"/> 
+                                    <h:outputText value="#{t.nombre}" styleClass="tablas-datos__nombres"/>
+                                    <h:outputText value="#{t.descripcion}"/>
+                                    <p:commandLink update=":form:tiendaDetalle" oncomplete="PF('tiendaVentana').show()" title="#{msgs['cliente.tablas_info']}">
+                                        <h:outputText styleClass="pi pi-info-circle" style=" font-size: 3rem" />
+                                        <f:setPropertyActionListener target="#{infoTienda.tiendaSeleccionada}" value="#{t}"/>
+                                    </p:commandLink>
+                                    <h:commandLink action="clienteProductosTienda" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
+                                        <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
+                                        <f:setPropertyActionListener target="#{tienda.id_usuario}" value="#{t.id_usuario}"/>
+                                    </h:commandLink>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataViewGridItem>
+                        <!--FIN-->
+                        <!--Mostrara la informacion en forma de lista-->
+                        <p:dataViewListItem>
+                            <h:panelGrid columns="4"  columnClasses="col-2,col-7,col-1,col-2" styleClass="col-12 tablas-datos">
+                                <p:graphicImage url="resources/images/#{t.nombreAvatar}" styleClass="tablas-datos__imagen"/> 
+                                <p:outputPanel>
+                                    <h:panelGrid columns="2" cellpadding="5" >
+                                        <h:outputText value="#{msgs['cliente.tablas_nombre']}" />
+                                        <h:outputText value="#{t.nombre}" styleClass="tablas-datos__nombres" />
+                                        <h:outputText value="#{msgs['cliente.tablas_descripcion']}"/>
+                                        <h:outputText value="#{t.descripcion}"/>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                                <p:commandLink update=":form:tiendaDetalle" oncomplete="PF('tiendaVentana').show()" title="#{msgs['cliente.tablas_info']}" >
+                                    <h:outputText styleClass="pi pi-info-circle" style=" font-size: 3rem" />
+                                    <f:setPropertyActionListener target="#{infoTienda.tiendaSeleccionada}" value="#{t}"/>
+                                </p:commandLink>
+                                <h:commandLink action="clienteProductosTienda?faces-redirect=true" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
+                                    <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
+                                    <f:setPropertyActionListener target="#{tienda.id_usuario}" value="#{t.id_usuario}"/>
+                                </h:commandLink>
+                            </h:panelGrid>
+                        </p:dataViewListItem>
+                        <!--FIN-->
+                    </p:dataView>
+                    <!--FIN-->
+                    <!--Venatana modal con la información de la Tienda seleccionada-->
+                    <p:dialog header="Info Tienda " widgetVar="tiendaVentana" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                        <p:outputPanel id="tiendaDetalle" styleClass="tabla-info">
+                            <h:panelGrid  columns="2" rendered="true" columnClasses="col-4,col-8" styleClass="tabla-info__grid">
+                                <p:graphicImage url="resources/images/#{infoTienda.tiendaSeleccionada.nombreAvatar}" styleClass="tabla-info__imagen"/>
+                                <p:outputPanel>
+                                    <h:outputText value="#{infoTienda.tiendaSeleccionada.nombre}" styleClass="tabla-info__titulo"/>
+                                    <br/>
+                                    <h:outputText value="#{infoTienda.tiendaSeleccionada.descripcion}"/>
+                                    <h:panelGrid columns="2" columnClasses="col-2 tabla-info__concepto, col-8 tabla-info__valor">
+                                        <h:outputText value="#{msgs['formulario.cif']}: " />
+                                        <h:outputText value="#{infoTienda.tiendaSeleccionada.cif}"/>
+                                        <h:outputText value="#{msgs['formulario.responsable']}:"/>
+                                        <h:outputText value="#{infoTienda.tiendaSeleccionada.responsable}"/>
+                                        <h:outputText value="#{msgs['formulario.direccion']}:"/>
+                                        <h:outputText value="#{infoTienda.tiendaSeleccionada.direccion}"/>
+                                        <h:outputText value="#{msgs['formulario.email']}:"/>
+                                        <h:outputText value="#{infoTienda.tiendaSeleccionada.email}"/>
+                                        <h:outputText value="#{msgs['formulario.telefono']}:"/>
+                                        <h:outputText value="#{infoTienda.tiendaSeleccionada.telefono}"/>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                    <!--FIN-->
+                </h:form>
+                <!--FIN-->
+            </div>
+            <!--</f:view>-->
+        </ui:define>
+    </ui:composition>
+</html>
+

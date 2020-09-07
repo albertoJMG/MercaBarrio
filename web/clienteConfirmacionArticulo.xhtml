@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <!--Mensaje de confirmacion-->
+            <h2 class="text-success mt-5 centrar--texto mb-5">
+                <span class="material-icons">check</span>
+                <h:outputText value="#{msgs['producto.exito']}"/>
+            </h2>
+            <!--FIN-->
+            <!--Obtenemos el ultimo articulo añadido al Pedido-->
+            <ui:param name="p" value="#{controlador.productoSeleccionado()}"/>
+            <!--Mostramos el articulo añadido al Pedido-->
+            <div class="container">
+                <div class="row producto_detalle p-3 mx-0">
+                    <div class="col-2 mx-0">
+                        <h:graphicImage value="resources/images/#{p.nombreFoto}" style="height: 10em"/>
+                    </div>
+                    <div class="col-10 mx-0">
+                        <h3 class="centrar--texto mb-4"><h:outputText value="#{p.nombre}"></h:outputText></h3>
+                        <p><h:outputText value="#{p.descripcion}"></h:outputText></p>
+                        <p class="texto--error texto--der"><h:outputText value="#{p.precio} €/#{p.unidad}"></h:outputText></p>
+                    </div>
+                </div>
+            </div>
+            <!--FIN-->
+            <!--Links/botones para continuar con la operacion o continuar comprando-->
+            <div class="container my-5">
+                <div class="row col-12  mx-0 d-flex justify-content-around">
+                    <h:link value="#{msgs['link.seguir']}" outcome="clienteProductosTienda" styleClass="enlace--boton "/>
+                    <h:link value="#{msgs['link.continuar']}" outcome="clienteCarrito" styleClass="enlace--boton fondo--amarillo "/>
+                </div>
+            </div>
+            <!--FIN-->
+            <!--Muestra productos aleatorios de la Tienda para atraer su compra-->
+            <div class="container producto_detalle centrar--texto mb-5">
+                <h2 class="my-3">
+                    <h:outputText value="#{msgs['producto.otros']}"/>
+                </h2>
+                <h:form id="form" styleClass="container">
+                    <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
+                    <p:dataGrid var="p" value="#{controlador.productosRamdom(tienda.id_usuario)}" columns="3" layout="grid" rows="3" paginator="false">
+                        <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
+                            <h:panelGrid columns="1" styleClass="col-12"  >
+                                <h:commandLink action="producto_tInicio" >
+                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                    <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen"/>
+                                </h:commandLink>
+                                <h:outputText value="#{p.nombre}" />
+                                <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))} €/#{p.unidad}" />
+                                <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces">
+                                    <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
+                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                </h:commandLink>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                    <!--FIN-->
+                </h:form>
+            </div>
+            <!--FIN-->
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

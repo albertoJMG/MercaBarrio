@@ -1,0 +1,565 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14-ago-2020, 17:27:47
+    Author     : Alberto JMG
+*/
+
+$colorMercaBarrio_R: #cc0433; //Rojizo
+$colorMercaBarrio_B: #fff; //Blanco
+$colorEnlaces: #007bff; //Azulado
+$colorBotonUnion: #28a745; //Verde
+$colorTransparente: transparent;
+$colorOscuro: #343a40;
+$colorBordes: #dee2e6; //Grisaceo
+$colorError: #dc3545; //Rojizo
+$colorAnexos_Titulos: #ffc107; //Amarillo
+$sombra: black;
+
+@import url("https://fonts.googleapis.com/css2?family=Karla:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+
+
+@mixin centradoVertical(){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+* {
+    font-family: "Karla", sans-serif;
+    margin: 0rem;
+}
+
+/*Bloques*/
+//En TEMPLATE
+.barnav{
+    position: fixed;
+    z-index: 20; 
+    background-color: $colorMercaBarrio_B; 
+    height: 5.2rem;
+    .barnav__nombreAPP {
+        font:{
+            family: "Josefin Sans", sans-serif;
+            weight: bold;
+            size: 3em;
+        }
+        color: $colorMercaBarrio_R;
+        @include centradoVertical();
+    }
+    .barnav__enlaces{
+        list-style: none;
+        text-align: center;
+        @include centradoVertical();        
+        padding: 0rem;
+        flex-direction: column;        
+        justify-content: space-around;
+        color: $colorEnlaces;
+    }
+}
+
+
+
+//En TEMPLATE
+.menu{
+    position: fixed; // Se puede eliminar
+    z-index: 20; // Se puede eliminar
+    display: flex;
+    justify-content: center;
+    background-color: $colorTransparente;
+    .menu__links{
+        background-color: $colorMercaBarrio_R;
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        .menu__enlace{
+            border: 1px solid white;
+            margin:{
+                top: 0.6rem;
+                bottom: 0.6rem;
+            }
+            padding: {
+                bottom: 0.3rem;
+                top: 0.3rem;
+            }
+            color: $colorMercaBarrio_B;
+        }
+    }
+}
+
+//En TEMPLATE
+.footer{
+    background-color: $colorMercaBarrio_R;
+    color: $colorMercaBarrio_B;
+    .footer__datos{
+        @include centradoVertical();
+        justify-content: space-around;
+    }
+    .footer__logo{
+        display: flex;
+        flex-direction: column;
+    }
+    .footer__imagen{
+        height: 12rem;
+    }
+    .footer__tienda{
+        background-color: $colorMercaBarrio_B;
+        display: flex;
+        justify-content: space-between;
+        height: 6rem;
+    }
+    .footer__botonUnion{
+        color: $colorMercaBarrio_B;
+        background-color: $colorBotonUnion;
+        border-radius: 0.2rem;
+        font-size: 1.2rem;
+        @include centradoVertical();
+    }
+
+    .footer__redes{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+//En INDEX
+.carousel__caption {
+    position: absolute;
+    right: 15%;
+    bottom: 5%; //15px
+    left: 15%;
+    z-index: 10;
+    padding:{
+        top:20px;
+        bottom: 20px;
+    }
+    color: $colorMercaBarrio_B;
+    text-align: center;
+    background-color: rgba(46, 45, 45, 0.623);
+}
+
+//En INDEX
+.que-es{
+    @include centradoVertical();
+    .que-es__imagen {
+        width: 85%;
+        height: 100%;
+        border-radius: 0.4rem;
+    }
+    .que-es__subtitulo{
+        font:{
+            size: 3.5rem;
+            weight: 300;
+        }
+        line-height: 1.2;
+    }
+}
+
+//En INDEX
+.caracteristicas{
+    .caracteristicas__elemento{
+        border: 1px solid $colorBordes;
+        height: 300px;
+        background-color: white;
+    }
+}
+
+//En INDEX
+.lema{
+    .lema__contenedor{
+        @include centradoVertical();
+        justify-content: space-between;
+        height: 250px;
+        background-image: url("images/lema.jpg");
+        filter: opacity(75%);
+        background-size: cover;
+    }
+    .lema_filtro{
+        color: white;
+        text-shadow: 3px 3px black;
+        font-size: 2.2rem;
+    }
+}
+
+//En INDEX y otros
+.registro{
+    background-color: $colorMercaBarrio_B;
+    border: 1px solid $colorBordes;
+    .registro__botones{
+        display: flex;
+        justify-content: space-around;
+    }
+}
+//En clienteRegistro y tiendaRegistro
+.banner{
+    border: 1px solid $colorBordes;
+    @include centradoVertical();
+    justify-content: space-around;
+    border:{
+        top-left-radius: 0.50rem;
+        bottom-left-radius: 0.50rem;
+    }
+    background: {
+        image: url("images/vertical01.jpg");
+        size: cover;
+    }
+    .banner__titulo{
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        font:{
+            family: "Josefin Sans", sans-serif;
+            weight: bold;
+            size: 3rem;
+        }
+        color: white;
+        text-shadow: 3px 3px black;
+    }
+}
+
+//En todos los formularios
+.formulario{
+    border: 1px solid $colorBordes;
+    border:{
+        top-right-radius: 0.50rem;
+        bottom-right-radius: 0.50rem;
+    }
+}
+
+.formulario__input{
+    width: 100%;
+    height: 2rem;
+}
+
+.formulario__textarea{
+    width: 100%;
+}
+//////////////////////////////////////7 Pendiente
+.formulario__inputSubir{
+    display: none;
+}
+
+.formulario__inputSubir-label{
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background-color: $colorEnlaces;
+    display: inline-block;
+    transition: all .5s;
+    cursor: pointer;
+    padding: 15px 40px !important;
+    text-transform: uppercase;
+    width: fit-content;
+    text-align: center;
+}
+///////////////////////////////////7777777777 Pendiente
+//Para los mensajes de error de los formularios
+.mensaje__error{
+    color: $colorError;
+    display: block;
+}
+
+/*.prueba{
+    width:46%;
+    display:inline;
+    float:left;
+    margin-left:2%;
+    margin-right:2%; 
+}*/
+//En avisoLegal y privacidad
+.anexos{
+    > *{
+        line-height: 2;
+    }
+    > h3{
+        padding-top: 2rem;
+    }
+    .anexos__titulo{
+        background-color: #ffc107;
+        font-size: 3rem;
+        line-height: 2;
+    }
+}
+
+.tablas-datos{
+    .tablas-datos__imagen{
+        width: 10rem;
+        height: 10rem
+    }
+    .tablas-datos__enlaces{
+        color: $colorEnlaces !important;
+        text-decoration: none;
+    }
+    .tablas-datos__nombres{
+        font-size: 1.8rem;
+    }
+
+}
+
+.tabla-info{
+    .tabla-info__grid{
+        width: 35vw;
+        /*border: none;*/
+
+        .tabla-info__imagen{
+            width: 100%;
+        }
+        .tabla-info__titulo{
+            font-size: 2rem;
+            text-align: center;
+        }
+        .tabla-info__concepto{
+            color: #6c757d !important;
+        }
+    }
+
+}
+//En clienteProductosTienda
+.cabecera{
+    @include centradoVertical();
+    .cabecera__logo{
+        width: 5rem;
+    }
+}
+//En productos
+.producto_detalle{
+    border: 1px solid $colorBordes;
+    background-color: $colorMercaBarrio_B;
+
+}
+// En tiendaInicio
+.tienda_datos{
+    @extend .producto_detalle;
+    height: 30rem;
+
+}
+//En clienteCuenta y tiendaCuenta
+.cuenta{
+    @extend .producto_detalle;
+    .cuenta__logo {
+        height: 10em;
+        width: 10em;
+        background: {
+            image: url("images/logoMB.svg");
+            repeat: no-repeat;
+            position: center;
+            size: contain;
+        }
+    }
+    .cuenta__logo-tienda{
+        height: 10em;
+        width: 10em;
+    }
+    .cuenta__enlace{
+        display: block;
+        text-align: right;
+    }
+}
+
+.mensaje-info{
+    list-style: none;
+    margin-top: 1em;
+    text:{
+        transform: uppercase;
+        align: center;
+    }
+    font-size: 2em;
+}
+
+.mensaje-vacio{
+    @include centradoVertical();
+    .mensaje-vacio__texto{
+        font-size: 1.7rem;
+        margin-right: 5rem
+    }
+    .mensaje-vacio__imagen{
+        width: 8rem;
+        margin-left: 5rem
+    }
+}
+
+/*Modificadores*/
+.panel--gridView{
+    height: 22rem;
+}
+
+.fondo--claro{
+    background-color: #f8f9fa;
+}
+.fondo--blanco{
+    background-color: white;
+}
+
+.centrar--texto{
+    text-align: center;
+}
+
+.texto--der{
+    text-align: right;
+}
+
+.sombra--caja{
+    box-shadow: 5px 5px 5px 2px $sombra;
+    color: black;
+}
+
+.enlace--boton{
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: 400;
+    padding: 0.375rem 0.75rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    &:hover{
+        color: #212529;
+        text-decoration: none;
+    }
+    cursor: pointer;
+}
+
+.carousel--imagen{
+    height: 100vh !important;
+    width: 100% !important;
+}
+
+.texto--negro{
+    color: black;
+}
+
+.texto--blanco{
+    color: $colorMercaBarrio_B;
+}
+
+.texto--gris{
+    color: #6c757d;
+}
+.texto--error{
+    color:$colorError;
+}
+
+.texto--lineas{
+    line-height: 1.5rem;
+}
+
+.texto--sangria{
+    text-indent: 2rem;
+}
+
+.altura--panel{
+    height: 17rem;
+}
+
+.fondo--amarillo{
+    background-color: #ffc107;
+}
+
+.twitter {
+    width: 32px;
+    height: 32px;
+    background: transparent url("images/sprite.png");
+    background-position: -64px 0px;
+    float: left;
+    margin-right: 1em;
+    transition: background-position 0.4s ease-out;
+    &:hover {
+        background-position: -64px -32px;
+    }
+}
+
+.facebook {
+    width: 32px;
+    height: 32px;
+    background: transparent url("images/sprite.png");
+    background-position: 0px 0px;
+    float: left;
+    margin-right: 1em;
+    transition: background-position 0.4s ease-out;
+
+    &:hover {
+        background-position: 0px -32px;
+    }
+}
+
+.linkedin {
+    width: 32px;
+    height: 32px;
+    background: transparent url("images/sprite.png");
+    background-position: -32px 0px;
+    float: left;
+    transition: background-position 0.4s ease-out;
+
+    &:hover {
+        background-position: -32px -32px;
+    }
+}
+
+.md-86{
+    font-size: 86px !important;
+}
+
+.typo01 {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1.8em;
+}
+
+
+/*GENERAL*/
+
+a{
+    color: $colorEnlaces;
+    text-decoration: none;
+}
+
+
+/*Modificando estilo en los elementos de PrimeFaces*/
+.ui-dataview-list-container {
+    .ui-dataview-row {
+        border-bottom: 1px solid $colorBordes !important;
+    }
+    :last-child{
+        border: 0 none !important;
+    }
+
+}
+
+.ui-paginator-top{
+    display: none;
+}
+
+.ui-dataview-header{
+    /*background-color: #cc0433 !important;*/
+}
+.ui-widget-header{
+    background: $colorMercaBarrio_R !important;
+    color: white !important;
+}
+
+.ui-button .ui-button-icon-only .ui-state-default .ui-state-active{
+    background-color: $colorMercaBarrio_R !important;
+}
+
+.ui-datagrid{
+    background-color: red;
+}
+
+
+.ui-datatable thead th{
+    background: $colorMercaBarrio_R !important;
+    color: white !important;
+}
+
+
+/*PRUEBAS*/
+
+.logo{
+    background-color: red
+}
+

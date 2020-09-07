@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Página con el resumen de la compra. Confirmacion final del Cliente-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <ui:param name="c" value="#{session.getValue('usuarioLogeado')}"/>
+            <h1 class="centrar--texto m-5">
+                <h:outputText value="#{msgs['cliente_proceder.tramitar']}"/>
+            </h1>
+            <div class="container p-0 mb-5">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="col-12 producto_detalle">
+                            <h2 class="my-3">
+                                <h:outputText value="#{msgs['cliente_proceder.datos_envio']}"/>
+                            </h2>
+                            <p>#{c.direccion}</p>
+                            <p>#{c.cp}</p>
+                            <p class="text-primary texto--der te">
+                                <h:outputText value="#{msgs['cliente_proceder.cambiar']}"/>
+                            </p>
+                        </div>
+                        <div class="col-12 producto_detalle">
+                            <h2 class="my-3">
+                                <h:outputText value="#{msgs['cliente_proceder.metodo']}"/>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="col-5 producto_detalle">
+                        <h2 class="centrar--texto my-3">
+                            <h:outputText value="#{msgs['cliente_proceder.compra']}"/>
+                        </h2>
+                        <div class="col-12 px-0">
+                            <ui:repeat value="#{controlador.listaArticulosCarrito()}" var="sp">
+                                <div class="row producto_detalle pt-3 mx-0 mb-2">
+                                    <div class="col-2 mx-0 ">
+                                        <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em"/>
+                                    </div>
+                                    <div class="col-10 mx-0 pl-5">
+                                        <h4>
+                                            <h:outputText value="#{sp.producto.nombre}"/>
+                                        </h4>
+                                        <p class="p-0 m-2">
+                                            <h:outputText value="#{sp.producto.descripcion}"/>
+                                        </p>
+                                        <p class="p-0 texto--error texto--der">
+                                            <h:outputText value="#{sp.producto.precio} €/#{sp.producto.unidad}"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            <p class="texto--error my-3"> 
+                                <h:outputText value="#{msgs['cliente_proceder.importe']} #{controlador.importeTotal()} €"> 
+                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                </h:outputText>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h:form>
+                        <h:commandLink action="#{controlador.confirmarCompra()}" value="Comprar"/>
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>
+

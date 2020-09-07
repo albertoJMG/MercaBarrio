@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Página de login de las Tiendas. Tambie pueden solicitar registro/union a la aplicación-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <div style="height: 5.2rem"></div>
+            <div class="container registro my-5">
+                
+                <div class="row col-8 offset-2">
+                    <h1 class="col-12 centrar--texto my-5">
+                        <h:outputText value="#{msgs['saludo2']}"/>
+                    </h1>
+                    <!--Formulario de Acceso de las Tiendas. Acceso a tiendaRegistro.xhtml-->
+                    <h:form styleClass="col-12 ">
+                        <h:inputText id="username" value="#{tienda.nombre_usuario}" required="true" label="username" a:placeholder="Nombre de usuario" styleClass="formulario__input" a:autofocus="true"/>
+                        <h:outputLabel for="username" value="#{msgs['login.usuario']}" />
+                        <h:message for="username" styleClass="mensaje__error"  ></h:message>
+                        <h:inputSecret id="password" value="#{tienda.password}" required="true" label="password" a:placeholder="Contraseña" styleClass="formulario__input mt-5"/>
+                        <h:outputLabel for="password" value="#{msgs['login.password']}" styleClass="mb-5 mr-5"/>
+                        <h:message for="password" styleClass="mensaje__error"></h:message>
+                        <h:commandButton action="#{controlador.tiendaLogin(tienda)}" value="#{msgs['login.acceder']}" styleClass="enlace--boton col-8 offset-2 mt-5"></h:commandButton>
+                        <h:messages globalOnly="true" errorClass="texto--error" styleClass="centrar--texto"/>
+                    </h:form>
+                    <!--FIN Formulario Acceso-->
+                    <!--Enlace para registrarse-->
+                    <h:link outcome="tiendaRegistro" value="#{msgs['tiendaLogin.mensaje']}" styleClass="col-12 centrar--texto mb-5 mt-4"/>
+                </div>
+                
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>
+

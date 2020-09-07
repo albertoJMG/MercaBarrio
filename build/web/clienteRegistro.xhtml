@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Página para el registro de un Cliente-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <div class="container my-5">
+                <div class="row">
+                    <div class="col-2 banner py-2">
+                        <h4 class="banner__titulo">
+                            <h:outputText value="#{msgs['formulario.cliente_titulo']}"/>
+                        </h4>
+                    </div>
+                    <div class="col-10 formulario pt-5">
+                        <!--Formulario de registro de los Clientes redirige a index-->
+                        <h:form>
+                            <div class="row mb-3">
+                                <div class="col-lg-6 ">
+                                    <h:inputText id="dni" value="#{cliente.dni}" required="true" label="dni" styleClass="formulario__input"/>
+                                    <h:outputLabel for="dni" value="#{msgs['formulario.dni']}"/>
+                                    <h:message for="dni" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h:inputText id="nombre" value="#{cliente.nombre}" required="true" label="nombre" styleClass="formulario__input"/>
+                                    <h:outputLabel for="nombre" value="#{msgs['formulario.nombre']} "/>
+                                    <h:message for="nombre" styleClass="mensaje__error"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <h:inputText id="apellidos" value="#{cliente.apellidos}" required="true" label="apellidos" styleClass="formulario__input"/>
+                                    <h:outputLabel for="apellidos" value="#{msgs['formulario.apellidos']} "/>
+                                    <h:message for="apellidos" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h:inputText id="telefono" value="#{cliente.telefono}" required="true" label="telefono" styleClass="formulario__input"/>
+                                    <h:outputLabel for="telefono" value="#{msgs['formulario.telefono']} "/>
+                                    <h:message for="telefono" styleClass="mensaje__error"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <h:inputText id="direccion" value="#{cliente.direccion}" required="true" label="direccion" styleClass="formulario__input"/>
+                                    <h:outputLabel for="direccion" value="#{msgs['formulario.direccion']} "/>
+                                    <h:message for="direccion" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-md-6 row pr-0">
+                                    <div class="col-md-6 m-0 pr-0">
+                                        <h:inputText id="cp" value="#{cliente.cp}" required="true" label="cp" styleClass="formulario__input"/>
+                                        <h:outputLabel for="cp" value="#{msgs['formulario.cp']}"/>
+                                        <h:message for="cp" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class="col-md-6 m-0 pr-0">
+                                        <h:inputText id="sector" value="#{cliente.sector}" required="true" label="sector" styleClass="formulario__input"/>
+                                        <h:outputLabel for="sector" value="#{msgs['formulario.sector']} "/>
+                                        <h:message for="sector" styleClass="mensaje__error"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <h:inputText id="email" value="#{cliente.email}" a:type="email" required="true" label="email" styleClass="formulario__input"/>
+                                    <h:outputLabel for="email" value="#{msgs['formulario.email']} "/>
+                                    <h:message for="email" styleClass="mensaje__error"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-8 offset-2">
+                                    <div class="md-form">
+                                        <h:inputText id="usuario" value="#{cliente.nombre_usuario}" required="true" label="usuario" styleClass="formulario__input"/>
+                                        <h:outputLabel for="usuario" value="#{msgs['formulario.usuario']} "/>
+                                        <h:message for="usuario" styleClass="mensaje__error"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-8 offset-2">
+                                    <div class="md-form">
+                                        <h:inputSecret id="password" value="#{cliente.password}" required="true" label="password" styleClass="formulario__input"/>
+                                        <h:outputLabel for="password" value="#{msgs['formulario.password']} "/>
+                                        <h:message for="password" styleClass="mensaje__error"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <h:commandButton value="#{msgs['formulario.boton_registro']}" action="#{controlador.addNuevoCliente(cliente)}" styleClass="mt-5 col-12 enlace--boton"/>
+                            <h:messages globalOnly="true" errorClass="mensaje__error" />
+                        </h:form>
+                        <!--FIN Formulario-->
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

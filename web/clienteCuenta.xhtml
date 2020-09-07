@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Página que muestra los datos del Cliente. Facilita navegar a las páginas que editan las credenciales o los datos personales-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <!--Espacio del menu-->
+            <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <div class="container-fluid col-10 my-5 " >
+                <div class="row">
+                    <!--Panel Izquierdo-->
+                    <div class="col-3 cuenta">
+                        <div class="row centrar--texto my-4 d-flex justify-content-center ">
+                            <!-- <img src="logo1.png" class="border col-4 cuenta-cliente"/> -->
+                            <div class="">
+                                <div class="cuenta__logo"></div>
+                                <p>
+                                    <h:outputText value="#{msgs['app.nombre']}" styleClass="centrar--texto"/>
+                                </p>
+                            </div>
+                            <h3 class="col-12 my-4">
+                                <h:outputText value="#{msgs['usuario.cuenta_miCuenta']}"/>
+                            </h3>
+                            <p class="col-12 mb-4">
+                                <h:outputText value="#{session.getValue('usuarioLogeado').nombre} #{session.getValue('usuarioLogeado').apellidos}"/>
+                            </p>
+                            <h:form styleClass="col-12">
+                                <h:commandLink action="#{controlador.cerrarSesion()}" value="#{msgs['link.cerrar_sesion']}" /> 
+                            </h:form>
+                        </div>
+                    </div>
+                    <!--FIN Panel Izquierdo-->
+                    <!--Panel Derecho-->
+                    <div class="col-9 ">
+                        <!--Datos Acceso-->
+                        <div class="container-fluid col-10 offset-1 py-5 pl-5 cuenta">
+                            <h2 class="mb-5" >
+                                <h:outputText value="#{msgs['usuario.cuenta_acceso']}"/>
+                            </h2>
+                            <p class="pl-3 typo01" >
+                                <h:outputText value="#{session.getValue('usuarioLogeado').nombre_usuario}"/>
+                            </p>
+                            <h:link value="#{msgs['usuario.cuenta_editar']}" outcome="usuarioEditarCredenciales" styleClass="cuenta__enlace" />
+                        </div>
+                        <!--Fin Datos Acceso-->
+                        <!--Datos Personales-->
+                        <div class="container-fluid col-10 offset-1 mt-4 py-5 pl-5 cuenta">
+                            <h2 class="mb-5">
+                                <h:outputText value="#{msgs['usuario.cuenta_personales']}"/>
+                            </h2>
+                            <p class="pl-3 typo01">
+                                <h:outputText value="#{session.getValue('usuarioLogeado').nombre} #{session.getValue('usuarioLogeado').apellidos}"/>
+                            </p>
+                            <h4 class="mt-4">DNI</h4>
+                            <p class="pl-3 typo01">
+                                <h:outputText value="#{session.getValue('usuarioLogeado').dni}"/>
+                            </p>
+                            <h4 class="mt-4">Email</h4>
+                            <p class="pl-3 typo01">
+                                <h:outputText value="#{session.getValue('usuarioLogeado').email}"/></p>                                
+                            <h4 class="mt-4">Teléfono</h4>
+                            <p class="pl-3 typo01">
+                                <h:outputText value="#{session.getValue('usuarioLogeado').telefono}"/>
+                            </p>
+                            <h4 class="mt-4">Dirección</h4>
+                            <p class="pl-3 typo01">
+                                <h:outputText value="#{session.getValue('usuarioLogeado').direccion}"/>
+                            </p>
+                            <h:link outcome="clienteEditarDatos" value="#{msgs['usuario.cuenta_editar']}" styleClass="cuenta__enlace" /> 
+                        </div>
+                        <!--FIN Datos Personales-->
+                    </div>
+                    <!--FIN Panel Derecho-->
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+
