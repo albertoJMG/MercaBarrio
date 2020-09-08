@@ -35,7 +35,12 @@
                                         <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen"/>
                                     </h:commandLink>
                                     <h:outputText value="#{p.nombre}" />
-                                    <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))} €/#{p.unidad}" />
+                                    <h:panelGroup>
+                                        <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))}">
+                                            <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                        </h:outputText>
+                                        <h:outputText value="/#{p.unidad}"/>
+                                    </h:panelGroup>
                                     <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces">
                                         <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
                                         <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>

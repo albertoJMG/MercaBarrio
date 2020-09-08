@@ -54,6 +54,10 @@ public class Producto implements Serializable {
     private String nombreFoto;
     @Column(name = "estadoProducto")
     private boolean estadoProducto;
+    @Column(name = "cantidad_suministro")
+    private int cantidadSuministro;
+    @Column(name = "unidad_suministro", length = 20)
+    private String unidadSuministro;
     @Transient
     private Part fotoSubida;
     @ManyToOne
@@ -165,6 +169,22 @@ public class Producto implements Serializable {
 
     public void setEstadoProducto(boolean estadoProducto) {
         this.estadoProducto = estadoProducto;
+    }
+
+    public int getCantidadSuministro() {
+        return cantidadSuministro;
+    }
+
+    public void setCantidadSuministro(int cantidadSuministro) {
+        this.cantidadSuministro = cantidadSuministro;
+    }
+
+    public String getUnidadSuministro() {
+        return unidadSuministro;
+    }
+
+    public void setUnidadSuministro(String unidadSuministro) {
+        this.unidadSuministro = unidadSuministro;
     }
 
     public Part getFotoSubida() {

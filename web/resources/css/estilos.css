@@ -166,7 +166,7 @@ and open the template in the editor.
   border-bottom-right-radius: 0.50rem; }
 
 .formulario__input {
-  width: 100%;
+  width: 100% !important;
   height: 2rem; }
 
 .formulario__textarea {
@@ -409,6 +409,9 @@ a {
 .ui-datatable thead th {
   background: #cc0433 !important;
   color: white !important; }
+
+.ui-spinner-input {
+  height: 2rem; }
 
 /*PRUEBAS*/
 .logo {

@@ -233,7 +233,7 @@ $sombra: black;
 }
 
 .formulario__input{
-    width: 100%;
+    width: 100% !important;
     height: 2rem;
 }
 
@@ -561,7 +561,9 @@ a{
     color: white !important;
 }
 
-
+.ui-spinner-input{
+     height: 2rem;
+ } 
 /*PRUEBAS*/
 
 .logo{

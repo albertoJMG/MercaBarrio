@@ -186,6 +186,8 @@ public class Registro extends HttpServlet {
         pa.setUnidad("Kilo");
         pa.setTipoIVA(21);
         pa.setTiendaP(z);
+        pa.setCantidadSuministro(400);
+        pa.setUnidadSuministro("gramos");
         pa.setNombreFoto("productoTEST01.jpg");
         pa.setEstadoProducto(true);
         
@@ -200,6 +202,8 @@ public class Registro extends HttpServlet {
         pb.setUnidad("Kilo");
         pb.setTipoIVA(21);
         pb.setTiendaP(z);
+        pb.setCantidadSuministro(400);
+        pb.setUnidadSuministro("gramos");
         pb.setNombreFoto("productoTEST02.jpg");
         pb.setEstadoProducto(true);
         

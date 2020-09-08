@@ -379,6 +379,17 @@ public class Controlador {
         Tienda t = null;
         return t = MercaBarrioModelo.buscarTiendaModelo(id);
     }
+    
+    /**
+     * Método que busca una Pedido por un Id dado
+     *
+     * @param id Id del Pedido que se quiere buscar
+     * @return Devuelve el Pedido que se quiere buscar
+     */
+    public Pedido buscarPedido(Long id) {
+        Pedido t = null;
+        return t = MercaBarrioModelo.buscarPedido(id);
+    }
 
     /**
      * Método para mostar los productos pertenecientes a una Tienda concreta.
@@ -532,8 +543,8 @@ public class Controlador {
         MercaBarrioModelo.borrarProducto(Long.parseLong(id_producto));
         return casoNavegacion;
     }
-    
-    public void borrarArticuloCarrito(String id){
+
+    public void borrarArticuloCarrito(String id) {
 //        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Cliente c = MercaBarrioModelo.borrarArticuloCarrito(Long.parseLong(id));
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", c);
@@ -759,10 +770,34 @@ public class Controlador {
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         List<SubPedido> listaSubPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
         for (SubPedido sp : listaSubPedidos) {
-            importeTotal = importeTotal + sp.getCantidad_producto() * sp.getProducto().getPrecio();
-        }
+            String opcion = sp.getProducto().getUnidadSuministro();
+            if (opcion.equals("gramo") || opcion.equals("mililitro")) {
+                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
+                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            } else {
+                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            }
 
+        }
         return importeTotal;
+    }
+    
+    public double importeTotal(Pedido p){
+        double importeTotal = 0;
+        List<SubPedido> listaSubPedidos = p.getSubPedido();
+        for (SubPedido sp : listaSubPedidos) {
+            String opcion = sp.getProducto().getUnidadSuministro();
+            if (opcion.equals("gramo") || opcion.equals("mililitro")) {
+                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
+                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            } else {
+                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            }
+
+        }
+        return importeTotal;
+        
+        
     }
 
     /**
@@ -776,6 +811,12 @@ public class Controlador {
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         Pedido pedidoActual = c.getPedidos().get(c.getPedidos().size() - 1);
+        List<SubPedido> subPedidos = pedidoActual.getSubPedido();
+        for(SubPedido sp : subPedidos){
+            Producto p = sp.getProducto();
+            p.setStock(p.getStock()- sp.getCantidad_producto());
+            MercaBarrioModelo.actualizarProducto(p);
+        }
         Date fechaActual = new Date();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {

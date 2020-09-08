@@ -26,7 +26,7 @@
                                 <p><h:outputText value="#{sp.producto.descripcion}"></h:outputText></p>
                                 <p><h:outputText value="#{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/></p>
                                 <p class="texto--error texto--der">
-                                    <h:outputText value="#{sp.producto.precio}">
+                                    <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
                                         <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                     </h:outputText>
                                     <h:outputText value="/#{sp.producto.unidad}"/>

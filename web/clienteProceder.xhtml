@@ -56,8 +56,8 @@
                                     </div>
                                 </div>
                             </ui:repeat>
-                            <p class="texto--error my-3"> 
-                                <h:outputText value="#{msgs['cliente_proceder.importe']} #{controlador.importeTotal()} €"> 
+                            <p class="texto--error my-3"> <h:outputText value="#{msgs['cliente_proceder.importe']} "/>
+                                <h:outputText value="#{controlador.importeTotal()}"> 
                                     <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                 </h:outputText>
 

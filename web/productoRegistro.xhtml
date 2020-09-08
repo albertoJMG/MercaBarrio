@@ -4,7 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <!--Espacio del menu-->
@@ -30,14 +32,12 @@
                                 </div>
                                 <div class="row col-6 mx-0" >
                                     <div class="col-4 pl-0">
-                                        <h:inputText id="precio" value="#{producto.precio}" required="true" converterMessage="#{msgs['formulario_producto.mensaje_inputNumber']}" styleClass="formulario__input">
-                                            <f:validateDoubleRange minimum="0.01" />
-                                        </h:inputText>
+                                        <p:spinner id="precio" value="#{producto.precio}" required="true" converterMessage="#{msgs['formulario_producto.mensaje_inputNumber']}" styleClass="formulario__input" stepFactor="0.01"/>
                                         <h:outputLabel for="precio" value="#{msgs['formulario_producto.precio']}"/>
                                         <h:message for="precio" styleClass="mensaje__error"/>
                                     </div>
                                     <div class=" col-4 mx-0">
-                                        <h:selectOneMenu id="tipoIVA" value="#{producto.tipoIVA}" required="true" styleClass="formulario__input mx-0">
+                                        <h:selectOneMenu id="tipoIVA" value="#{producto.tipoIVA}" required="true" styleClass="formulario__input mx-0 texto--der">
                                             <f:selectItem itemLabel="4 %" itemValue="4"/>
                                             <f:selectItem itemLabel="10 %" itemValue="10"/>
                                             <f:selectItem itemLabel="21 %" itemValue="21"/>
@@ -46,9 +46,8 @@
                                         <h:message for="tipoIVA" styleClass="mensaje__error"/>
                                     </div>
                                     <div class="col-4 pr-0" >
-                                        <h:selectOneMenu id="unidad" value="#{producto.unidad}" required="true" styleClass="formulario__input">
+                                        <h:selectOneMenu id="unidad" value="#{producto.unidad}" required="true" styleClass="formulario__input texto--der">
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
-                                            <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_unidad']}" itemValue="unidad"/>
                                         </h:selectOneMenu>
@@ -92,12 +91,30 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <h:inputText id="stock" value="#{producto.stock}" required="true" styleClass="formulario__input" converterMessage="Solo enteros"/>
+                                    <h:inputText id="stock" value="#{producto.stock}" required="true" styleClass="formulario__input texto--der" converterMessage="Solo enteros"/>
                                     <h:outputLabel for="stock" value="#{msgs['formulario_producto.stock']} " styleClass="mr-5"/>
                                     <h:message for="stock" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-6 ">
+                                <div class="col-4">
+                                    <h:inputText id="cantidaPorUnidad" value="#{producto.cantidadSuministro}" required="true" styleClass="formulario__input" converterMessage="Solo enteros"/>
+                                    <h:outputLabel for="cantidadPorUnidad" value="#{msgs['formulario_producto.rango']} " styleClass="mr-5"/>
+                                    <h:message for="cantidadPorUnidad" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-4" >
+                                    <p:selectOneMenu id="unidadPorVenta" value="#{producto.unidadSuministro}" required="true" styleClass="formulario__input texto--der">
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_unidad']}" itemValue="unidad"/>
+                                    </p:selectOneMenu>
+                                    <br/>
+                                    <h:outputLabel for="unidadPorVenta" value="#{msgs['formulario_producto.rango']}"/>
+                                    <h:message for="unidadPorVenta" styleClass="mensaje__error"/>
+                                </div>
 
+                            </div>
+                            <div class="row mb-3 d-flex justify-content-around" >
+                                <div class="col-6 ">
                                     <h:inputFile value="#{producto.fotoSubida}" id="foto" required="true" styleClass="enlace--boton"/>
                                     <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass=""/>
                                     <h:message for="foto" styleClass="mensaje__error"/>
