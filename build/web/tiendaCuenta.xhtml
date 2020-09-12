@@ -46,24 +46,24 @@
                             <h2 class="mb-5">
                                 <h:outputText value="#{msgs['usuario.cuenta_personales']}"/>
                             </h2>
-                            <p class="pl-3 typo01">
+                            <p class="pl-3 typo01 mayusculas">
                                 <h:outputText value="#{session.getValue('usuarioLogeado').nombre}"/>
                             </p>
-                            <h4 class="mt-4">
+                            <h4 class="mt-4 ">
                                 <h:outputText value="#{msgs['formulario.responsable']}"/>
                             </h4>
-                            <p class="pl-3 typo01">
+                            <p class="pl-3 typo01 mayusculas">
                                 <h:outputText value="#{session.getValue('usuarioLogeado').responsable}"/>
                             </p>
                             <h4 class="mt-4">
                                 <h:outputText value="#{msgs['formulario.cif']}"/>
                             </h4>
-                            <p class="pl-3 typo01">
+                            <p class="pl-3 typo01 mayusculas">
                                 <h:outputText value="#{session.getValue('usuarioLogeado').cif}"/></p>                                
                             <h4 class="mt-4">
                                 <h:outputText value="#{msgs['formulario.email']}"/>
                             </h4>
-                            <p class="pl-3 typo01">
+                            <p class="pl-3 typo01 ">
                                 <h:outputText value="#{session.getValue('usuarioLogeado').email}"/>
                             </p>
                             <h4 class="mt-4">
@@ -75,13 +75,13 @@
                             <h4 class="mt-4">
                                 <h:outputText value="#{msgs['formulario.direccion']}"/>
                             </h4>
-                            <p class="pl-3 typo01">
-                                <h:outputText value="#{session.getValue('usuarioLogeado').direccion}"/>
+                            <p class="pl-3 typo01 mayusculas">
+                                <h:outputText value="#{session.getValue('usuarioLogeado').tipoVIA} #{session.getValue('usuarioLogeado').direccion} #{session.getValue('usuarioLogeado').numeroVia}. #{session.getValue('usuarioLogeado').barrio} "/>
                             </p>
                             <h4 class="mt-4">
                                 <h:outputText value="#{msgs['formulario.descripcion']}"/>
                             </h4>
-                            <p class="pl-3 typo01">
+                            <p class="pl-3 typo01 mayusculas">
                                 <h:outputText value="#{session.getValue('usuarioLogeado').descripcion}"/>
                             </p>
                             <h:link outcome="tiendaEditarDatos" value="#{msgs['usuario.cuenta_editar']}" styleClass="cuenta__enlace mt-5" /> 

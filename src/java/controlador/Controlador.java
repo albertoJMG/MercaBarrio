@@ -5,9 +5,7 @@
  */
 package controlador;
 
-import entidades.Administrador;
 import entidades.Cliente;
-import entidades.Envio;
 import entidades.Pedido;
 import entidades.Producto;
 import entidades.SubPedido;
@@ -18,17 +16,31 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import modelo.MercaBarrioModelo;
 import org.primefaces.PrimeFaces;
 import util.MercaBarrioUtil;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -166,6 +178,19 @@ public class Controlador {
      * @see MercaBarrioModelo
      */
     public String addNuevaTienda(Tienda t) {
+
+        
+        
+        if (t.getFotoSubida() == null) {
+            t.setNombreAvatar("logoMB.svg");
+        } else {
+            String imagen = t.getFotoSubida().getSubmittedFileName();
+            t.setNombreAvatar(imagen);
+            MercaBarrioUtil.subirFoto(t.getFotoSubida());
+        }
+
+        
+
         boolean exito = MercaBarrioModelo.crearTienda(t);
         if (exito) {
             return "tiendaLogin";
@@ -240,7 +265,7 @@ public class Controlador {
         } else {
             //Nombre y ruta de guardado de la foto del Producto
             String imagen = p.getFotoSubida().getSubmittedFileName();
-            MercaBarrioUtil.subirFotoProducto(p.getFotoSubida());
+            MercaBarrioUtil.subirFoto(p.getFotoSubida());
             p.setEstadoProducto(true);
             p.setNombreFoto(imagen);
             p.setTiendaP(t);
@@ -365,7 +390,7 @@ public class Controlador {
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         List<Tienda> tiendas;
-        tiendas = MercaBarrioModelo.tiendasBarrioConcreto(c.getSector());
+        tiendas = MercaBarrioModelo.tiendasBarrioConcreto(c.getBarrio());
         return tiendas;
     }
 
@@ -379,7 +404,7 @@ public class Controlador {
         Tienda t = null;
         return t = MercaBarrioModelo.buscarTiendaModelo(id);
     }
-    
+
     /**
      * Método que busca una Pedido por un Id dado
      *
@@ -611,17 +636,23 @@ public class Controlador {
         if (!c.getTelefono().isEmpty()) {
             clienteAModificar.setTelefono(c.getTelefono());
         }
-        if (!c.getDireccion().isEmpty()) {
+        if (c.getDireccion()!=null) {
             clienteAModificar.setDireccion(c.getDireccion());
         }
         if (!c.getCp().isEmpty()) {
             clienteAModificar.setCp(c.getCp());
         }
-        if (!c.getSector().isEmpty()) {
-            clienteAModificar.setSector(c.getSector());
+        if (c.getBarrio() != null) {
+            clienteAModificar.setBarrio(c.getBarrio());
         }
         if (!c.getEmail().isEmpty()) {
             clienteAModificar.setEmail(c.getEmail());
+        }
+        if (!c.getNumeroVia().isEmpty()) {
+            clienteAModificar.setNumeroVia(c.getNumeroVia());
+        }
+        if (c.getTipoVIA() != null) {
+            clienteAModificar.setTipoVIA(c.getTipoVIA());
         }
         try {
             MercaBarrioModelo.actualizarCliente(clienteAModificar);
@@ -662,17 +693,26 @@ public class Controlador {
         if (!t.getTelefono().isEmpty()) {
             tiendaAModificar.setTelefono(t.getTelefono());
         }
-        if (!t.getDireccion().isEmpty()) {
+        if (t.getDireccion() != null) {
             tiendaAModificar.setDireccion(t.getDireccion());
         }
         if (!t.getCp().isEmpty()) {
             tiendaAModificar.setCp(t.getCp());
         }
-        if (!t.getSector().isEmpty()) {
-            tiendaAModificar.setSector(t.getSector());
+        if (t.getBarrio() != null) {
+            tiendaAModificar.setBarrio(t.getBarrio());
+        }
+        if (t.getTipoVIA() != null) {
+            tiendaAModificar.setTipoVIA(t.getTipoVIA());
         }
         if (!t.getEmail().isEmpty()) {
             tiendaAModificar.setEmail(t.getEmail());
+        }
+        if (t.getFotoSubida() != null) {
+            String imagen = t.getFotoSubida().getSubmittedFileName();
+            MercaBarrioUtil.subirFoto(t.getFotoSubida());
+
+            tiendaAModificar.setNombreAvatar(imagen);
         }
         try {
             MercaBarrioModelo.actualizarTienda(tiendaAModificar);
@@ -698,7 +738,8 @@ public class Controlador {
      */
     public String editarProducto(Producto p) {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        String id_producto = externalContext.getRequestParameterMap().get("productoEditar");
+        String id_producto = externalContext.getRequestParameterMap().get("id_productoEditar");
+        System.out.println("------------<-----------------<-----------------< " + id_producto);
 
         Producto productoEditar = MercaBarrioModelo.buscarProducto(Long.parseLong(id_producto));
         //Comprobación de los campos de formulario
@@ -727,7 +768,7 @@ public class Controlador {
 
         if (p.getFotoSubida() != null) {
             String imagen = p.getFotoSubida().getSubmittedFileName();
-            MercaBarrioUtil.subirFotoProducto(p.getFotoSubida());
+            MercaBarrioUtil.subirFoto(p.getFotoSubida());
 
             productoEditar.setNombreFoto(imagen);
         }
@@ -756,7 +797,7 @@ public class Controlador {
     }
 
     /*
-     <<<>>> Metodos de OTROS<<<>>>  
+     <<<>>> Metodos OTROS <<<>>>  
      */
     /**
      * Método que calcula el importe total del Pedido
@@ -781,8 +822,8 @@ public class Controlador {
         }
         return importeTotal;
     }
-    
-    public double importeTotal(Pedido p){
+
+    public double importeTotal(Pedido p) {
         double importeTotal = 0;
         List<SubPedido> listaSubPedidos = p.getSubPedido();
         for (SubPedido sp : listaSubPedidos) {
@@ -796,8 +837,7 @@ public class Controlador {
 
         }
         return importeTotal;
-        
-        
+
     }
 
     /**
@@ -812,9 +852,9 @@ public class Controlador {
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         Pedido pedidoActual = c.getPedidos().get(c.getPedidos().size() - 1);
         List<SubPedido> subPedidos = pedidoActual.getSubPedido();
-        for(SubPedido sp : subPedidos){
+        for (SubPedido sp : subPedidos) {
             Producto p = sp.getProducto();
-            p.setStock(p.getStock()- sp.getCantidad_producto());
+            p.setStock(p.getStock() - sp.getCantidad_producto());
             MercaBarrioModelo.actualizarProducto(p);
         }
         Date fechaActual = new Date();
@@ -828,6 +868,96 @@ public class Controlador {
         pedidoActual.setConfimacion_cliente(true);
         MercaBarrioModelo.actualizarPedido(pedidoActual);
         return "clientePedidos";
+    }
+
+    public List callesSevilla() {
+
+        List todasCalles = new ArrayList();
+
+        try {
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            InputStream input = externalContext.getResourceAsStream("/resources/docs/vias.xml");
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document documento = builder.parse((input));
+            NodeList listaCalles = documento.getElementsByTagName("NOMBRE_VIA");
+            for (int i = 0; i < listaCalles.getLength(); i++) {
+                Node nodo = listaCalles.item(i);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    Element e = (Element) nodo;
+                    NodeList hijos = e.getChildNodes();
+                    for (int j = 0; j < hijos.getLength(); j++) {
+                        Node hijo = hijos.item(j);
+                        todasCalles.add(hijo.getNodeValue());
+                    }
+                }
+            }
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return todasCalles;
+    }
+
+    public List tipoViasSevilla() {
+        List tipoVias = new ArrayList();
+        try {
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            InputStream input = externalContext.getResourceAsStream("/resources/docs/vias.xml");
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document documento = builder.parse((input));
+            NodeList listaTipoVias = documento.getElementsByTagName("TIPO_VIA");
+            for (int i = 0; i < listaTipoVias.getLength(); i++) {
+                Node nodo = listaTipoVias.item(i);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    Element e = (Element) nodo;
+                    NodeList hijos = e.getChildNodes();
+                    for (int j = 0; j < hijos.getLength(); j++) {
+                        tipoVias.add(hijos.item(j).getNodeValue());
+                    }
+                }
+            }
+            Set<String> tiposVia = new HashSet<>(tipoVias);
+            tipoVias.clear();
+            tipoVias.addAll(tiposVia);
+            Collections.sort(tipoVias);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return tipoVias;
+    }
+
+    public List barriosSevilla() {
+
+        List todosBarrios = new ArrayList();
+
+        try {
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            InputStream input = externalContext.getResourceAsStream("/resources/docs/Barrios.kml");
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document documento = builder.parse((input));
+            NodeList listaBarrios = documento.getElementsByTagName("SimpleData");
+
+            if (listaBarrios != null && listaBarrios.getLength() > 0) {
+                for (int j = 0; j < listaBarrios.getLength(); j++) {
+                    Element e = (Element) listaBarrios.item(j);
+                    if (e.getAttribute("name").equals("Barrio")) {
+                        NodeList hijos = e.getChildNodes();
+                        for (int i = 0; i < hijos.getLength(); i++) {
+                            Node hijo = hijos.item(i);
+                            todosBarrios.add(hijo.getNodeValue());
+
+                        }
+                    }
+                }
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        Collections.sort(todosBarrios);
+        return todosBarrios;
     }
 
 }

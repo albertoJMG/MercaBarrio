@@ -21,7 +21,7 @@ import javax.servlet.http.Part;
  */
 public class MercaBarrioUtil {
     
-    public static void subirFotoProducto(Part p) {
+    public static void subirFoto(Part p) {
 
         InputStream inputStream = null;
         OutputStream outputStream = null;

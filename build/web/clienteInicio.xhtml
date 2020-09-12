@@ -55,7 +55,7 @@
                                         <h:outputText styleClass="pi pi-info-circle" style=" font-size: 3rem" />
                                         <f:setPropertyActionListener target="#{infoTienda.tiendaSeleccionada}" value="#{t}"/>
                                     </p:commandLink>
-                                    <h:commandLink action="clienteProductosTienda?faces-redirect=true" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
+                                    <h:commandLink action="clienteProductosTienda" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
                                         <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
                                         <f:setPropertyActionListener target="#{tienda.id_usuario}" value="#{t.id_usuario}"/>
                                     </h:commandLink>

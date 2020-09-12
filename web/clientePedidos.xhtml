@@ -31,50 +31,88 @@
 
             </h:panelGroup>
             <!--Si el cliente ha realizado Pedidos, estos se mostraran-->
-            <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() > 0}">
-                <!--Tabla con la informacion de cada uno de los Pedidos realizados-->
-                <p:dataTable value="#{controlador.verHistoricoPedidos(clienteG.id_usuario)}" var="p" styleClass="tabla-pedidos centrar--texto container my-5 " reflow="true" rows="10" paginator="true">
-                    <p:column>
-                        <f:facet name="header" >
-                            <h:outputText value="#{msgs['cliente_pedidos.id']}"/>
-                        </f:facet>
-                        <h:outputText value="#{p.id_pedido}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs['cliente_pedidos.fecha_pedido']}"/>
-                        </f:facet>
-                        <h:outputText value="#{p.fecha_pedido}" styleClass="centrar--texto">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs['cliente_pedidos.articulos']}"/>
-                        </f:facet>
-                        <h:outputText value="#{fn:length(p.subPedido)}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs['cliente_pedidos.importe']}"/>
-                        </f:facet>
-                        <h:outputText value="#{controlador.importeTotal(p)}" styleClass="centrar--texto">
-                            <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs['cliente_pedidos.gestion']}"/>
-                        </f:facet>
-                        <h:form>
-                            <h:commandLink action="clientePedido" value="Ver" styleClass="enlace--boton">
+            <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() > 0}" id="hola">
+                <h:form id="form">
+                    <!--Tabla con la informacion de cada uno de los Pedidos realizados-->
+                    <p:dataTable value="#{controlador.verHistoricoPedidos(clienteG.id_usuario)}" var="p" styleClass="tabla-pedidos centrar--texto container my-5 " reflow="true" rows="10" paginator="true">
+                        <p:column>
+                            <f:facet name="header" >
+                                <h:outputText value="#{msgs['cliente_pedidos.id']}"/>
+                            </f:facet>
+                            <h:outputText value="#{p.id_pedido}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['cliente_pedidos.fecha_pedido']}"/>
+                            </f:facet>
+                            <h:outputText value="#{p.fecha_pedido}" styleClass="centrar--texto">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['cliente_pedidos.importe']}"/>
+                            </f:facet>
+                            <h:outputText value="#{controlador.importeTotal(p)}" styleClass="centrar--texto">
+                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['cliente_pedidos.estado']}"/>
+                            </f:facet>
+                            <h:outputText value="#{p.envio.estado_envio}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['cliente_pedidos.articulos']}"/>
+                            </f:facet>
+
+                            <p:commandLink   styleClass="enlace--boton--verde" update=":form:elPanel" oncomplete="PF('pedidoInfo').show()">
                                 <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
-                                <f:setPropertyActionListener target="#{pedido.id_pedido}" value="#{p.id_pedido}"/>
-                            </h:commandLink>
-                        </h:form>
-                    </p:column>
-                </p:dataTable>
-                <!--FIN Tabla-->
+                                <h:outputText value="#{msgs['cliente_pedidos.ver']}"/>
+                                <f:setPropertyActionListener target="#{infoTienda.pedidoSeleccionado}" value="#{p}"/>
+                            </p:commandLink>
+
+
+
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:overlayPanel widgetVar="pedidoInfo" hideEffect="fade" dynamic="false" style="width: 40vw" modal="true" showCloseIcon="true" dismissable="true" >
+                        <p:outputPanel id="elPanel" >
+
+                            <div class="col-12 px-0">
+                                <p class="articulos__encabezado centrar--texto my-2 p-2">
+                                    <h:outputText value="#{infoTienda.pedidoSeleccionado.id_pedido}"/>
+                                </p>
+                                <ui:repeat value="#{infoTienda.pedidoSeleccionado.subPedido}" var="sp">
+                                    <div class="row producto_detalle pt-3 mx-0 mb-2">
+                                        <div class="col-2 mx-0 mb-2">
+                                            <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em"/>
+                                        </div>
+                                        <div class="col-10 mx-0 pl-5">
+                                            <h4>
+                                                <h:outputText value="#{sp.producto.nombre}"/>
+                                            </h4>
+                                            <p class="p-0 m-2">
+                                                <h:outputText value="#{sp.producto.descripcion}"/>
+                                            </p>
+                                            <p class="p-0 texto--error texto--der">
+                                                <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
+                                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                </h:outputText>
+                                                <h:outputText value="/#{sp.producto.unidad}"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </p:outputPanel>
+                    </p:overlayPanel>
+
+                    <!--FIN Tabla-->
+                </h:form>
             </h:panelGroup>
         </ui:define>
     </ui:composition>

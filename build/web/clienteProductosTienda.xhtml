@@ -44,7 +44,7 @@
                                     </h:panelGrid>
                                 </h:panelGroup>
                                 <!--Si el Producto tiene stock permite la navegación para poder hacer un Pedido-->
-                                <h:panelGroup rendered="#{p.stock gt 4}">
+                                <h:panelGroup rendered="#{p.stock gt 3 or p.stock eq 3}">
                                     <h:panelGrid columns="1" styleClass="col-12"  >
                                         <h:commandLink action="producto_tInicio" >
                                             <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>

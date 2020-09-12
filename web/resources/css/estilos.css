@@ -274,6 +274,10 @@ and open the template in the editor.
     width: 8rem;
     margin-left: 5rem; }
 
+.articulos__encabezado {
+  background-color: #cc0433;
+  color: #fff; }
+
 /*Modificadores*/
 .panel--gridView {
   height: 22rem; }
@@ -294,7 +298,7 @@ and open the template in the editor.
   box-shadow: 5px 5px 5px 2px black;
   color: black; }
 
-.enlace--boton {
+.enlace--boton, .enlace--boton--verde {
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
@@ -305,9 +309,13 @@ and open the template in the editor.
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer; }
-  .enlace--boton:hover {
-    color: #212529;
+  .enlace--boton:hover, .enlace--boton--verde:hover {
+    color: #212529 !important;
     text-decoration: none; }
+
+.enlace--boton--verde {
+  color: white !important;
+  background-color: #28a745; }
 
 .carousel--imagen {
   height: 100vh !important;
@@ -379,6 +387,14 @@ and open the template in the editor.
   font-family: 'Josefin Sans', sans-serif;
   font-size: 1.8em; }
 
+.imagen--avatar {
+  height: 10em;
+  width: 10em; }
+
+.mayusculas {
+  text-transform: uppercase;
+  /*text-transform: capitalize;*/ }
+
 /*GENERAL*/
 a {
   color: #007bff;
@@ -412,6 +428,28 @@ a {
 
 .ui-spinner-input {
   height: 2rem; }
+
+.ui-overlaypanel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+
+.ui-selectonemenu-panel {
+  /*background-color: red;*/
+  /*font-size: 12px !important;*/
+  max-width: 50vw !important; }
+
+.ui-selectonemenu {
+  /*width: 20% !important;*/
+  /*font-size: 12px !important;*/
+  /*display: inline !important;*/ }
+
+.ui-selectonemenu-items {
+  display: inline !important; }
+
+.ui-selectonemenu-label {
+  /*width: 50% !important;*/ }
 
 /*PRUEBAS*/
 .logo {

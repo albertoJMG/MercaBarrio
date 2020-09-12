@@ -31,19 +31,12 @@
                                     </h:outputText>
                                     <h:outputText value="/#{sp.producto.unidad}"/>
                                 </p>
-
                             </div>
                             <h:form>
-                                <h:commandLink action="#{controlador.borrarArticuloCarrito(sp.id_subPedido)}" value="Borrar">
-                                    
-                                </h:commandLink>
+                                <h:commandLink action="#{controlador.borrarArticuloCarrito(sp.id_subPedido)}" value="Borrar"/>
                             </h:form>
-                            
                         </div>
-                        
-                        
                     </div>
-                    
                 </ui:repeat>
                 <!--FIN-->
                 <!--Muestra el importe total del pedido-->
@@ -61,7 +54,7 @@
             <!--FIN-->
             <!--Si no hay articulos en el carrito, muestra un mensaje-->
             <h:panelGroup rendered="#{controlador.listaArticulosCarrito().size()==0}">
-                <div class="row my-5 mensaje-vacio">
+                <div class="row m-0 p-0 my-5 mensaje-vacio">
                     <h3 class="centrar--texto mensaje-vacio__texto">
                         <h:outputText value="#{msgs['carrito.vacio_mensaje']}" />
                     </h3>

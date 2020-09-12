@@ -384,6 +384,11 @@ $sombra: black;
     }
 }
 
+.articulos__encabezado{
+    background-color: $colorMercaBarrio_R;
+    color: $colorMercaBarrio_B;
+}
+
 /*Modificadores*/
 .panel--gridView{
     height: 22rem;
@@ -420,10 +425,16 @@ $sombra: black;
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     &:hover{
-        color: #212529;
+        color: #212529 !important;
         text-decoration: none;
     }
     cursor: pointer;
+}
+
+.enlace--boton--verde{
+    @extend .enlace--boton;
+    color: white !important;
+    background-color: $colorExito;
 }
 
 .carousel--imagen{
@@ -515,6 +526,15 @@ $sombra: black;
     font-size: 1.8em;
 }
 
+.imagen--avatar{
+        height: 10em;
+        width: 10em;
+}
+
+.mayusculas{
+    text-transform: uppercase;
+    /*text-transform: capitalize;*/
+}
 
 /*GENERAL*/
 
@@ -562,11 +582,43 @@ a{
 }
 
 .ui-spinner-input{
-     height: 2rem;
- } 
+    height: 2rem;
+}
+
+.ui-overlaypanel{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ui-selectonemenu-panel{
+    /*background-color: red;*/
+    /*font-size: 12px !important;*/
+    max-width: 50vw !important;
+}
+
+.ui-selectonemenu{
+    /*width: 20% !important;*/
+    /*font-size: 12px !important;*/
+    /*display: inline !important;*/
+}
+
+.ui-selectonemenu-items {
+    display: inline !important;
+}
+
+.ui-selectonemenu-label{
+    /*width: 50% !important;*/
+}
+
+
+
 /*PRUEBAS*/
 
 .logo{
     background-color: red
 }
+
+
 

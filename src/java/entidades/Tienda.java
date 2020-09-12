@@ -34,7 +34,7 @@ public class Tienda extends Usuario implements Serializable {
     @Column(name = "descripcion", length = 150)
     private String descripcion;
     @Column(name = "nombreAvatar", length = 200)
-    private  String nombreAvatar;
+    private String nombreAvatar;
     @Transient
     private Part fotoSubida;
     @OneToMany(cascade = CascadeType.ALL,

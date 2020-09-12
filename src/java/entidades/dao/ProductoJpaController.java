@@ -217,6 +217,9 @@ public class ProductoJpaController implements Serializable {
 
     public Producto findProducto(Long id) {
         EntityManager em = getEntityManager();
+//        if (id == null){
+//            id = 1L;
+//        }
         try {
             return em.find(Producto.class, id);
         } finally {

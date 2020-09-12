@@ -353,16 +353,16 @@ public class MercaBarrioModelo {
      * Método que realiza la busqueda de todas las Tiendas cuyo sector/barrio
      * corresponde con el Cliente
      *
-     * @param sector Sector del Cliente que realiza la peticion/consulta
+     * @param barrio Barrio del Cliente que realiza la peticion/consulta
      * @return Lista con todas las Tiendas del mismo sector que el Cliente
      */
-    public static List<Tienda> tiendasBarrioConcreto(String sector) {
+    public static List<Tienda> tiendasBarrioConcreto(String barrio) {
         List<Tienda> tiendasSector = new LinkedList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         TiendaJpaController ejc = new TiendaJpaController(emf);
         List<Tienda> tiendas = ejc.findTiendaEntities();
         for (Tienda t : tiendas) {
-            if (t.getSector().equals(sector)) {
+            if (t.getBarrio().equals(barrio)) {
                 tiendasSector.add(t);
             }
         }

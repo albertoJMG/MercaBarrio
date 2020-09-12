@@ -57,9 +57,11 @@ public class Registro extends HttpServlet {
         a.setDni("11111111H");
         a.setNombre("Alberto Jose");
         a.setApellidos("Marrufo Garcia");
-        a.setDireccion("Avenida de la Buena s/n");
+        a.setTipoVIA("CALLE");
+        a.setDireccion("ABAD GORDILLO");
         a.setCp("41001");
-        a.setSector("1");
+        a.setBarrio("AEROPUERTO VIEJO");
+        a.setNumeroVia("1");
         a.setEmail("cliente01@cliente01.com");
         a.setTelefono("666999000");
         a.setNombre_usuario("a");
@@ -68,9 +70,11 @@ public class Registro extends HttpServlet {
         b.setDni("22222222H");
         b.setNombre("Cristina");
         b.setApellidos("Herrojo Garcia");
-        b.setDireccion("Avenida del Alma Negra s/n");
+        b.setTipoVIA("CALLE");
+        b.setDireccion("ABAD GORDILLO");
         b.setCp("51001");
-        b.setSector("1");
+        b.setBarrio("ALFALFA");
+        b.setNumeroVia("2");
         b.setEmail("cliente02@cliente02.com");
         b.setTelefono("666999000");
         b.setNombre_usuario("b");
@@ -79,9 +83,11 @@ public class Registro extends HttpServlet {
         c.setDni("3333333H");
         c.setNombre("Rosa");
         c.setApellidos("Benito Ariza");
-        c.setDireccion("Avenida del Piso Perdido s/n");
+        c.setTipoVIA("CALLE");
+        c.setDireccion("ABAD GORDILLO");
         c.setCp("61001");
-        c.setSector("2");
+        c.setBarrio("AEROPUERTO VIEJO");
+        c.setNumeroVia("3");
         c.setEmail("cliente03@cliente03.com");
         c.setTelefono("666999000");
         c.setNombre_usuario("c");
@@ -92,7 +98,9 @@ public class Registro extends HttpServlet {
         z.setResponsable("Manolo");
         z.setDireccion("Calle Una cualquiera");
         z.setCp("41001");
-        z.setSector("1");
+        z.setBarrio("AEROPUERTO VIEJO");
+        z.setNumeroVia("1");
+        z.setTipoVIA("CALLE");
         z.setEmail("tienda01@tienda01");
         z.setTelefono("555111111");
         z.setNombre_usuario("z");
@@ -105,7 +113,7 @@ public class Registro extends HttpServlet {
         x.setResponsable("José Jurado");
         x.setDireccion("Calle Otra cualquiera");
         x.setCp("41002");
-        x.setSector("1");
+        x.setBarrio("ALFALFA");
         x.setEmail("tienda02@tienda02");
         x.setTelefono("555111111");
         x.setNombre_usuario("x");
@@ -118,7 +126,7 @@ public class Registro extends HttpServlet {
         y.setResponsable("Guty");
         y.setDireccion("Calle Continuamos con cualquiera");
         y.setCp("41003");
-        y.setSector("2");
+        y.setBarrio("AEROPUERTO VIEJO");
         y.setEmail("tienda03@tienda03");
         y.setTelefono("555111111");
         y.setNombre_usuario("y");
@@ -131,7 +139,7 @@ public class Registro extends HttpServlet {
         w.setResponsable("Nataliza Sanchez");
         w.setDireccion("Calle Ya no se que poner");
         w.setCp("41004");
-        w.setSector("2");
+        w.setBarrio("AEROPUERTO VIEJO");
         w.setEmail("tienda04@tienda04");
         w.setTelefono("555111111");
         w.setNombre_usuario("w");
@@ -144,7 +152,7 @@ public class Registro extends HttpServlet {
         v.setResponsable("Martin Martinez");
         v.setDireccion("Calle Sigo sin ideas");
         v.setCp("41005");
-        v.setSector("2");
+        v.setBarrio("AEROPUERTO VIEJO");
         v.setEmail("tienda05@tienda05");
         v.setTelefono("555111111");
         v.setNombre_usuario("v");
@@ -157,7 +165,7 @@ public class Registro extends HttpServlet {
         u.setResponsable("Laura");
         u.setDireccion("Calle Menos mal que es la ultima");
         u.setCp("41006");
-        u.setSector("1");
+        u.setBarrio("ALFALFA");
         u.setEmail("tienda06@tienda06");
         u.setTelefono("555111111");
         u.setNombre_usuario("u");

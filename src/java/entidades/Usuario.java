@@ -35,10 +35,14 @@ public class Usuario implements Serializable {
     private String password;
     @Column(name = "direccion", length = 100)
     private String direccion;
+    @Column(name = "barrio", length = 200)
+    private String barrio;
+    @Column(name = "tipoVIA", length = 10)
+    private String tipoVIA;
+    @Column(name = "numeroVia", length = 5)
+    private String numeroVia;
     @Column(name = "cp", length = 10)
     private String cp;
-    @Column(name = "sector", length = 10)
-    private String sector;
     @Column(name = "email", length = 100)
     private String email;
     @Column(name = "telefono", length = 10)
@@ -76,20 +80,36 @@ public class Usuario implements Serializable {
         this.direccion = direccion;
     }
 
+    public String getBarrio() {
+        return barrio;
+    }
+
+    public void setBarrio(String barrio) {
+        this.barrio = barrio;
+    }
+
+    public String getTipoVIA() {
+        return tipoVIA;
+    }
+
+    public void setTipoVIA(String tipoVIA) {
+        this.tipoVIA = tipoVIA;
+    }
+
+    public String getNumeroVia() {
+        return numeroVia;
+    }
+
+    public void setNumeroVia(String numeroVia) {
+        this.numeroVia = numeroVia;
+    }
+    
     public String getCp() {
         return cp;
     }
 
     public void setCp(String cp) {
         this.cp = cp;
-    }
-
-    public String getSector() {
-        return sector;
-    }
-
-    public void setSector(String sector) {
-        this.sector = sector;
     }
 
     public String getEmail() {

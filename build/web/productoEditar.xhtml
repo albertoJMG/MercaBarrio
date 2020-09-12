@@ -48,7 +48,7 @@
                                         <h:message for="tipoIVA" styleClass="mensaje__error"/>
                                     </div>
                                     <div class="col-4 pr-0" >
-                                        <h:selectOneMenu id="unidad" value="#{producto.unidad}" required="true" styleClass="formulario__input">
+                                        <h:selectOneMenu id="unidad" value="#{producto.unidad}" styleClass="formulario__input">
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
@@ -100,13 +100,13 @@
                                 </div>
                                 <div class="col-6 ">
 
-                                    <h:inputFile value="#{producto.fotoSubida}" id="foto" required="true" styleClass="enlace--boton"/>
+                                    <h:inputFile value="#{producto.fotoSubida}" id="foto" styleClass="enlace--boton"/>
                                     <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass=""/>
                                     <h:message for="foto" styleClass="mensaje__error"/>
                                 </div>
                             </div>
                             <h:commandButton value="#{msgs['formulario.boton_editar']}" action="#{controlador.editarProducto(producto)}" styleClass="col-12 mt-5 enlace--boton ">
-                                <f:param name="productoEditar" value="#{p.id_producto}"/>
+                                <f:param name="id_productoEditar" value="#{p.id_producto}"/>
                             </h:commandButton>    
                             <h:messages globalOnly="true" errorClass="texto--error" />
                         </h:form>

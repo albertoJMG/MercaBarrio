@@ -5,6 +5,7 @@
  */
 package util;
 
+import entidades.Pedido;
 import entidades.Tienda;
 import java.io.Serializable;
 import javax.inject.Named;
@@ -21,6 +22,8 @@ public class InfoTienda implements Serializable {
 
     @Inject
     private Tienda tiendaSeleccionada;
+    @Inject
+    private Pedido pedidoSeleccionado;
 
     public Tienda getTiendaSeleccionada() {
         return tiendaSeleccionada;
@@ -29,6 +32,16 @@ public class InfoTienda implements Serializable {
     public void setTiendaSeleccionada(Tienda tiendaSeleccionada) {
         this.tiendaSeleccionada = tiendaSeleccionada;
     }
+
+    public Pedido getPedidoSeleccionado() {
+        return pedidoSeleccionado;
+    }
+
+    public void setPedidoSeleccionado(Pedido pedidoSeleccionado) {
+        this.pedidoSeleccionado = pedidoSeleccionado;
+    }
+    
+    
     
     
     
