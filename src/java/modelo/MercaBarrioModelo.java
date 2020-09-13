@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import util.MercaBarrioUtil;
 
 /**
  *
@@ -112,6 +113,7 @@ public class MercaBarrioModelo {
 
         if (!existeUsuario(c.getNombre_usuario())) {
             try {
+                c.setPassword(MercaBarrioUtil.codificarSHA256(c.getPassword()));
                 ejc.create(c);
                 return exito = true;
             } catch (Exception ex) {

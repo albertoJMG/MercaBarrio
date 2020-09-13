@@ -71,7 +71,7 @@
                             <p:commandLink   styleClass="enlace--boton--verde" update=":form:elPanel" oncomplete="PF('pedidoInfo').show()">
                                 <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
                                 <h:outputText value="#{msgs['cliente_pedidos.ver']}"/>
-                                <f:setPropertyActionListener target="#{infoTienda.pedidoSeleccionado}" value="#{p}"/>
+                                <f:setPropertyActionListener target="#{info.pedidoSeleccionado}" value="#{p}"/>
                             </p:commandLink>
 
 
@@ -84,9 +84,9 @@
 
                             <div class="col-12 px-0">
                                 <p class="articulos__encabezado centrar--texto my-2 p-2">
-                                    <h:outputText value="#{infoTienda.pedidoSeleccionado.id_pedido}"/>
+                                    <h:outputText value="#{info.pedidoSeleccionado.id_pedido}"/>
                                 </p>
-                                <ui:repeat value="#{infoTienda.pedidoSeleccionado.subPedido}" var="sp">
+                                <ui:repeat value="#{info.pedidoSeleccionado.subPedido}" var="sp">
                                     <div class="row producto_detalle pt-3 mx-0 mb-2">
                                         <div class="col-2 mx-0 mb-2">
                                             <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em"/>

@@ -19,7 +19,7 @@ and open the template in the editor.
 /*Bloques*/
 .barnav {
   position: fixed;
-  z-index: 20;
+  z-index: 120;
   background-color: #fff;
   height: 5.2rem; }
   .barnav .barnav__nombreAPP {
@@ -43,7 +43,7 @@ and open the template in the editor.
 
 .menu {
   position: fixed;
-  z-index: 20;
+  z-index: 120;
   display: flex;
   justify-content: center;
   background-color: transparent; }
@@ -298,24 +298,28 @@ and open the template in the editor.
   box-shadow: 5px 5px 5px 2px black;
   color: black; }
 
-.enlace--boton, .enlace--boton--verde {
-  color: #fff;
+.enlace--boton, .enlace--boton--verde, .enlace--boton--rojo {
+  color: #fff !important;
   background-color: #007bff;
   border-color: #007bff;
   font-weight: 400;
   padding: 0.375rem 0.75rem;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 1.5;
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer; }
-  .enlace--boton:hover, .enlace--boton--verde:hover {
+  .enlace--boton:hover, .enlace--boton--verde:hover, .enlace--boton--rojo:hover {
     color: #212529 !important;
     text-decoration: none; }
 
 .enlace--boton--verde {
   color: white !important;
   background-color: #28a745; }
+
+.enlace--boton--rojo {
+  color: white !important;
+  background-color: #ffc107; }
 
 .carousel--imagen {
   height: 100vh !important;
@@ -387,13 +391,15 @@ and open the template in the editor.
   font-family: 'Josefin Sans', sans-serif;
   font-size: 1.8em; }
 
+.tienda_datos--altura {
+  height: 88%; }
+
 .imagen--avatar {
-  height: 10em;
-  width: 10em; }
+  height: 10rem;
+  width: 10rem; }
 
 .mayusculas {
-  text-transform: uppercase;
-  /*text-transform: capitalize;*/ }
+  text-transform: uppercase; }
 
 /*GENERAL*/
 a {
@@ -421,6 +427,12 @@ a {
 
 .ui-datagrid {
   background-color: red; }
+
+.ultimosProductos .ui-widget-content {
+  border: none; }
+
+.ultimosProductos_borde {
+  border: 1px solid #dee2e6; }
 
 .ui-datatable thead th {
   background: #cc0433 !important;

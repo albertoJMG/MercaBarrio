@@ -34,7 +34,7 @@ public class SubPedido implements Serializable {
     @Column(name = "id_subPedido")
     private Long id_subPedido;
     @Column(name = "cantidad_producto")
-    private double cantidad_producto;
+    private int cantidad_producto;
     @Column(name = "estado")
     @Enumerated(EnumType.STRING)
     private EstadoSubPedido estado;
@@ -56,11 +56,11 @@ public class SubPedido implements Serializable {
         this.id_subPedido = id_subPedido;
     }
 
-    public double getCantidad_producto() {
+    public int getCantidad_producto() {
         return cantidad_producto;
     }
 
-    public void setCantidad_producto(double cantidad_producto) {
+    public void setCantidad_producto(int cantidad_producto) {
         this.cantidad_producto = cantidad_producto;
     }
 

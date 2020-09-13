@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <!--Espacio del menu-->
@@ -25,51 +26,49 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 mx-0">
                                     <div class="md-form">
-                                        <h:inputText id="nombre" value="#{producto.nombre}" a:placeholder="#{p.nombre}" styleClass="formulario__input mr-5"/>
+                                        <p:inputText id="nombre" value="#{producto.nombre}" a:placeholder="#{p.nombre}" styleClass="formulario__input mr-5" maxlength="50"/>
                                         <h:outputLabel for="nombre" value="#{msgs['formulario_producto.nombre']} " styleClass="mr-5"/>
                                         <h:message for="nombre" styleClass="mensaje__error"/>
                                     </div>
                                 </div>
                                 <div class="row col-6 mx-0" >
                                     <div class="col-4 pl-0">
-                                        <h:inputText id="precio" value="#{producto.precio}" a:placeholder="#{p.precio}" converterMessage="#{msgs['formulario_producto.mensaje_inputNumber']}" styleClass="formulario__input">
-                                            <f:validateDoubleRange minimum="0.01" />
-                                        </h:inputText>
+                                        <p:spinner id="precio" value="#{producto.precio}" a:placeholder="#{p.precio}" converterMessage="#{msgs['formulario_producto.mensaje_inputNumber']}" styleClass="formulario__input" stepFactor="0.01" min="0.01"/>
                                         <h:outputLabel for="precio" value="#{msgs['formulario_producto.precio']}"/>
                                         <h:message for="precio" styleClass="mensaje__error"/>
                                     </div>
                                     <div class=" col-4 mx-0">
-                                        <h:selectOneMenu id="tipoIVA" value="#{producto.tipoIVA}" a:placeholder="#{p.tipoIVA}" styleClass="formulario__input mx-0">
+                                        <p:selectOneMenu id="tipoIVA" value="#{producto.tipoIVA}" styleClass="formulario__input mx-0"  >
                                             <f:selectItem itemLabel="4 %" itemValue="4"/>
                                             <f:selectItem itemLabel="10 %" itemValue="10"/>
                                             <f:selectItem itemLabel="21 %" itemValue="21"/>
-                                        </h:selectOneMenu>
-                                        <h:outputLabel for="tipoIVA" value="#{msgs['formulario_producto.iva']}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputLabel for="tipoIVA" value="#{msgs['formulario_producto.iva']} (#{p.tipoIVA}%)"/>
                                         <h:message for="tipoIVA" styleClass="mensaje__error"/>
                                     </div>
                                     <div class="col-4 pr-0" >
-                                        <h:selectOneMenu id="unidad" value="#{producto.unidad}" styleClass="formulario__input">
+                                        <p:selectOneMenu id="unidad" value="#{producto.unidad}" styleClass="formulario__input">
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_unidad']}" itemValue="unidad"/>
-                                        </h:selectOneMenu>
+                                        </p:selectOneMenu>
                                         <br/>
-                                        <h:outputLabel for="unidad" value="#{msgs['formulario_producto.unidad']}"/>
+                                        <h:outputLabel for="unidad" value="#{msgs['formulario_producto.unidad']} (#{p.unidad})"/>
                                         <h:message for="unidad" styleClass="mensaje__error"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-3" >
                                 <div class="col-12">
-                                    <h:inputText id="breveDescripcion" value="#{producto.breve_descripcion}" a:placeholder="#{p.breve_descripcion}" styleClass="formulario__input"/>
+                                    <p:inputText id="breveDescripcion" value="#{producto.breve_descripcion}" a:placeholder="#{p.breve_descripcion}" styleClass="formulario__input"/>
                                     <h:outputLabel for="breveDescripcion" value="#{msgs['formulario_producto.breveDescripcion']}"/>
                                     <h:message for="breveDescripcion" styleClass="mensaje__error"/>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-12">
-                                    <h:inputTextarea id="descripcion" value="#{producto.descripcion}" a:placeholder="#{p.descripcion}" styleClass="formulario__textarea" cols="30" rows="5"/>
+                                    <p:inputTextarea id="descripcion" value="#{producto.descripcion}" a:placeholder="#{p.descripcion}" styleClass="formulario__textarea" cols="30" rows="5" maxlength="500"/>
                                     <h:outputLabel for="descripcion" value="#{msgs['formulario_producto.descripcion']}"/>
                                     <h:message for="descripcion" styleClass="mensaje__error"/>
                                 </div>
@@ -77,29 +76,51 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <h:inputTextarea id="alergenos" value="#{producto.alergenos}" a:placeholder="#{p.alergenos}" styleClass="formulario__textarea" rows="5"/>
+                                    <p:inputTextarea id="alergenos" value="#{producto.alergenos}" a:placeholder="#{p.alergenos}" styleClass="formulario__textarea" rows="5" maxlength="500"/>
                                     <h:outputLabel for="alergenos" value="#{msgs['formulario_producto.alergenos']}"/>
                                     <h:message for="alergenos" styleClass="mensaje__error"/>
                                 </div>
                                 <div class="col-4">
-                                    <h:inputTextarea id="conservacion" value="#{producto.cond_conservacion}" a:placeholder="#{p.cond_conservacion}" styleClass="formulario__textarea" rows="5"/>
+                                    <p:inputTextarea id="conservacion" value="#{producto.cond_conservacion}" a:placeholder="#{p.cond_conservacion}" styleClass="formulario__textarea" rows="5" maxlength="500"/>
                                     <h:outputLabel for="conservacion" value="#{msgs['formulario_producto.conservacion']}"/>
                                     <h:message for="conservacion" styleClass="mensaje__error"/>
                                 </div>
                                 <div class="col-4">
-                                    <h:inputTextarea id="controles" value="#{producto.controles}" a:placeholder="#{p.controles}" styleClass="formulario__textarea" rows="5"/>
+                                    <p:inputTextarea id="controles" value="#{producto.controles}" a:placeholder="#{p.controles}" styleClass="formulario__textarea" rows="5" maxlength="500"/>
                                     <h:outputLabel for="controles" value="#{msgs['formulario_producto.controles']}"/>
                                     <h:message for="controles" styleClass="mensaje__error"/>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <h:inputText id="stock" value="#{producto.stock}" a:placeholder="#{p.stock}" styleClass="formulario__input" converterMessage="Solo enteros"/>
+                                    <p:spinner id="stock" value="#{producto.stock}" a:placeholder="#{p.stock}" styleClass="formulario__input" converterMessage="Solo enteros">
+                                        <p:keyFilter regEx="/[0-9]/"/>
+                                    </p:spinner>
                                     <h:outputLabel for="stock" value="#{msgs['formulario_producto.stock']} " styleClass="mr-5"/>
                                     <h:message for="stock" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-6 ">
-
+                                <div class="col-4">
+                                    <p:spinner id="cantidaPorUnidad" value="#{producto.cantidadSuministro}" a:placeholder="#{p.cantidadSuministro}" styleClass="formulario__input" converterMessage="Solo enteros" stepFactor="50" min="100"/>
+                                    <h:outputLabel for="cantidadPorUnidad" value="#{msgs['formulario_producto.rango']} " styleClass="mr-5"/>
+                                    <h:message for="cantidadPorUnidad" styleClass="mensaje__error"/>
+                                </div>
+                                <div class="col-4" >
+                                    <p:selectOneMenu id="unidadPorVenta" value="#{producto.unidadSuministro}" required="true" styleClass="formulario__input texto--der">
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_unidad']}" itemValue="unidad"/>
+                                    </p:selectOneMenu>
+                                    <br/>
+                                    <h:outputLabel for="unidadPorVenta" value="#{msgs['formulario_producto.unidad']} (#{p.unidadSuministro})"/>
+                                    <h:message for="unidadPorVenta" styleClass="mensaje__error"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3 d-flex justify-content-around align-items-center" >
+                                <div class="col-4 centrar--texto" >
+                                    <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="imagen--avatar"/>
+                                </div>
+                                <div class="col-4 ">
                                     <h:inputFile value="#{producto.fotoSubida}" id="foto" styleClass="enlace--boton"/>
                                     <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass=""/>
                                     <h:message for="foto" styleClass="mensaje__error"/>

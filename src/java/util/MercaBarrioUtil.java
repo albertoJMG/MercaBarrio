@@ -10,6 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -20,7 +23,7 @@ import javax.servlet.http.Part;
  * @author Alberto JMG
  */
 public class MercaBarrioUtil {
-    
+
     public static void subirFoto(Part p) {
 
         InputStream inputStream = null;
@@ -43,4 +46,25 @@ public class MercaBarrioUtil {
         }
 
     }
+
+    public static String codificarSHA256(String mensaje){
+        StringBuffer hexString = new StringBuffer();
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(mensaje.getBytes(StandardCharsets.UTF_8));
+            
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(hash[i] & 0xff);
+                if (hex.length() == 1) {
+                    hexString.append("0");
+                }
+                hexString.append(hex);
+            }
+        }catch(NoSuchAlgorithmException ex){
+            
+        }
+
+        return hexString.toString();
+    }
+
 }

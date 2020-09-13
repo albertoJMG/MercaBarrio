@@ -29,7 +29,7 @@
                                         <h:outputText value="#{t.descripcion}"/>
                                         <p:commandLink update=":form:tiendaDetalle" oncomplete="PF('tiendaVentana').show()" title="#{msgs['cliente.tablas_info']}">
                                             <h:outputText styleClass="pi pi-info-circle" style=" font-size: 3rem" />
-                                            <f:setPropertyActionListener target="#{infoTienda.tiendaSeleccionada}" value="#{t}"/>
+                                            <f:setPropertyActionListener target="#{info.tiendaSeleccionada}" value="#{t}"/>
                                         </p:commandLink>
                                         <h:commandLink action="clienteProductosTienda" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
                                             <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
@@ -53,7 +53,7 @@
                                     </p:outputPanel>
                                     <p:commandLink update=":form:tiendaDetalle" oncomplete="PF('tiendaVentana').show()" title="#{msgs['cliente.tablas_info']}" >
                                         <h:outputText styleClass="pi pi-info-circle" style=" font-size: 3rem" />
-                                        <f:setPropertyActionListener target="#{infoTienda.tiendaSeleccionada}" value="#{t}"/>
+                                        <f:setPropertyActionListener target="#{info.tiendaSeleccionada}" value="#{t}"/>
                                     </p:commandLink>
                                     <h:commandLink action="clienteProductosTienda" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
                                         <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
@@ -68,22 +68,22 @@
                         <p:dialog header="Info Tienda " widgetVar="tiendaVentana" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
                             <p:outputPanel id="tiendaDetalle" styleClass="tabla-info">
                                 <h:panelGrid  columns="2" rendered="true" columnClasses="col-4,col-8" styleClass="tabla-info__grid">
-                                    <p:graphicImage url="resources/images/#{infoTienda.tiendaSeleccionada.nombreAvatar}" styleClass="tabla-info__imagen"/>
+                                    <p:graphicImage url="resources/images/#{info.tiendaSeleccionada.nombreAvatar}" styleClass="tabla-info__imagen"/>
                                     <p:outputPanel>
-                                        <h:outputText value="#{infoTienda.tiendaSeleccionada.nombre}" styleClass="tabla-info__titulo"/>
+                                        <h:outputText value="#{info.tiendaSeleccionada.nombre}" styleClass="tabla-info__titulo"/>
                                         <br/>
-                                        <h:outputText value="#{infoTienda.tiendaSeleccionada.descripcion}"/>
+                                        <h:outputText value="#{info.tiendaSeleccionada.descripcion}"/>
                                         <h:panelGrid columns="2" columnClasses="col-2 tabla-info__concepto, col-8 tabla-info__valor">
                                             <h:outputText value="#{msgs['formulario.cif']}: " />
-                                            <h:outputText value="#{infoTienda.tiendaSeleccionada.cif}"/>
+                                            <h:outputText value="#{info.tiendaSeleccionada.cif}"/>
                                             <h:outputText value="#{msgs['formulario.responsable']}:"/>
-                                            <h:outputText value="#{infoTienda.tiendaSeleccionada.responsable}"/>
+                                            <h:outputText value="#{info.tiendaSeleccionada.responsable}"/>
                                             <h:outputText value="#{msgs['formulario.direccion']}:"/>
-                                            <h:outputText value="#{infoTienda.tiendaSeleccionada.direccion}"/>
+                                            <h:outputText value="#{info.tiendaSeleccionada.direccion}"/>
                                             <h:outputText value="#{msgs['formulario.email']}:"/>
-                                            <h:outputText value="#{infoTienda.tiendaSeleccionada.email}"/>
+                                            <h:outputText value="#{info.tiendaSeleccionada.email}"/>
                                             <h:outputText value="#{msgs['formulario.telefono']}:"/>
-                                            <h:outputText value="#{infoTienda.tiendaSeleccionada.telefono}"/>
+                                            <h:outputText value="#{info.tiendaSeleccionada.telefono}"/>
                                         </h:panelGrid>
                                     </p:outputPanel>
                                 </h:panelGrid>

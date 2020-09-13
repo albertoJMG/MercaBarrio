@@ -18,6 +18,7 @@ $colorOscuro: #343a40;
 $colorBordes: #dee2e6; //Grisaceo
 $colorError: #dc3545; //Rojizo
 $colorAnexos_Titulos: #ffc107; //Amarillo
+$colorAdvertencia: #ffc107; 
 $sombra: black;
 
 @import url("https://fonts.googleapis.com/css2?family=Karla:wght@700&display=swap");
@@ -42,7 +43,7 @@ $sombra: black;
 //En TEMPLATE
 .barnav{
     position: fixed;
-    z-index: 20; 
+    z-index: 120; 
     background-color: $colorMercaBarrio_B; 
     height: 5.2rem;
     .barnav__nombreAPP {
@@ -70,7 +71,7 @@ $sombra: black;
 //En TEMPLATE
 .menu{
     position: fixed; // Se puede eliminar
-    z-index: 20; // Se puede eliminar
+    z-index: 120; // Se puede eliminar
     display: flex;
     justify-content: center;
     background-color: $colorTransparente;
@@ -415,12 +416,12 @@ $sombra: black;
 }
 
 .enlace--boton{
-    color: #fff;
+    color: #fff !important;
     background-color: #007bff;
     border-color: #007bff;
     font-weight: 400;
     padding: 0.375rem 0.75rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1.5;
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -435,6 +436,12 @@ $sombra: black;
     @extend .enlace--boton;
     color: white !important;
     background-color: $colorExito;
+}
+
+.enlace--boton--rojo{
+    @extend .enlace--boton;
+    color: white !important;
+    background-color: $colorAdvertencia;
 }
 
 .carousel--imagen{
@@ -526,14 +533,17 @@ $sombra: black;
     font-size: 1.8em;
 }
 
+.tienda_datos--altura{
+    height: 88%;
+}
+
 .imagen--avatar{
-        height: 10em;
-        width: 10em;
+        height: 10rem;
+        width: 10rem;
 }
 
 .mayusculas{
     text-transform: uppercase;
-    /*text-transform: capitalize;*/
 }
 
 /*GENERAL*/
@@ -573,6 +583,14 @@ a{
 
 .ui-datagrid{
     background-color: red;
+}
+
+.ultimosProductos .ui-widget-content{
+    border: none;
+}
+
+.ultimosProductos_borde{
+    border: 1px solid $colorBordes;
 }
 
 

@@ -43,7 +43,7 @@ public class Producto implements Serializable {
     @Column(name = "tipoIVA")
     private int tipoIVA;
     @Column(name = "stock")
-    private double stock;
+    private int stock;
     @Column(name = "controles", length = 500)
     private String controles;
     @Column(name = "cond_conservacion", length = 500)
@@ -123,11 +123,11 @@ public class Producto implements Serializable {
         this.tipoIVA = tipoIVA;
     }
 
-    public double getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(double stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
