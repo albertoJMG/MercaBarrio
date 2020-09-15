@@ -27,59 +27,74 @@
 
             </h:panelGroup>
             <h:panelGroup rendered="#{controlador.verProductos(tiendaG.id_usuario).size() gt 0 }">
-                <p:dataTable value="#{controlador.verProductos(tiendaG.id_usuario)}" var="prod" styleClass="container my-5 centrar--texto" reflow="true" paginator="true">
-                    <p:column width="50">
-                        <f:facet name="header" >
-                             <h:outputText value="#{msgs['formulario_producto.id']}"/>
-                        </f:facet>
-                        <h:outputText value="#{prod.id_producto}"/>
-                    </p:column>
-                    <p:column width="150">
+                <h:form>
+                    <p:dataTable value="#{controlador.verProductos(tiendaG.id_usuario)}" widgetVar="productosTabla" var="prod" styleClass="container my-5 centrar--texto" reflow="true" paginator="true"
+                                 filteredValue="#{buscadorProductosTienda.productos}" globalFilterFunction="#{buscadorProductosTienda.filtroProductos}">
                         <f:facet name="header">
-                            <h:outputText value="#{msgs['formulario_producto.fotoPeque']}"/>
+                            <p:outputPanel styleClass="texto--der">
+                                <h:outputText value="" />
+                                <p:inputText id="globalFilter" onkeyup="PF('productosTabla').filter()" style="width:150px" placeholder=""/>
+                            </p:outputPanel>
                         </f:facet>
-                        <h:graphicImage value="resources/images/#{prod.nombreFoto}" style="height: 4em"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs['formulario_producto.nombre']}"/>
-                        </f:facet>
-                        <h:outputText value="#{prod.nombre} "/>
-                    </p:column>
-                    <p:column width="100">
-                        <f:facet name="header">
-                             <h:outputText value="#{msgs['formulario_producto.precio']}"/>
-                        </f:facet>
-                        <h:outputText value="#{prod.precio} ">
-                        </h:outputText>
-                    </p:column>
-                    <p:column width="100">
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs['formulario_producto.iva']}"/>
-                        </f:facet>
-                        <h:outputText value="#{prod.tipoIVA} "/>
-                    </p:column>
-                    <p:column >
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs['formulario_producto.gestion']}"/>
-                        </f:facet>
-                        <div class="row border">
-                            <h:form styleClass="col-12 d-flex justify-content-between ">
-                                <h:commandLink value="#{msgs['link.borrar']}" action="#{controlador.borrarProducto()}" styleClass="enlace--boton--rojo">
-                                    <f:param name="elProductoABorrar" value="#{prod.id_producto}"/>
-                                    <f:param name="destino" value="tiendaProductos"/>
-                                </h:commandLink>
+                        <p:column width="50">
+                            <f:facet name="header" >
+                                <h:outputText value="#{msgs['formulario_producto.id']}"/>
+                            </f:facet>
+                            <h:outputText value="#{prod.id_producto}"/>
+                        </p:column>
+                        <p:column width="150">
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['formulario_producto.fotoPeque']}"/>
+                            </f:facet>
+                            <h:graphicImage value="resources/images/#{prod.nombreFoto}" style="height: 4em"/>
+                        </p:column>
+                        <p:column sortBy="#{prod.nombre}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['formulario_producto.nombre']}"/>
+                            </f:facet>
+                            <h:outputText value="#{prod.nombre} "/>
+                        </p:column>
+                        <p:column width="100" sortBy="#{prod.precio}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['formulario_producto.precio']}"/>
+                            </f:facet>
+                            <h:outputText value="#{prod.precio} ">
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="100">
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['formulario_producto.iva']}"/>
+                            </f:facet>
+                            <h:outputText value="#{prod.tipoIVA} "/>
+                        </p:column>
+                        <p:column width="100" sortBy="#{prod.stock}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['formulario_producto.stock']}"/>
+                            </f:facet>
+                            <h:outputText value="#{prod.stock} "/>
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['formulario_producto.gestion']}"/>
+                            </f:facet>
+                            <div class="row border">
+                                <h:panelGroup styleClass="col-12 d-flex justify-content-between ">
+                                    <h:commandLink value="#{msgs['link.borrar']}" action="#{controlador.borrarProducto()}" styleClass="enlace--boton--rojo">
+                                        <f:param name="elProductoABorrar" value="#{prod.id_producto}"/>
+                                        <f:param name="destino" value="tiendaProductos"/>
+                                    </h:commandLink>
 
-                                <h:commandLink value="#{msgs['link.editar']}" action="productoEditar" styleClass="enlace--boton--verde">
-                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{prod.id_producto}"/>
-                                </h:commandLink>
-                                <h:commandLink value="#{msgs['link.ver']}" action="producto_tInicio" styleClass="enlace--boton">
-                                    <f:setPropertyActionListener target="#{producto.id_producto}" value="#{prod.id_producto}"/>
-                                </h:commandLink>
-                            </h:form>
-                        </div>
-                    </p:column>
-                </p:dataTable>
+                                    <h:commandLink value="#{msgs['link.editar']}" action="productoEditar" styleClass="enlace--boton--verde">
+                                        <f:setPropertyActionListener target="#{producto.id_producto}" value="#{prod.id_producto}"/>
+                                    </h:commandLink>
+                                    <h:commandLink value="#{msgs['link.ver']}" action="producto_tInicio" styleClass="enlace--boton">
+                                        <f:setPropertyActionListener target="#{producto.id_producto}" value="#{prod.id_producto}"/>
+                                    </h:commandLink>
+                                </h:panelGroup>
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
             </h:panelGroup>
         </ui:define>
     </ui:composition>

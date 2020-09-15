@@ -463,6 +463,9 @@ a {
 .ui-selectonemenu-label {
   /*width: 50% !important;*/ }
 
+table .ui-icon {
+  background-color: white; }
+
 /*PRUEBAS*/
 .logo {
   background-color: red; }

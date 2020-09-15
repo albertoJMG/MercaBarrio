@@ -51,7 +51,7 @@ public class MercaBarrioModelo {
                 consulta.setParameter("nombreUsuario", nombreUsuario);
                 List<Cliente> resultado = consulta.getResultList();
                 if (resultado.size() > 0) {
-                    if (resultado.get(0).getPassword().equals(password)) {
+                    if (resultado.get(0).getPassword().equals(MercaBarrioUtil.codificarSHA256(password))){
                         c = resultado.get(0);
                     }
                 }
@@ -85,7 +85,7 @@ public class MercaBarrioModelo {
                 consulta.setParameter("nombreUsuarioTienda", nombreUsuario);
                 List<Tienda> resultado = consulta.getResultList();
                 if (resultado.size() > 0) {
-                    if (resultado.get(0).getPassword().equals(password)) {
+                    if (resultado.get(0).getPassword().equals(MercaBarrioUtil.codificarSHA256(password))) {
                         t = resultado.get(0);
                     }
                 }
@@ -141,6 +141,7 @@ public class MercaBarrioModelo {
         TiendaJpaController ejc = new TiendaJpaController(emf);
         if (!existeUsuario(t.getNombre_usuario())) {
             try {
+                t.setPassword(MercaBarrioUtil.codificarSHA256(t.getPassword()));
                 ejc.create(t);
                 return exito = true;
             } catch (Exception ex) {
@@ -590,5 +591,14 @@ public class MercaBarrioModelo {
             return false;
         }
     }
+    
+    
+    public static List buscarProductos() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        ProductoJpaController ejc = new ProductoJpaController(emf);
+        List<Producto> p = ejc.findProductoEntities();
+        return p;
+    }
+    
 
 }

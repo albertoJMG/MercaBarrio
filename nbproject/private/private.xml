@@ -3,14 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/resources/scss/estilos.scss</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/resources/mensajes.properties</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/clienteInicio.xhtml</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/util/BuscadorProductosCliente.java</file>
             <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/controlador/Controlador.java</file>
-            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/entidades/Usuario.java</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/util/BuscadorProductosTienda.java</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/tiendaProductos.xhtml</file>
             <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/modelo/MercaBarrioModelo.java</file>
-            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/eliminar_test/Registro.java</file>
-            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/entidades/Cliente.java</file>
-            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/tiendaInicio.xhtml</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/clienteProductosTienda.xhtml</file>
             <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/util/MercaBarrioUtil.java</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/clienteRegistro.xhtml</file>
         </group>
     </open-files>
 </project-private>

@@ -22,31 +22,44 @@
                         </h4>
                         <div class="row d-flex justify-content-around mt-3 p-2 tienda_datos--altura ">
                             <h:panelGroup rendered="#{controlador.subPedidos(tiendaG.id_usuario).size() gt 0}">
-                                <p:dataTable value="#{controlador.subPedidos(tiendaG.id_usuario)}" var="sp" styleClass="tabla col-12 my-3" rows="8" >
+                                <p:dataTable value="#{controlador.subPedidos(tiendaG.id_usuario)}" var="sp" styleClass="tabla col-12 my-3 centrar--texto" rows="7" >
                                     <p:column>
-                                        <f:facet name="header" >ID pedido</f:facet>
+                                        <f:facet name="header" >
+                                            <h:outputText value="#{msgs['tienda.infoPedidos_idPedido']}"/>
+                                        </f:facet>
                                         <h:outputText value="#{sp.pedido.id_pedido}"/>
                                     </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Id: producto</f:facet>
+                                    <p:column width="80">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['tienda.infoPedidos_idArticulo']}"/>
+                                        </f:facet>
                                         <h:outputText value="#{sp.producto.id_producto}"/>
                                     </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Nombre</f:facet>
+                                    <p:column width="220">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['tienda.infoPedidos_nombre']}"/>
+                                        </f:facet>
                                         <h:outputText value="#{sp.producto.nombre} "/>
                                     </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Cantidad</f:facet>
+                                    <p:column width="60">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['tienda.infoPedidos_cantidad']}"/>
+                                        </f:facet>
                                         <h:outputText value="#{sp.cantidad_producto} "/>
                                     </p:column>
                                     <p:column>
-                                        <f:facet name="header">Fecha</f:facet>
-                                        <h:outputText value="#{sp.pedido.fecha_pedido.date} / #{sp.pedido.fecha_pedido.month} / #{1900 + sp.pedido.fecha_pedido.year} ">
-                                            <f:convertDateTime dateStyle="short"/>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['tienda.infoPedidos_fecha']}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{controlador.formatearFecha(sp.pedido.fecha_pedido)} ">
+                                            <!--<f:convertDateTime dateStyle="short"/>-->
+                                            <!--<f:convertDateTime pattern="dd/MM/yyyy" />-->
                                         </h:outputText>
                                     </p:column>
                                     <p:column>
-                                        <f:facet name="header">Estado</f:facet>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['tienda.infoPedidos_estado']}"/>
+                                        </f:facet>
                                         <h:outputText value="#{sp.estado} "/>
                                     </p:column>
                                 </p:dataTable>

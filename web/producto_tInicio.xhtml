@@ -85,7 +85,7 @@
                             <div class="col-md-2 ">
 
                                 <h:outputLabel for="cantidad" value="#{msgs['formulario_producto.cantidad']}"/>
-                                <p:spinner value="#{subPedido.cantidad_producto}" id="cantidad" required="true" stepFactor="1" min="1" styleClass="formulario__input" converterMessage="Introduzca digitos por favor" >
+                                <p:spinner value="#{subPedido.cantidad_producto}" id="cantidad" required="true" stepFactor="1" min="1" styleClass="formulario__input" converterMessage="Introduzca digitos por favor" max="#{productoElegido.stock}" >
                                 </p:spinner>
                             </div>
                             <div class="col-md-2 d-flex align-items-strech">

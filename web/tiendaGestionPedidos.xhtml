@@ -17,33 +17,45 @@
                     <h:panelGroup rendered="#{controlador.todosSubPedidos(tiendaG.id_usuario).size() gt 0}">
                         <p:dataTable value="#{controlador.todosSubPedidos(tiendaG.id_usuario)}" var="sp" styleClass="tabla col-12 my-3" rows="11" paginator="true" reflow="true" >
                             <p:column>
-                                <f:facet name="header" >ID pedido</f:facet>
+                                <f:facet name="header" >
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_idPedido']}"/>
+                                </f:facet>
                                 <h:outputText value="#{sp.pedido.id_pedido}"/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Id: producto</f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_idArticuloL']}"/>
+                                </f:facet>
                                 <h:outputText value="#{sp.producto.id_producto}"/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Nombre</f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_nombre']}"/>
+                                </f:facet>
                                 <h:outputText value="#{sp.producto.nombre} "/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Cantidad</f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_cantidadL']}"/>
+                                </f:facet>
                                 <h:outputText value="#{sp.cantidad_producto} "/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Fecha</f:facet>
-                                <h:outputText value="#{sp.pedido.fecha_pedido.date} / #{sp.pedido.fecha_pedido.month} / #{1900 + sp.pedido.fecha_pedido.year} ">
-                                    <f:convertDateTime dateStyle="short"/>
-                                </h:outputText>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_fecha']}"/>
+                                </f:facet>
+                                <h:outputText value="#{controlador.formatearFecha(sp.pedido.fecha_pedido)}"/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Estado</f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_fecha']}"/>
+                                </f:facet>
                                 <h:outputText value="#{sp.estado} "/>
                             </p:column>
                             <p:column >
-                                <f:facet name="header">Gestion</f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_gestion']}"/>
+                                </f:facet>
                                 <div class="row">
                                     <h:form styleClass="col-12 d-flex justify-content-between ">
                                         <h:commandLink value="Actualizar estado" action="#{controlador.actualizarEstadoSubPedido(sp.id_subPedido)}" styleClass="enlace--boton">

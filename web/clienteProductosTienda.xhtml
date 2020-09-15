@@ -26,8 +26,15 @@
                 <h:panelGroup rendered="#{tiendaElegida.productos.size() gt 0}">
                     <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
                     <h:form id="form" styleClass="container mb-5" >
-                        <p:dataGrid var="p" value="#{tiendaElegida.productos}" 
-                                    columns="3" layout="grid" rows="12" paginator="true">
+                        <p:inputText value="#{buscadorProductosCliente.textoABuscar}">
+                            
+                        </p:inputText>
+                        <p:commandButton value="buscar" update="resultados" action="#{buscadorProductosCliente.filtrar()}">
+                            <f:setPropertyActionListener target="#{buscadorProductosCliente.t}" value="#{tiendaElegida}"/>
+                        </p:commandButton> 
+                        <!--value="#{buscadorProductosCliente.productos}" para el value del dataGrid--> 
+                        <p:dataGrid var="p" value="#{controlador.productosDisponibles(tiendaElegida.id_usuario)}" 
+                                    columns="3" layout="grid" rows="12" paginator="true" id="resultados"  >
                             <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
                                 <!--Si del Producto no hay stock no permite la navegacion-->
                                 <h:panelGroup rendered="#{p.stock lt 3}">

@@ -28,6 +28,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
@@ -178,9 +180,6 @@ public class Controlador {
      * @see MercaBarrioModelo
      */
     public String addNuevaTienda(Tienda t) {
-
-        
-        
         if (t.getFotoSubida() == null) {
             t.setNombreAvatar("logoMB.svg");
         } else {
@@ -188,9 +187,6 @@ public class Controlador {
             t.setNombreAvatar(imagen);
             MercaBarrioUtil.subirFoto(t.getFotoSubida());
         }
-
-        
-
         boolean exito = MercaBarrioModelo.crearTienda(t);
         if (exito) {
             return "tiendaLogin";
@@ -374,7 +370,11 @@ public class Controlador {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
-        List<SubPedido> subPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
+        List<SubPedido> subPedidos = new LinkedList<>();
+        if(!c.getPedidos().get(c.getPedidos().size() - 1).isConfimacion_cliente()){
+            subPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
+        }
+//        subPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
         return subPedidos;
     }
 
@@ -429,6 +429,19 @@ public class Controlador {
         productos = MercaBarrioModelo.obtenerProductos(id_tienda);
         return productos;
     }
+    
+    public List<Producto> productosDisponibles(Long id_tienda){
+        List<Producto> productos;
+        List<Producto> productosDisponibles = new LinkedList<>();
+        productos = MercaBarrioModelo.obtenerProductos(id_tienda);
+        for(Producto p: productos){
+            if(p.isEstadoProducto()){
+                productosDisponibles.add(p);
+            }
+        }
+        return productosDisponibles;
+    }
+    
 
     /**
      * Método para buscar un Producto segun su id
@@ -489,8 +502,8 @@ public class Controlador {
      */
     public List<Producto> productosRamdom(Long id_tienda) {
         List<Producto> pRandom = new LinkedList();
-        List<Producto> productos;
-        productos = MercaBarrioModelo.obtenerProductos(id_tienda);
+        List<Producto> productos = productosDisponibles(id_tienda);
+//        productos = MercaBarrioModelo.obtenerProductos(id_tienda);
         int contador = 3;
         if (productos.size() > 3) {
             int index;
@@ -958,6 +971,14 @@ public class Controlador {
         }
         Collections.sort(todosBarrios);
         return todosBarrios;
+    }
+    
+    public String formatearFecha(Date fecha){
+        String fechaFormateada = "";
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        fechaFormateada = formato.format(fecha);
+       
+        return fechaFormateada;
     }
 
 }
