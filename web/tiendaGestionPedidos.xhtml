@@ -57,7 +57,7 @@
                                     <h:outputText value="#{msgs['tienda.infoPedidos_gestion']}"/>
                                 </f:facet>
                                 <div class="row">
-                                    <h:form styleClass="col-12 d-flex justify-content-between ">
+                                    <h:form styleClass="col-12 d-flex justify-content-between " rendered="#{sp.estado == 'PENDIENTE'}">
                                         <h:commandLink value="Actualizar estado" action="#{controlador.actualizarEstadoSubPedido(sp.id_subPedido)}" styleClass="enlace--boton">
                                         </h:commandLink>
                                     </h:form>
@@ -65,7 +65,7 @@
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{controlador.subPedidos(tiendaG.id_usuario).size() eq 0}">
+                    <h:panelGroup rendered="#{controlador.todosSubPedidos(tiendaG.id_usuario).size() eq 0}">
                         <div class="row my-5 mensaje-vacio">
                             <h3 class="centrar--texto mensaje-vacio__texto">
                                 <h:outputText value="#{msgs['pedido.vacio_mensaje']}" />

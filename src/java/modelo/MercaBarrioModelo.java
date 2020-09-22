@@ -6,6 +6,10 @@ package modelo;
 import entidades.*;
 import entidades.dao.*;
 import entidades.dao.exceptions.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,6 +31,31 @@ public class MercaBarrioModelo {
     /*
      <<<>>> Metodos para LOGIN <<<>>>  
      */
+    public static Administrador loginA(String nombreUsuario, String password) {
+        Administrador a = null;
+        Usuario u = null;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        EntityManager em = emf.createEntityManager();
+        Query consultaUsuario = em.createNamedQuery("existeUsuario");
+        consultaUsuario.setParameter("nombreUsuario", nombreUsuario);
+        List<Usuario> resultadoUsuario = consultaUsuario.getResultList();
+        if (resultadoUsuario.size() > 0) {
+            u = resultadoUsuario.get(0);
+            if (u instanceof Administrador) {
+                Query consulta = em.createNamedQuery("buscarPorLoginA");
+                consulta.setParameter("nombreUsuario", nombreUsuario);
+                List<Administrador> resultado = consulta.getResultList();
+                if (resultado.size() > 0) {
+                    if (resultado.get(0).getPassword().equals(MercaBarrioUtil.codificarSHA256(password))) {
+                        a = resultado.get(0);
+                    }
+                }
+            }
+        }
+        em.close();
+        return a;
+    }
+
     /**
      * Método para el Login de Cliente. Busca al Usuario del tipo Cliente en la
      * BBDD, crea objeto del tipo Cliente que es usado por el ManageBean Cliente
@@ -51,7 +80,7 @@ public class MercaBarrioModelo {
                 consulta.setParameter("nombreUsuario", nombreUsuario);
                 List<Cliente> resultado = consulta.getResultList();
                 if (resultado.size() > 0) {
-                    if (resultado.get(0).getPassword().equals(MercaBarrioUtil.codificarSHA256(password))){
+                    if (resultado.get(0).getPassword().equals(MercaBarrioUtil.codificarSHA256(password))) {
                         c = resultado.get(0);
                     }
                 }
@@ -98,6 +127,27 @@ public class MercaBarrioModelo {
     /*
      <<<>>> Metodos de CREACION ENTIDADES <<<>>>  
      */
+    public static boolean crearAdmin(Administrador a) {
+        boolean exito;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        AdministradorJpaController ejc = new AdministradorJpaController(emf);
+
+        if (!existeUsuario(a.getNombre_usuario())) {
+            try {
+                a.setPassword(MercaBarrioUtil.codificarSHA256(a.getPassword()));
+                ejc.create(a);
+                return exito = true;
+            } catch (Exception ex) {
+                System.err.println("Error al crear al cliente: " + ex.getMessage());
+                System.err.println(ex.getStackTrace());
+                return exito = false;
+            }
+        } else {
+            return exito = false;
+        }
+
+    }
+
     /**
      * Método que hace la persistencia del objeto tipo Cliente. Comprueba si
      * existe un Usuario con el mismo nombre_usuario
@@ -208,6 +258,17 @@ public class MercaBarrioModelo {
         }
     }
 
+    public static void crearEnvio(Envio env) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        EnvioJpaController ejc = new EnvioJpaController(emf);
+        try {
+            ejc.create(env);
+        } catch (Exception ex) {
+            System.err.println("Error al crear la Tienda: " + ex.getMessage());
+            System.err.println(ex.getStackTrace());
+        }
+    }
+
     /*
      <<<>>> Metodos para ACTUALIZAR ENTIDADES<<<>>>  
      */
@@ -314,6 +375,8 @@ public class MercaBarrioModelo {
             System.err.println("Error actualizando pedido " + ex.getMessage());
         }
     }
+    
+ 
 
     /*
      <<<>>> Metodos de BUSQUEDA<<<>>>  
@@ -522,8 +585,8 @@ public class MercaBarrioModelo {
         p.setEstadoProducto(false);
         MercaBarrioModelo.actualizarProducto(p);
     }
-    
-    public static Cliente borrarArticuloCarrito(Long id){
+
+    public static Cliente borrarArticuloCarrito(Long id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         SubPedidoJpaController ejc = new SubPedidoJpaController(emf);
         SubPedido sp = MercaBarrioModelo.buscarSubPedido(id);
@@ -539,7 +602,7 @@ public class MercaBarrioModelo {
         } catch (Exception ex) {
             System.err.println("Error al borrar SubPedido" + ex.getMessage());
         }
-        
+
         return c;
     }
 
@@ -591,14 +654,39 @@ public class MercaBarrioModelo {
             return false;
         }
     }
-    
-    
+
     public static List buscarProductos() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         ProductoJpaController ejc = new ProductoJpaController(emf);
         List<Producto> p = ejc.findProductoEntities();
         return p;
     }
+
+    public static List buscarTiendas() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        TiendaJpaController ejc = new TiendaJpaController(emf);
+        List<Tienda> t = ejc.findTiendaEntities();
+        return t;
+    }
     
+    public static void actualizarEnvio(Envio env) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        EnvioJpaController ejc = new EnvioJpaController(emf);
+        try {
+            ejc.edit(env);
+        } catch (RollbackFailureException ex) {
+            System.err.println("Error actualizando envio " + ex.getMessage());
+        } catch (Exception ex) {
+            System.err.println("Error actualizando envio " + ex.getMessage());
+        }
+    }
+    
+    public static Envio buscarEnvio(Long id) {
+        Envio env;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        EnvioJpaController ejc = new EnvioJpaController(emf);
+        env = ejc.findEnvio(id);
+        return env;
+    }
 
 }

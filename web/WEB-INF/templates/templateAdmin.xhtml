@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content="Aplicación web de venta para el pequeño comercio de barrio"/>
+        <meta name="author" content="AJMG"/>
+        <link rel="icon" type="image/x-icon" href="resources/images/logoMB.ico"/>
+        <!--Si se acaba el tiempo de la sesión, se redirecciona a index.xhtml-->
+        <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/index.xhtml"/>
+        <!-- Iconos Material Desing -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <!-- Iconos PrimeFaces-->
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+        <!--Estilos-->
+        <h:outputStylesheet library="css" name="bootstrap-grid.css"/><!-- Solo para GRID CSS -->
+        <h:outputStylesheet library="css" name="estilos.css"/>
+        <title>#{msgs['app.nombre']}</title>
+    </h:head>
+    <h:body styleClass="fondo--claro">
+        <!--Cabecera-->
+        <nav class="barnav container-fluid">
+            <div class="row">
+                <div class="col-1 centrar--texto">
+                    <h:link outcome="#{controlador.navegacionLogo()}">
+                        <h:graphicImage url="resources/images/logoMB.svg" height="80rem" />
+                    </h:link>
+                </div>
+                <h1 class="barnav__nombreAPP col-10 centrar--texto">
+                    <h:outputText value="#{msgs['app.nombre']}"/>
+                </h1>
+                <h:panelGroup rendered="#{session.getValue('usuarioLogeado') != null}" layout="block">
+                    <ul class="col-1 barnav__enlaces">
+                        <li class="texto--negro">
+                            <h:outputText value="#{msgs['saludo']} #{session.getValue('usuarioLogeado').nombre}"/>
+                        </li>
+                        <li >
+                            <h:form>
+                                <h:commandLink action="#{controlador.cerrarSesion()}" value="#{msgs['link.cerrar_sesion']}"/> 
+                            </h:form>
+                        </li>
+                    </ul>
+                </h:panelGroup>
+            </div>
+        </nav>
+
+        <!--FIN subMenu CLIENTES Y TIENDAS-->
+        <!--FIN Cabecera-->
+        <!--Contenido de la web-->
+        <div id="content" class="center_content">
+            <!--<f:view transient="true" >-->
+            <ui:insert name="content">Content</ui:insert>
+            <!--</f:view>-->
+        </div>
+        <!--FIN contenido de la WEB-->
+        <!--Footer-->
+        <div class="container-fluid footer py-4">
+            <!--Contacto y logo-->
+            <div class="row footer__datos mt-5 p-0" >
+                <div class="footer__logo">
+                    <!--<img src="resources/images/logo1.png" class="imagen_footer" />-->
+                    <h:graphicImage url="resources/images/logoMB.svg" class="footer__imagen"/>
+                    <h2  class="centrar--texto">
+                        <h:outputText value="#{msgs['app.nombre']}"/>
+                    </h2>
+                </div>
+                <div class="centrar--texto">
+                    <h2 class="mb-2">
+                        <h:outputText value="#{msgs['footer.datos_contacto']}"/>
+                    </h2>
+                    <p class="mb-2">
+                        <h:outputText value="#{msgs['footer.datos_direccion']}"/>
+                    </p>
+                    <p class="mb-2">
+                        <h:outputText value="#{msgs['footer.datos_telefono']}"/>
+                    </p>
+                    <p>
+                        <h:outputText value="#{msgs['footer.datos_email']}"/>
+                    </p>
+                </div>
+            </div>
+            <!--FIN contacto y logo-->
+            <!--Redes sociales-->
+            <div class="row mt-5 mb-3">
+                <div class="col-sm-12 col-md-12 centrar--texto">
+                    <p class="mb-3">
+                        <h:outputText value="#{msgs['footer.redes']}"/>
+                    </p>
+                    <div class="footer__redes">
+                        <p class="centrar--texto">
+                            <a class="twitter" href="" target="_blank" alt="Twitter"> </a>
+                            <a class="facebook" href="" target="_blank" alt="facebook"> </a>
+                            <a class="linkedin" href="" target="_blank" alt="linkedin"> </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--FIN redes sociales-->
+            <!--Enlaces a Aviso legal y privacidad-->
+            <div class="row centrar--texto">
+                <p class="texto--negro col-12">
+                    <h:link value="Aviso Legal" outcome="avisoLegal" class="texto--blanco"/> |
+                    <h:link value="Privacidad" outcome="privacidad" class="texto--blanco"/>
+                </p>
+            </div>
+            <!--FIN Aviso Legal y Privacidad-->
+        </div>
+        <!--FIN Footer-->
+    </h:body>
+</html>
+

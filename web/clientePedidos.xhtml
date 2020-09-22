@@ -35,13 +35,13 @@
                 <h:form id="form">
                     <!--Tabla con la informacion de cada uno de los Pedidos realizados-->
                     <p:dataTable value="#{controlador.verHistoricoPedidos(clienteG.id_usuario)}" var="p" styleClass="tabla-pedidos centrar--texto container my-5 " reflow="true" rows="10" paginator="true">
-                        <p:column>
+                        <p:column width="90">
                             <f:facet name="header" >
                                 <h:outputText value="#{msgs['cliente_pedidos.id']}"/>
                             </f:facet>
                             <h:outputText value="#{p.id_pedido}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="150">
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['cliente_pedidos.fecha_pedido']}"/>
                             </f:facet>
@@ -49,33 +49,37 @@
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
-                        <p:column>
+                        <p:column width="140">
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['cliente_pedidos.importe']}"/>
                             </f:facet>
-                            <h:outputText value="#{controlador.importeTotal(p)}" styleClass="centrar--texto">
+                            <h:outputText value="#{p.importe}" styleClass="centrar--texto">
                                 <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                             </h:outputText>
                         </p:column>
-                        <p:column>
+                        <p:column >
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['cliente_pedidos.estado']}"/>
                             </f:facet>
                             <h:outputText value="#{p.envio.estado_envio}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="180">
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['cliente_pedidos.articulos']}"/>
                             </f:facet>
-
                             <p:commandLink   styleClass="enlace--boton--verde" update=":form:elPanel" oncomplete="PF('pedidoInfo').show()">
                                 <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
                                 <h:outputText value="#{msgs['cliente_pedidos.ver']}"/>
                                 <f:setPropertyActionListener target="#{info.pedidoSeleccionado}" value="#{p}"/>
                             </p:commandLink>
-
-
-
+                        </p:column>
+                        <p:column width="240" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['cliente_pedidos.gestion']}"/>
+                            </f:facet>
+                            <h:commandLink action="#{controlador.confirmarRecepcion(p.envio.id_envio)}"  styleClass="enlace--boton--verde" rendered="#{p.envio.estado_envio != 'ENTREGADO' and p.envio.estado_envio == 'EN_TRANSITO' }">
+                                <h:outputText value="#{msgs['cliente_pedidos.confirmar']}"/>
+                            </h:commandLink>
                         </p:column>
                     </p:dataTable>
 

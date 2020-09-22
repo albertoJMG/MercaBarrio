@@ -7,6 +7,7 @@
 
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
+            <f:view rendered="#{controlador.comprobarSesion() == 'cliente'}">
             <!--Espacio del menu-->
             <div style="height: 5.2rem"></div>
             <!--FIN espacio-->
@@ -41,7 +42,7 @@
                 <!--FIN-->
                 <!--Muestra el importe total del pedido-->
                 <p class="container texto--der"> Importe: 
-                    <h:outputText value="#{controlador.importeTotal()}">
+                    <h:outputText value="#{controlador.importe()}">
                         <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                     </h:outputText>
                 </p>
@@ -62,6 +63,17 @@
                 </div>
             </h:panelGroup>
             <!--FIN-->
+            </f:view>
+            <f:view rendered="#{controlador.comprobarSesion() != 'cliente'}">
+                
+                <f:metadata>
+                    
+                    <f:viewAction action="#{controlador.navegacionLogo()}"/>
+                    
+                </f:metadata>
+                    
+                    
+            </f:view>
         </ui:define>
     </ui:composition>
 

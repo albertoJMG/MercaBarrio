@@ -29,7 +29,12 @@
                     <div class="col-10 mx-0">
                         <h3 class="centrar--texto mb-4"><h:outputText value="#{p.nombre}"></h:outputText></h3>
                         <p><h:outputText value="#{p.descripcion}"></h:outputText></p>
-                        <p class="texto--error texto--der"><h:outputText value="#{p.precio} €/#{p.unidad}"></h:outputText></p>
+                        <p class="texto--error texto--der">
+                            <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))}">
+                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                            </h:outputText>
+                            <h:outputText value="/#{p.unidad}"/>
+                        </p>
                     </div>
                 </div>
             </div>

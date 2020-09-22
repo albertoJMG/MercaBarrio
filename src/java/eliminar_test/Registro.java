@@ -5,6 +5,7 @@
  */
 package eliminar_test;
 
+import entidades.Administrador;
 import entidades.Cliente;
 import entidades.Pedido;
 import entidades.Producto;
@@ -54,6 +55,12 @@ public class Registro extends HttpServlet {
         SubPedido sb = new SubPedido();
         Pedido pda = new Pedido();
         Pedido pdb = new Pedido();
+        Administrador admin = new Administrador();
+        
+        admin.setNombre_usuario("admin");
+        admin.setPassword("admin");
+        admin.setNombre("Alberto J.");
+        admin.setApellidos("MG");
 
         a.setDni("11111111H");
         a.setNombre("Alberto Jose");
@@ -108,6 +115,7 @@ public class Registro extends HttpServlet {
         z.setPassword("z");
         z.setDescripcion("Pescaderia fundada en 1920. Venta de pescado y mariscos");
         z.setNombreAvatar("test.jpg");
+        z.setAceptada(true);
         
         x.setCif("H22222222");
         x.setNombre("Caniceria H. Jurado");
@@ -121,6 +129,7 @@ public class Registro extends HttpServlet {
         x.setPassword("x");
         x.setDescripcion("Productos cárnicos naturales");
         x.setNombreAvatar("test.jpg");
+        x.setAceptada(true);
         
         y.setCif("H33333333");
         y.setNombre("Pescaderia Gutierrez");
@@ -134,6 +143,7 @@ public class Registro extends HttpServlet {
         y.setPassword("y");
         y.setDescripcion("Pescados, mariscos y ahumados de calidad");
         y.setNombreAvatar("test.jpg");
+        y.setAceptada(false);
 
         w.setCif("H44444444");
         w.setNombre("Pasteleria El Azucar");
@@ -147,6 +157,7 @@ public class Registro extends HttpServlet {
         w.setPassword("w");
         w.setDescripcion("La pasteleria profesional a tu alcance");
         w.setNombreAvatar("test.jpg");
+        y.setAceptada(false);
 
         v.setCif("H55555555");
         v.setNombre("Carniceria Martinez");
@@ -160,6 +171,7 @@ public class Registro extends HttpServlet {
         v.setPassword("v");
         v.setDescripcion("Especialistas en carne de vacuno");
         v.setNombreAvatar("test.jpg");
+        y.setAceptada(false);
 
         u.setCif("H66666666");
         u.setNombre("Panaderia Gemelas");
@@ -173,7 +185,9 @@ public class Registro extends HttpServlet {
         u.setPassword("u");
         u.setDescripcion("Pan freco todos los dias. Ultramarinos");
         u.setNombreAvatar("test.jpg");
+        y.setAceptada(false);
 
+        MercaBarrioModelo.crearAdmin(admin);
         MercaBarrioModelo.crearCliente(a);
         MercaBarrioModelo.crearCliente(b);
         MercaBarrioModelo.crearCliente(c);
@@ -191,14 +205,15 @@ public class Registro extends HttpServlet {
         pa.setCond_conservacion("Mantener en frio");
         pa.setControles("Ha pasado los controles determinados por la CE");
         pa.setPrecio(1.2);
-        pa.setStock(4);
+        pa.setStock(20);
         pa.setUnidad("Kilo");
         pa.setTipoIVA(21);
         pa.setTiendaP(z);
         pa.setCantidadSuministro(400);
         pa.setUnidadSuministro("gramos");
-        pa.setNombreFoto("productoTEST01.jpg");
+        pa.setNombreFoto("merluza.jpg");
         pa.setEstadoProducto(true);
+//        pa.setTiendaP(z);
         
         pb.setNombre("Caballa");
         pb.setBreve_descripcion("Caballa del Mediterraneo");
@@ -207,14 +222,15 @@ public class Registro extends HttpServlet {
         pb.setCond_conservacion("Mantener en frio");
         pb.setControles("Ha pasado los controles determinados por la CE");
         pb.setPrecio(0.90);
-        pb.setStock(5);
+        pb.setStock(20);
         pb.setUnidad("Kilo");
         pb.setTipoIVA(21);
         pb.setTiendaP(z);
         pb.setCantidadSuministro(400);
         pb.setUnidadSuministro("gramos");
-        pb.setNombreFoto("productoTEST02.jpg");
+        pb.setNombreFoto("caballa.jpeg");
         pb.setEstadoProducto(true);
+//        pb.setTiendaP(z);
         
         
         MercaBarrioModelo.crearProducto(pa);

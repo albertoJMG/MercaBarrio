@@ -26,7 +26,7 @@ public class Envio implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum EstadoEnvio {
-        EN_TRANSITO, ENTREGADO
+        EN_PROCESO, EN_TRANSITO, ENTREGADO
     };
 
     @Id

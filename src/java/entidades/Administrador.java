@@ -19,6 +19,7 @@ import javax.persistence.*;
 @Named(value = "admin")
 @SessionScoped
 @Entity
+@NamedQuery(name = "buscarPorLoginA", query = "select a from Usuario a where a.nombre_usuario=:nombreUsuario")
 @Table(name = "administrador" /*, uniqueConstraints = @UniqueConstraint(columnNames = "adminID")*/)
 @PrimaryKeyJoinColumn(name = "usuarioID")
 public class Administrador extends Usuario implements Serializable {

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:composition template="./WEB-INF/templates/templateAdmin.xhtml">
+        <ui:define name="content">
+
+            <div style="height: 5.2rem"></div>
+            <h:panelGroup  rendered="#{session.getValue('usuarioLogeado').nombre_usuario == 'superAdmin'}" layout="block">
+                <div class="container my-5 ">
+                    <h1>Subida de fotos iniciales</h1>
+                    <h:form enctype="multipart/form-data">        
+                        <p:fileUpload value="#{subiMultiplesArchivos.archivos}" mode="simple" skinSimple="true"  multiple="true" label="Seleccionar" />
+                        <p:commandButton value="Subir" ajax="false" action="#{subiMultiplesArchivos.subirMultiple()}"  />
+                    </h:form>
+                </div>
+            </h:panelGroup>
+            <h:form> 
+                <p:dataScroller value="#{controlador.tiendas()}" var="tiend" chunkSize="5" styleClass="container">
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['admin.tabla_cabecera']}"/>
+                    </f:facet>
+
+                    <h:panelGrid columns="2" style="width: 100%; border-bottom: 1px solid red" styleClass="prueba01 d-flex justify-content-between"  >
+                        <p:outputPanel>
+                            <p:graphicImage url="resources/images/#{tiend.nombreAvatar}" styleClass="imagen--avatar"/> 
+                        </p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputText value="#{msgs['formulario.cif']}:" />
+                            <h:outputText value="#{tiend.cif}" />
+
+                            <h:outputText value="#{msgs['formulario.nombre']}:" />
+                            <h:outputText value="#{tiend.nombre}" />
+
+                            <h:outputText value="#{msgs['formulario.direccion']}:" />
+                            <h:outputText value="#{tiend.tipoVIA} #{tiend.direccion}"/>
+                            
+                            <h:outputText value="#{msgs['formulario.telefono']}:" />
+                            <h:outputText value="#{tiend.telefono}" />
+                        </h:panelGrid>
+                        <p:outputPanel styleClass="centrar--texto">
+                            <h:commandButton value="#{msgs['admin.tabla_confirmar']}" action="#{controlador.confirmaTienda(tiend.id_usuario)}" styleClass="enlace--boton " rendered="#{tiend.aceptada == false}"/>
+                        </p:outputPanel>
+                    </h:panelGrid>
+                </p:dataScroller>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

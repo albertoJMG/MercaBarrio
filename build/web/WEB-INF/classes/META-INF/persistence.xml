@@ -4,7 +4,7 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mercaBarrio"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mercaBarrio?useSSL=false"/>
       <property name="javax.persistence.jdbc.user" value="mercabarrio"/>
       <property name="javax.persistence.jdbc.password" value="mercabarrio"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

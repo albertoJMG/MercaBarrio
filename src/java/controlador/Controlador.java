@@ -5,7 +5,9 @@
  */
 package controlador;
 
+import entidades.Administrador;
 import entidades.Cliente;
+import entidades.Envio;
 import entidades.Pedido;
 import entidades.Producto;
 import entidades.SubPedido;
@@ -23,6 +25,7 @@ import org.primefaces.PrimeFaces;
 import util.MercaBarrioUtil;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -111,7 +114,9 @@ public class Controlador {
             navegacion = "clienteInicio";
         } else if (u instanceof Tienda) {
             navegacion = "tiendaInicio";
-        } else {
+        } else if(u instanceof Administrador){
+            navegacion = "adminGestion";
+        }else{
             navegacion = "index";
         }
         return navegacion;
@@ -187,6 +192,8 @@ public class Controlador {
             t.setNombreAvatar(imagen);
             MercaBarrioUtil.subirFoto(t.getFotoSubida());
         }
+        ////// DE MOMENTO TODA TIENDA QUE SE REGISTE ES INMEDIATAMENTE ACEPTADA EN LA PLATAFORMA
+        t.setAceptada(true);
         boolean exito = MercaBarrioModelo.crearTienda(t);
         if (exito) {
             return "tiendaLogin";
@@ -225,7 +232,7 @@ public class Controlador {
         MercaBarrioModelo.crearSubPedido(s);
         //Añadimos al Pedido el SubPedido
         ped.getSubPedido().add(s);
-        ped.setImporte(s.getCantidad_producto() * s.getProducto().getPrecio());
+        ped.setImporte(importeTotal());
         try {
             //Actualizamos el Pedido con el nuevo SubPedido
             MercaBarrioModelo.actualizarPedido(ped);
@@ -291,6 +298,25 @@ public class Controlador {
     /*
      <<<>>> Metodos de LOGIN<<<>>>  
      */
+    public String loginAdmin(Usuario u) {
+        Administrador admin = new Administrador();
+        String casoNavegacion;
+        MercaBarrioModelo.loginA(u.getNombre_usuario(), u.getPassword());
+        if (MercaBarrioModelo.loginA(u.getNombre_usuario(), u.getPassword()) != null) {
+            admin = MercaBarrioModelo.loginA(u.getNombre_usuario(), u.getPassword());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", admin);
+            casoNavegacion = "adminGestion";
+        } else if (u.getNombre_usuario().equals("superAdmin") && u.getPassword().equals("a")) {
+            admin.setNombre_usuario(u.getNombre_usuario());
+            admin.setPassword(u.getPassword());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", admin);
+            casoNavegacion = "adminGestion";
+        } else {
+            casoNavegacion = "adminLogin";
+        }
+        return casoNavegacion;
+    }
+
     /**
      * Método que realiza el Login del usuario. A su vez, crea un Pedido, si
      * este no es confirmado se borrará.
@@ -371,10 +397,10 @@ public class Controlador {
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         List<SubPedido> subPedidos = new LinkedList<>();
-        if(!c.getPedidos().get(c.getPedidos().size() - 1).isConfimacion_cliente()){
+        if (!c.getPedidos().get(c.getPedidos().size() - 1).isConfimacion_cliente()) {
             subPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
         }
-//        subPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
+//        subPedidosPendientes = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
         return subPedidos;
     }
 
@@ -390,8 +416,14 @@ public class Controlador {
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         List<Tienda> tiendas;
+        List<Tienda> tiendasAceptadas = new LinkedList<>();
         tiendas = MercaBarrioModelo.tiendasBarrioConcreto(c.getBarrio());
-        return tiendas;
+        for (Tienda t : tiendas) {
+            if (t.isAceptada()) {
+                tiendasAceptadas.add(t);
+            }
+        }
+        return tiendasAceptadas;
     }
 
     /**
@@ -429,19 +461,18 @@ public class Controlador {
         productos = MercaBarrioModelo.obtenerProductos(id_tienda);
         return productos;
     }
-    
-    public List<Producto> productosDisponibles(Long id_tienda){
+
+    public List<Producto> productosDisponibles(Long id_tienda) {
         List<Producto> productos;
         List<Producto> productosDisponibles = new LinkedList<>();
         productos = MercaBarrioModelo.obtenerProductos(id_tienda);
-        for(Producto p: productos){
-            if(p.isEstadoProducto()){
+        for (Producto p : productos) {
+            if (p.isEstadoProducto()) {
                 productosDisponibles.add(p);
             }
         }
         return productosDisponibles;
     }
-    
 
     /**
      * Método para buscar un Producto segun su id
@@ -545,7 +576,7 @@ public class Controlador {
      * @return Lista con los Pedidos(SubPedidos) PENDIENTES. El orden es primero
      * los mas recientes
      */
-    public List<SubPedido> subPedidos(String id_tienda) {
+    public List<SubPedido> subPedidosPendientes(String id_tienda) {
         List<SubPedido> subPedidos = MercaBarrioModelo.subPedidosTiendaPendientes(id_tienda);
         Collections.reverse(subPedidos);
         return subPedidos;
@@ -649,7 +680,7 @@ public class Controlador {
         if (!c.getTelefono().isEmpty()) {
             clienteAModificar.setTelefono(c.getTelefono());
         }
-        if (c.getDireccion()!=null) {
+        if (c.getDireccion() != null) {
             clienteAModificar.setDireccion(c.getDireccion());
         }
         if (!c.getCp().isEmpty()) {
@@ -805,8 +836,23 @@ public class Controlador {
      */
     public void actualizarEstadoSubPedido(String id_subPedido) {
         SubPedido sp = MercaBarrioModelo.buscarSubPedido(Long.parseLong(id_subPedido));
+
         sp.setEstado(SubPedido.EstadoSubPedido.PREPARADO);
         MercaBarrioModelo.actualizarSubPedido(sp);
+        Pedido p = sp.getPedido();
+        Envio env = p.getEnvio();
+        boolean estadoEnvio = true;
+        List<SubPedido> subPedidos = p.getSubPedido();
+        for (SubPedido sps : subPedidos) {
+            if (!sps.getEstado().equals(SubPedido.EstadoSubPedido.PREPARADO)) {
+                estadoEnvio = false;
+            }
+        }
+        if (estadoEnvio) {
+            env.setEstado_envio(Envio.EstadoEnvio.EN_TRANSITO);
+            MercaBarrioModelo.actualizarEnvio(env);
+        }
+
     }
 
     /*
@@ -818,10 +864,11 @@ public class Controlador {
      * @return Devuelve el importe del Pedido
      */
     public double importeTotal() {
-        double importeTotal = 0;
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
+        double importeTotal = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
+
         List<SubPedido> listaSubPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
         for (SubPedido sp : listaSubPedidos) {
             String opcion = sp.getProducto().getUnidadSuministro();
@@ -853,13 +900,22 @@ public class Controlador {
 
     }
 
+    public double importe() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, Object> sessionMap = externalContext.getSessionMap();
+        Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
+        double importe = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
+        return importe;
+    }
+
     /**
      * Método de confirmación de compra. Modifica los atributos(añade fecha y la
      * confirmación del cliente) al Pedido que esta realizando el cliente
      *
+     * @param pedido
      * @return Caso de navegación al confirmarse la compra
      */
-    public String confirmarCompra() {
+    public String confirmarCompra(Pedido pedido) {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
@@ -871,7 +927,7 @@ public class Controlador {
             MercaBarrioModelo.actualizarProducto(p);
         }
         Date fechaActual = new Date();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         try {
             fechaActual = formato.parse(formato.format(fechaActual));
         } catch (ParseException ex) {
@@ -879,10 +935,35 @@ public class Controlador {
         }
         pedidoActual.setFecha_pedido(fechaActual);
         pedidoActual.setConfimacion_cliente(true);
+        pedidoActual.setMetodo_pago(pedido.getMetodo_pago());
+
+        Envio env = new Envio();
+        env.setEstado_envio(Envio.EstadoEnvio.EN_PROCESO);
+        env.setFecha_envio(fechaActual);
+        env.setPedidoE(pedidoActual);
+        MercaBarrioModelo.crearEnvio(env);
+        pedidoActual.setEnvio(env);
         MercaBarrioModelo.actualizarPedido(pedidoActual);
+
+        //Nuevo Pedido inicial una vez que se ha confirmado el anterior
+        Pedido p = new Pedido();
+        p.setCliente(c);
+        MercaBarrioModelo.crearPedido(p);
+        c.getPedidos().add(p);
+//        System.out.println("<-<-<-<-<-<-<-<-<-<<-<-" + pedido.getMetodo_pago());
+        MercaBarrioModelo.actualizarCliente(c);
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", c);
+
         return "clientePedidos";
     }
 
+    /**
+     * Método que lee un archivo XML devolviendo lista con la informacion de los
+     * nombres de las vias de Sevilla
+     *
+     * @return Lista con los nombres de las vias de Sevilla
+     */
     public List callesSevilla() {
 
         List todasCalles = new ArrayList();
@@ -911,6 +992,12 @@ public class Controlador {
         return todasCalles;
     }
 
+    /**
+     * Método que lee un archivo XML devolviendo lista con la informacion de los
+     * tipos de vias de las calles de Sevilla
+     *
+     * @return Lista con los tipos de vias de Sevilla
+     */
     public List tipoViasSevilla() {
         List tipoVias = new ArrayList();
         try {
@@ -940,6 +1027,12 @@ public class Controlador {
         return tipoVias;
     }
 
+    /**
+     * Método que lee un archivo XML devolviendo lista con la informacion de los
+     * nombre de los barrios de Sevilla
+     *
+     * @return Lista con los nombres de los barrio de Sevilla
+     */
     public List barriosSevilla() {
 
         List todosBarrios = new ArrayList();
@@ -972,13 +1065,39 @@ public class Controlador {
         Collections.sort(todosBarrios);
         return todosBarrios;
     }
-    
-    public String formatearFecha(Date fecha){
+
+    /**
+     * Método que formatea un dato tipo Fecha
+     *
+     * @param fecha Fecha que se desea formatear
+     * @return String de la fecha una vez formateada
+     */
+    public String formatearFecha(Date fecha) {
         String fechaFormateada = "";
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         fechaFormateada = formato.format(fecha);
-       
+
         return fechaFormateada;
     }
 
+    public List<Tienda> tiendas() {
+        List<Tienda> t = MercaBarrioModelo.buscarTiendas();
+        return t;
+    }
+
+    public void confirmaTienda(Long id_usuario) {
+        Tienda t = MercaBarrioModelo.buscarTiendaModelo(id_usuario);
+        t.setAceptada(true);
+        MercaBarrioModelo.actualizarTienda(t);
+
+    }
+
+    public String confirmarRecepcion(Long id) {
+        Envio env = MercaBarrioModelo.buscarEnvio(id);
+        env.setEstado_envio(Envio.EstadoEnvio.ENTREGADO);
+        Date fechaActual = new Date();
+        env.setFecha_recepcion(fechaActual);
+        MercaBarrioModelo.actualizarEnvio(env);
+        return "";
+    }
 }

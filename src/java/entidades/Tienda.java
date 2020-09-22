@@ -35,6 +35,8 @@ public class Tienda extends Usuario implements Serializable {
     private String descripcion;
     @Column(name = "nombreAvatar", length = 200)
     private String nombreAvatar;
+    @Column(name = "aceptada")
+    private boolean aceptada;
     @Transient
     private Part fotoSubida;
     @OneToMany(cascade = CascadeType.ALL,
@@ -108,4 +110,12 @@ public class Tienda extends Usuario implements Serializable {
         this.subPedido = subPedido;
     }
 
+    public boolean isAceptada() {
+        return aceptada;
+    }
+
+    public void setAceptada(boolean aceptada) {
+        this.aceptada = aceptada;
+    }
+    
 }

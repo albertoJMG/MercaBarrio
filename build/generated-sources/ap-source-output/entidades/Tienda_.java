@@ -7,13 +7,14 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-09-15T20:51:43")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-09-22T19:33:07")
 @StaticMetamodel(Tienda.class)
 public class Tienda_ extends Usuario_ {
 
     public static volatile SingularAttribute<Tienda, String> descripcion;
     public static volatile SingularAttribute<Tienda, String> cif;
     public static volatile SingularAttribute<Tienda, String> responsable;
+    public static volatile SingularAttribute<Tienda, Boolean> aceptada;
     public static volatile ListAttribute<Tienda, SubPedido> subPedido;
     public static volatile SingularAttribute<Tienda, String> nombreAvatar;
     public static volatile SingularAttribute<Tienda, String> nombre;

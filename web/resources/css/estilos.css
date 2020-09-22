@@ -470,4 +470,12 @@ table .ui-icon {
 .logo {
   background-color: red; }
 
+/*.prueba01 > tbody> tr:last-child>td{
+    
+
+        background-color: red !important;
+        width: 100% !important;
+    
+}*/
+
 /*# sourceMappingURL=estilos.css.map */

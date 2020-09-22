@@ -5,6 +5,7 @@
  */
 package util;
 
+import entidades.SubPedido;
 import entidades.Tienda;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +15,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -48,12 +50,12 @@ public class MercaBarrioUtil {
 
     }
 
-    public static String codificarSHA256(String mensaje){
+    public static String codificarSHA256(String mensaje) {
         StringBuffer hexString = new StringBuffer();
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(mensaje.getBytes(StandardCharsets.UTF_8));
-            
+
             for (int i = 0; i < hash.length; i++) {
                 String hex = Integer.toHexString(hash[i] & 0xff);
                 if (hex.length() == 1) {
@@ -61,11 +63,28 @@ public class MercaBarrioUtil {
                 }
                 hexString.append(hex);
             }
-        }catch(NoSuchAlgorithmException ex){
-            
+        } catch (NoSuchAlgorithmException ex) {
+
         }
 
         return hexString.toString();
     }
+
+    public static double ventasPorMes(List<SubPedido> listaSubPedidos) {
+        double ganancias = 0;
+        for (SubPedido sp : listaSubPedidos) {
+            String opcion = sp.getProducto().getUnidadSuministro();
+            if (opcion.equals("gramo") || opcion.equals("mililitro")) {
+                ganancias = ganancias + (sp.getCantidad_producto() * (((double) sp.getProducto().getCantidadSuministro() / 1000))
+                        * (sp.getProducto().getPrecio()));
+            } else {
+                ganancias = ganancias + sp.getCantidad_producto() * sp.getProducto().getPrecio();
+            }
+        }
+
+        return ganancias;
+    }
+    
+
 
 }

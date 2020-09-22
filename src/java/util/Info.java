@@ -8,6 +8,7 @@ package util;
 import entidades.Pedido;
 import entidades.Tienda;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
