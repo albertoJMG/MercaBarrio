@@ -51,10 +51,10 @@ public class Registro extends HttpServlet {
         Tienda u = new Tienda();
         Producto pa = new Producto();
         Producto pb = new Producto();
-        SubPedido sa = new SubPedido();
-        SubPedido sb = new SubPedido();
-        Pedido pda = new Pedido();
-        Pedido pdb = new Pedido();
+//        SubPedido sa = new SubPedido();
+//        SubPedido sb = new SubPedido();
+//        Pedido pda = new Pedido();
+//        Pedido pdb = new Pedido();
         Administrador admin = new Administrador();
         
         admin.setNombre_usuario("admin");
@@ -244,19 +244,19 @@ public class Registro extends HttpServlet {
             System.err.println("Error al actualizar tienda"+ex.getMessage());
         }
         
-        sa.setCantidad_producto(1);
-        sa.setProducto(pa);
+//        sa.setCantidad_producto(1);
+//        sa.setProducto(pa);
         
-        MercaBarrioModelo.crearSubPedido(sa);
-        MercaBarrioModelo.crearPedido(pda);
+//        MercaBarrioModelo.crearSubPedido(sa);
+//        MercaBarrioModelo.crearPedido(pda);
         
-        pda.getSubPedido().add(sa);
+//        pda.getSubPedido().add(sa);
 //        Cliente c = MercaBarrioModelo.buscarCliente(1L);
-        a.getPedidos().add(pda);
-        pda.setCliente(a);
+//        a.getPedidos().add(pda);
+//        pda.setCliente(a);
         try {
-            MercaBarrioModelo.actualizarPedido(pda);
-            MercaBarrioModelo.actualizarCliente(a);
+//            MercaBarrioModelo.actualizarPedido(pda);
+//            MercaBarrioModelo.actualizarCliente(a);
         } catch (Exception ex) {
             System.err.println("Error al actualizar pedido"+ex.getMessage());
         }
