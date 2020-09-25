@@ -167,7 +167,7 @@ public class Registro extends HttpServlet {
         z.setAceptada(true);
         
         x.setCif("H22222222");
-        x.setNombre("Caniceria H. Jurado");
+        x.setNombre("Carniceria H. Jurado");
         x.setResponsable("José Jurado");
         x.setDireccion("HIPERION");
         x.setCp("41002");
