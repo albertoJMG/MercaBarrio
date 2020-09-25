@@ -36,7 +36,7 @@ public class Producto implements Serializable {
     private String breve_descripcion;
     @Column(name = "descripcion", length = 500)
     private String descripcion;
-    @Column(name = "unidad", length = 5)
+    @Column(name = "unidad", length = 10)
     private String unidad;
     @Column(name = "precio")
     private Double precio;
