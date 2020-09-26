@@ -411,19 +411,21 @@ public class Controlador {
      * @return Lista de Tiendas
      * @see MercaBarrioModelo
      */
-    public List<Tienda> tiendasBarrio() {
+    public List<Tienda> tiendasBarrioCliente() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         List<Tienda> tiendas;
-        List<Tienda> tiendasAceptadas = new LinkedList<>();
+        List<Tienda> tiendasAdmitidas = new LinkedList<>();
+        //Todas las Tiendas de un barrio del mismo barrio que el Cliente
         tiendas = MercaBarrioModelo.tiendasBarrioConcreto(c.getBarrio());
+        //De todas las Tiendas solo aquellas que han sido comprobadas y admitidas por los Administradores
         for (Tienda t : tiendas) {
             if (t.isAceptada()) {
-                tiendasAceptadas.add(t);
+                tiendasAdmitidas.add(t);
             }
         }
-        return tiendasAceptadas;
+        return tiendasAdmitidas;
     }
 
     /**

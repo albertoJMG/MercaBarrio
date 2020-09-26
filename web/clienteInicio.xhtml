@@ -13,14 +13,15 @@
                 <!--FIN espacio-->
                 <!--Encabezado de la web. Indica cuantas Tiendas estan disponibles (por pertenecer al mismo barrio)-->
                 <h1 class="centrar--texto mb-5">
-                    <h:outputText value="#{msgs['cliente.encabezado_parte1']}  #{fn:length(controlador.tiendasBarrio())} #{msgs['cliente.encabezado_parte2']}"/>
+                    <h:outputText value="#{msgs['cliente.encabezado_parte1']}  #{fn:length(controlador.tiendasBarrioCliente())} #{msgs['cliente.encabezado_parte2']}"/>
                 </h1>
                 <!--FIN Encabezado-->
                 <div class="container-fluid">
-                    <!--Todas las Tiendas disponibles para el Cliente. Posibilidad de alternar la vista ya sea en modo lista o en modo rejilla-->
-                    <h:panelGroup rendered="#{controlador.tiendasBarrio().size() gt 0}">
+                    <!--Si hay Tiendas estas se muestran-->
+                    <h:panelGroup rendered="#{controlador.tiendasBarrioCliente().size() gt 0}">
+                        <!--Todas las Tiendas disponibles para el Cliente. Posibilidad de alternar la vista ya sea en modo lista o en modo rejilla-->
                         <h:form id="form" class="container mb-5">
-                            <p:dataView var="t" value="#{controlador.tiendasBarrio()}" gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+                            <p:dataView var="t" value="#{controlador.tiendasBarrioCliente()}" gridIcon="pi pi-th-large" listIcon="pi pi-bars">
                                 <!--Mostrara la informacion en forma de parrilla-->
                                 <p:dataViewGridItem>
                                     <p:panel  styleClass="tablas-datos centrar--texto panel--gridView">
@@ -28,10 +29,13 @@
                                             <p:graphicImage url="resources/images/#{t.nombreAvatar}" styleClass="tablas-datos__imagen"/> 
                                             <h:outputText value="#{t.nombre}" styleClass="tablas-datos__nombres"/>
                                             <h:outputText value="#{t.descripcion}"/>
+                                            <!--Enlace que nos muestra informacion de la Tienda-->
                                             <p:commandLink update=":form:tiendaDetalle" oncomplete="PF('tiendaVentana').show()" title="#{msgs['cliente.tablas_info']}">
                                                 <h:outputText styleClass="pi pi-info-circle" style=" font-size: 3rem" />
+                                                <!--Establecemos en valor a la propiedad del ManageBean Info para poder usarlo-->
                                                 <f:setPropertyActionListener target="#{info.tiendaSeleccionada}" value="#{t}"/>
                                             </p:commandLink>
+                                            <!--Enlace que nos envia a la web donde veremos los productos de la Tienda solicitada-->
                                             <h:commandLink action="clienteProductosTienda" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
                                                 <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
                                                 <f:setPropertyActionListener target="#{tienda.id_usuario}" value="#{t.id_usuario}"/>
@@ -52,10 +56,13 @@
                                                 <h:outputText value="#{t.descripcion}"/>
                                             </h:panelGrid>
                                         </p:outputPanel>
+                                        <!--Enlace que nos muestra informacion de la Tienda-->
                                         <p:commandLink update=":form:tiendaDetalle" oncomplete="PF('tiendaVentana').show()" title="#{msgs['cliente.tablas_info']}" >
                                             <h:outputText styleClass="pi pi-info-circle" style=" font-size: 3rem" />
+                                            <!--Establecemos en valor a la propiedad del ManageBean Info para poder usarlo-->
                                             <f:setPropertyActionListener target="#{info.tiendaSeleccionada}" value="#{t}"/>
                                         </p:commandLink>
+                                        <!--Enlace que nos envia a la web donde veremos los productos de la Tienda solicitada-->
                                         <h:commandLink action="clienteProductosTienda" value="#{msgs['cliente.tablas_productos']}" styleClass="tablas-datos__enlaces">
                                             <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
                                             <f:setPropertyActionListener target="#{tienda.id_usuario}" value="#{t.id_usuario}"/>
@@ -66,9 +73,11 @@
                             </p:dataView>
                             <!--FIN-->
                             <!--Venatana modal con la información de la Tienda seleccionada-->
+                            <!--Como hemos cargado el ManageBean Info con el objeto Tienda, ahora podemos rescatar la información de ese objeto Tienda-->
                             <p:dialog header="Info Tienda " widgetVar="tiendaVentana" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
                                 <p:outputPanel id="tiendaDetalle" styleClass="tabla-info">
                                     <h:panelGrid  columns="2" rendered="true" columnClasses="col-4,col-8" styleClass="tabla-info__grid">
+                                        
                                         <p:graphicImage url="resources/images/#{info.tiendaSeleccionada.nombreAvatar}" styleClass="tabla-info__imagen"/>
                                         <p:outputPanel>
                                             <h:outputText value="#{info.tiendaSeleccionada.nombre}" styleClass="tabla-info__titulo"/>
