@@ -5,8 +5,10 @@
         <group>
             <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/resources/mensajes.properties</file>
             <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/clienteInicio.xhtml</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/resources/scss/estilos.scss</file>
             <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/controlador/Controlador.java</file>
             <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/src/java/modelo/MercaBarrioModelo.java</file>
+            <file>file:/home/alberto/Proyectos/Proyecto_Integrado/MB_PFv01/web/tiendaRegistro.xhtml</file>
         </group>
     </open-files>
 </project-private>

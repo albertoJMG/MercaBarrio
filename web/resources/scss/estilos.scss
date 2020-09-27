@@ -21,6 +21,9 @@ $colorAnexos_Titulos: #ffc107; //Amarillo
 $colorAdvertencia: #ffc107; 
 $sombra: black;
 
+$responsive-MaxSM-BP: 767px;
+$responsive-MaxMD-BP: 991px;
+
 @import url("https://fonts.googleapis.com/css2?family=Karla:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
@@ -231,6 +234,11 @@ $sombra: black;
         top-right-radius: 0.50rem;
         bottom-right-radius: 0.50rem;
     }
+}
+
+.formulario-sinBanner{
+    border: 1px solid $colorBordes;
+    border-radius: 0.50rem
 }
 
 .formulario__input{
@@ -449,6 +457,10 @@ $sombra: black;
     width: 100% !important;
 }
 
+.texto--MB{
+    color: $colorMercaBarrio_R;
+}
+
 .texto--negro{
     color: black;
 }
@@ -538,8 +550,8 @@ $sombra: black;
 }
 
 .imagen--avatar{
-        height: 10rem;
-        width: 10rem;
+    height: 10rem;
+    width: 10rem;
 }
 
 .mayusculas{
@@ -651,3 +663,65 @@ table .ui-icon{
 }*/
 
 
+/* RESPONSIVE */
+
+@media screen and (max-width: $responsive-MaxSM-BP) {
+
+    .tablas-datos{
+        .tablas-datos__imagen{
+            width: 5rem;
+            height: 5rem
+        }
+        .tablas-datos__enlaces{
+            color: $colorEnlaces !important;
+            font-size: 0.8rem;
+            text-decoration: none;
+
+        }
+        .tablas-datos__nombres{
+            font-size: 1.2rem !important;
+        }
+    }
+
+    .ocultar{
+        display: none;
+    }
+
+    .banner{
+        border: 1px solid $colorBordes;
+        @include centradoVertical();
+        justify-content: space-around;
+        border-radius: 0.50rem;
+        .banner__titulo{
+            writing-mode: initial;
+            text-orientation: initial;
+
+        }
+    }
+
+    .formulario{
+        border-radius: 0.5rem;
+    }
+
+    .ui-selectonemenu-panel{
+        /*background-color: red;*/
+        /*font-size: 12px !important;*/
+        max-width: 80vw !important;
+    }
+
+}
+
+@media screen and (max-width: $responsive-MaxMD-BP) {
+    .banner{
+        border: 1px solid $colorBordes;
+        @include centradoVertical();
+        justify-content: space-around;
+        border-radius: 0.50rem;
+        .banner__titulo{
+            writing-mode: initial;
+            text-orientation: initial;
+
+        }
+    }
+
+}

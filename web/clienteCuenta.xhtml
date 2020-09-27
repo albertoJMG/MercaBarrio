@@ -13,13 +13,13 @@
             <div class="container-fluid col-10 my-5 " >
                 <div class="row">
                     <!--Panel Izquierdo-->
-                    <div class="col-3 cuenta">
+                    <div class="col-sm-12 col-lg-3 cuenta">
                         <div class="row centrar--texto my-4 d-flex justify-content-center ">
                             <!-- <img src="logo1.png" class="border col-4 cuenta-cliente"/> -->
                             <div class="">
                                 <div class="cuenta__logo"></div>
                                 <p>
-                                    <h:outputText value="#{msgs['app.nombre']}" styleClass="centrar--texto"/>
+                                    <h:outputText value="#{msgs['app.nombre']}" styleClass="centrar--texto texto--MB"/>
                                 </p>
                             </div>
                             <h3 class="col-12 my-4">
@@ -35,20 +35,20 @@
                     </div>
                     <!--FIN Panel Izquierdo-->
                     <!--Panel Derecho-->
-                    <div class="col-9 ">
+                    <div class="col-sm-12 col-lg-9 px-sm-0">
                         <!--Datos Acceso-->
-                        <div class="container-fluid col-10 offset-1 py-5 pl-5 cuenta">
+                        <div class="container-lg-fluid col-sm-12 col-lg-10 offset-lg-1 mt-sm-4 mt-lg-0 py-5 pl-5 cuenta">
                             <h2 class="mb-5" >
                                 <h:outputText value="#{msgs['usuario.cuenta_acceso']}"/>
                             </h2>
                             <p class="pl-3 typo01" >
                                 <h:outputText value="#{session.getValue('usuarioLogeado').nombre_usuario}"/>
                             </p>
-                            <h:link value="#{msgs['usuario.cuenta_editar']}" outcome="usuarioEditarCredenciales" styleClass="cuenta__enlace" />
+                            <h:link value="#{msgs['usuario.cuenta_editar']}" outcome="usuarioEditarCredenciales" styleClass="cuenta__enlace mt-sm-4" />
                         </div>
                         <!--Fin Datos Acceso-->
                         <!--Datos Personales-->
-                        <div class="container-fluid col-10 offset-1 mt-4 py-5 pl-5 cuenta">
+                        <div class="container-lg-fluid col-sm-12 col-lg-10 offset-lg-1 mt-4 py-5 pl-5 cuenta">
                             <h2 class="mb-5">
                                 <h:outputText value="#{msgs['usuario.cuenta_personales']}"/>
                             </h2>
@@ -78,7 +78,7 @@
                             <p class="pl-3 typo01 mayusculas">
                                 <h:outputText value="#{session.getValue('usuarioLogeado').tipoVIA} #{session.getValue('usuarioLogeado').direccion} #{session.getValue('usuarioLogeado').numeroVia}. #{session.getValue('usuarioLogeado').barrio}  "/>
                             </p>
-                            <h:link outcome="clienteEditarDatos" value="#{msgs['usuario.cuenta_editar']}" styleClass="cuenta__enlace" /> 
+                            <h:link outcome="clienteEditarDatos" value="#{msgs['usuario.cuenta_editar']}" styleClass="cuenta__enlace mt-sm-4" /> 
                         </div>
                         <!--FIN Datos Personales-->
                     </div>

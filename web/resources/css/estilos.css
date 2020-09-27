@@ -165,6 +165,10 @@ and open the template in the editor.
   border-top-right-radius: 0.50rem;
   border-bottom-right-radius: 0.50rem; }
 
+.formulario-sinBanner {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem; }
+
 .formulario__input {
   width: 100% !important;
   height: 2rem; }
@@ -325,6 +329,9 @@ and open the template in the editor.
   height: 100vh !important;
   width: 100% !important; }
 
+.texto--MB {
+  color: #cc0433; }
+
 .texto--negro {
   color: black; }
 
@@ -477,5 +484,49 @@ table .ui-icon {
         width: 100% !important;
     
 }*/
+/* RESPONSIVE */
+@media screen and (max-width: 767px) {
+  .tablas-datos .tablas-datos__imagen {
+    width: 5rem;
+    height: 5rem; }
+  .tablas-datos .tablas-datos__enlaces {
+    color: #007bff !important;
+    font-size: 0.8rem;
+    text-decoration: none; }
+  .tablas-datos .tablas-datos__nombres {
+    font-size: 1.2rem !important; }
+
+  .ocultar {
+    display: none; }
+
+  .banner {
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+    border-radius: 0.50rem; }
+    .banner .banner__titulo {
+      writing-mode: initial;
+      text-orientation: initial; }
+
+  .formulario {
+    border-radius: 0.5rem; }
+
+  .ui-selectonemenu-panel {
+    /*background-color: red;*/
+    /*font-size: 12px !important;*/
+    max-width: 80vw !important; } }
+@media screen and (max-width: 991px) {
+  .banner {
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+    border-radius: 0.50rem; }
+    .banner .banner__titulo {
+      writing-mode: initial;
+      text-orientation: initial; } }
 
 /*# sourceMappingURL=estilos.css.map */

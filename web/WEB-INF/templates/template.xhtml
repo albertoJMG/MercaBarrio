@@ -62,16 +62,16 @@
         <!--Cabecera-->
         <nav class="barnav container-fluid">
             <div class="row">
-                <div class="col-1 centrar--texto">
+                <div class="col-sm-2 col-1 centrar--texto" >
                     <h:link outcome="#{controlador.navegacionLogo()}">
                         <h:graphicImage url="resources/images/logoMB.svg" height="80rem" />
                     </h:link>
                 </div>
-                <h1 class="barnav__nombreAPP col-10 centrar--texto">
+                <h1 class="barnav__nombreAPP col-sm-8 col-10 centrar--texto" >
                     <h:outputText value="#{msgs['app.nombre']}"/>
                 </h1>
                 <h:panelGroup rendered="true" layout="block">
-                    <ul class="col-1 barnav__enlaces">
+                    <ul class="col-sm-2 col-1 barnav__enlaces">
                         <!--Mostramos 'REGRISTRO' y 'ACCESO' si no hay ningun usuario logueado-->
                         <h:panelGroup rendered="#{session.getValue('usuarioLogeado') == null }" layout="block">
                             <li>
@@ -105,10 +105,10 @@
                                 <!--FIN Ventana modal y formulario de accesoo-->
                             </li>
                         </h:panelGroup>
-                        <!--Si hay usuario logueado mostramos el saludo y cerrar session-->
+                        <!--Si hay usuario logueado mostramos el nombre y cerrar session-->
                         <h:panelGroup rendered="#{session.getValue('usuarioLogeado') != null }" layout="block">
                             <li class="texto--negro">
-                                <h:outputText value="#{msgs['saludo']} #{session.getValue('usuarioLogeado').nombre}"/>
+                                <h:outputText value="#{session.getValue('usuarioLogeado').nombre}" />
                             </li>
                             <li >
                                 <h:form>
@@ -120,6 +120,7 @@
                 </h:panelGroup>
             </div>
         </nav>
+        <!--Submenu dependiendo del tipo de usuario logueado-->
         <h:panelGroup rendered="#{session.getValue('usuarioLogeado') != null}" layout="block">
             <!--Espacio del menu-->
             <div style="height: 5.2rem"></div>
@@ -181,11 +182,11 @@
             <!--Mensaje union de tiendas-->
             <!--Si hay una sesion iniciada, no vemos el mensaje de "Unirse a Mercabarrio"-->
             <h:panelGroup rendered="#{session.getValue('usuarioLogeado') == null}">
-                <div class="row footer__tienda col-10 col-lg-8 offset-1 offset-lg-2 sombra--caja py-4 mt-5">
-                    <h2 class="pt-2 pl-2">
+                <div class="row footer__tienda col-sm-10 offset-sm-1 sombra--caja py-sm-1 py-4 mt-5">
+                    <h2 class="pt-2 col-sm-12 centrar--texto">
                         <h:outputText value="#{msgs['footer.mensaje_union']}"/>
                     </h2>
-                    <h:link outcome="tiendaLogin" value="#{msgs['footer.unirse_boton']}" styleClass="col-sm-12 col-lg-4 footer__botonUnion"/>
+                    <h:link outcome="tiendaLogin" value="#{msgs['footer.unirse_boton']}" styleClass="col-sm-12 footer__botonUnion"/>
                     <!--<a class="nav-link text-white btn btn-success col-sm-12 col-lg-4 btn-lg pt-2" href="">Unirse a MERCABARRIO</a>-->
                 </div>
             </h:panelGroup>

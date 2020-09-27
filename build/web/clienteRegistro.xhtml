@@ -15,33 +15,33 @@
             <!--FIN espacio-->
             <div class="container my-5">
                 <div class="row">
-                    <div class="col-2 banner py-2">
+                    <div class="col-sm-12 col-lg-2 banner py-2">
                         <h4 class="banner__titulo">
                             <h:outputText value="#{msgs['formulario.cliente_titulo']}"/>
                         </h4>
                     </div>
-                    <div class="col-10 formulario pt-5">
+                    <div class="col-sm-12 col-lg-10 formulario pt-5 fondo--blanco">
                         <!--Formulario de registro de los Clientes redirige a index-->
                         <h:form>
-                            <div class="row mb-3">
-                                <div class="col-lg-6 ">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-6 mb-sm-2 ">
                                     <p:inputText id="dni" value="#{cliente.dni}" required="true" label="dni" styleClass="formulario__input" maxlength="9"/>
                                     <h:outputLabel for="dni" value="#{msgs['formulario.dni']}"/>
                                     <h:message for="dni" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mb-sm-2">
                                     <p:inputText id="nombre" value="#{cliente.nombre}" required="true" label="nombre" styleClass="formulario__input"/>
                                     <h:outputLabel for="nombre" value="#{msgs['formulario.nombre']} "/>
                                     <h:message for="nombre" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-6 mb-sm-2">
                                     <p:inputText id="apellidos" value="#{cliente.apellidos}" required="true" label="apellidos" styleClass="formulario__input"/>
                                     <h:outputLabel for="apellidos" value="#{msgs['formulario.apellidos']} "/>
                                     <h:message for="apellidos" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-6 mb-sm-2">
                                     <p:inputText   id="telefono" value="#{cliente.telefono}" required="true" label="telefono" styleClass="formulario__input" maxlength="9">
                                         <p:keyFilter regEx="/(\d)/"/>
                                     </p:inputText>
@@ -49,11 +49,8 @@
                                     <h:message for="telefono" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            
-                            
-                            
-                            <div class="row mb-3" >
-                                <div class="col-md-4" >
+                            <div class="row mb-3 mb-sm-2" >
+                                <div class="col-lg-4 mb-sm-2" >
                                     <p:selectOneMenu id="tipoVia" value="#{cliente.tipoVIA}" required="true" label="tipoVia" styleClass="formulario__input" filter="true">
                                         <f:selectItem itemLabel="Seleccione tipo via" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{controlador.tipoViasSevilla()}"/>
@@ -61,7 +58,7 @@
                                     <h:outputLabel for="tipoVia" value="#{msgs['formulario.tipoVia']}"/>
                                     <h:message for="tipoVia" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-lg-8 mb-sm-2">
                                     <p:selectOneMenu id="direccion" value="#{cliente.direccion}" required="true" label="direccion" styleClass="formulario__input" filter="true">
                                         <f:selectItem itemLabel="Seleccione nombre via" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{controlador.callesSevilla()}"/>
@@ -70,20 +67,20 @@
                                     <h:message for="direccion" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            <div class="row mb-3" >
-                                <div class="col-md-2">
+                            <div class="row mb-3 mb-sm-2" >
+                                <div class="col-md-2 mb-sm-2">
                                     <p:inputText id="numeroVia" value="#{cliente.numeroVia}" required="true" label="numeroVia" styleClass="formulario__input" maxlength="5"/>
                                     <h:outputLabel for="numeroVia" value="#{msgs['formulario.numeroVia']}"/>
                                     <h:message for="numeroVia" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-2 ">
+                                <div class="col-md-2 mb-sm-2">
                                     <p:inputText id="cp" value="#{cliente.cp}" required="true" label="cp" styleClass="formulario__input" maxlength="5">
                                         <p:keyFilter regEx="/[0-9]/"/>
                                     </p:inputText>
                                     <h:outputLabel for="cp" value="#{msgs['formulario.cp']}"/>
                                     <h:message for="cp" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-8" >
+                                <div class="col-md-8 mb-sm-2" >
                                     <p:selectOneMenu id="barrio" value="#{cliente.barrio}" required="true" label="barrio" styleClass="formulario__input" filter="true">
                                         <f:selectItem itemLabel="Seleccione barrio" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{controlador.barriosSevilla()}"/>
@@ -92,15 +89,15 @@
                                     <h:message for="barrio" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-12">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-md-12 mb-sm-2">
                                     <p:inputText id="email" value="#{cliente.email}" a:type="email" required="true" label="email" styleClass="formulario__input"/>
                                     <h:outputLabel for="email" value="#{msgs['formulario.email']} "/>
                                     <h:message for="email" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-8 offset-2">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-8 offset-lg-2 mb-sm-2">
                                     <div class="md-form">
                                         <p:inputText id="usuario" value="#{cliente.nombre_usuario}" required="true" label="usuario" styleClass="formulario__input" />
                                         <h:outputLabel for="usuario" value="#{msgs['formulario.usuario']} "/>
@@ -108,8 +105,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-8 offset-2">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-8 offset-lg-2">
                                     <div class="md-form">
                                         <p:password id="password" feedback="true" value="#{cliente.password}" required="true" label="password" styleClass="formulario__input"  weakLabel="Débil" strongLabel="Fuerte" promptLabel="Porfavor, introduzca una contraseña"/>
                                         <h:outputLabel for="password" value="#{msgs['formulario.password']} "/>
@@ -117,7 +114,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h:commandButton value="#{msgs['formulario.boton_registro']}" action="#{controlador.addNuevoCliente(cliente)}" styleClass="mt-5 col-12 enlace--boton"/>
+                            <h:commandButton value="#{msgs['formulario.boton_registro']}" action="#{controlador.addNuevoCliente(cliente)}" styleClass="mt-5 col-12 enlace--boton mb-sm-2"/>
                             <h:messages globalOnly="true" errorClass="mensaje__error" />
                         </h:form>
                         <!--FIN Formulario-->

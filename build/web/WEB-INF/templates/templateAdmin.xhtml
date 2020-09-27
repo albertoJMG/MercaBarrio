@@ -24,18 +24,18 @@
         <!--Cabecera-->
         <nav class="barnav container-fluid">
             <div class="row">
-                <div class="col-1 centrar--texto">
+                <div class="col-sm-2 col-1 centrar--texto">
                     <h:link outcome="#{controlador.navegacionLogo()}">
                         <h:graphicImage url="resources/images/logoMB.svg" height="80rem" />
                     </h:link>
                 </div>
-                <h1 class="barnav__nombreAPP col-10 centrar--texto">
+                <h1 class="barnav__nombreAPP col-sm-8 col-10 centrar--texto">
                     <h:outputText value="#{msgs['app.nombre']}"/>
                 </h1>
                 <h:panelGroup rendered="#{session.getValue('usuarioLogeado') != null}" layout="block">
-                    <ul class="col-1 barnav__enlaces">
+                    <ul class="col-sm-2 col-1 barnav__enlaces">
                         <li class="texto--negro">
-                            <h:outputText value="#{msgs['saludo']} #{session.getValue('usuarioLogeado').nombre}"/>
+                            <h:outputText value="#{session.getValue('usuarioLogeado').nombre}"/>
                         </li>
                         <li >
                             <h:form>
