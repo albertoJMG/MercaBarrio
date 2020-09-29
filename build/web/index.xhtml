@@ -7,6 +7,26 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
+            <!-- Caption del carousel -->
+            <script type="text/javascript">
+                window.addEventListener('load',
+                        () => {
+                    let subtitulo = document.getElementById('subtitulo_carousel');
+                    let mensaje = document.getElementById('mensaje_carousel');
+                    let i = 0;
+                    let subtitulos = ['Los productos mas frescos.', 'Del mercado a tu casa.', 'Mercado de barrio.'];
+                    let mensajes = ['De las tiendas en la que más confias.', 'Ahora incluso más fácil y en tu casa', 'Las tiendas que conoces de siempre, juntas!'];
+                    setInterval(function () {
+                        subtitulo.innerHTML = subtitulos[i];
+                        mensaje.innerHTML = mensajes[i];
+                        i++;
+                        if (i > 2) {
+                            i = 0;
+                        }
+                    }, 3150);
+                });
+            </script>
+            <!--FIN Caption del carousel-->
             <!--Carousel-->
             <p:imageSwitch effect="fade" slideshowSpeed="3000" speed="200" slideshowAuto="true" class="carousel--imagen">
                 <ui:repeat value="#{imagenesSlider.images}" var="image">

@@ -12,7 +12,7 @@
             <div class="container-fluid col-10 my-5 " >
                 <div class="row">
                     <!--Panel Izquierdo-->
-                    <div class="col-3 cuenta">
+                    <div class="col-sm-12 col-lg-3 cuenta">
                         <div class="row centrar--texto my-4 d-flex justify-content-center ">
                             <!-- <img src="logo1.png" class="border col-4 cuenta-cliente"/> -->
                             <h:graphicImage url="resources/images/#{session.getValue('usuarioLogeado').nombreAvatar}" styleClass="cuenta__logo-tienda"/>
@@ -29,9 +29,9 @@
                     </div>
                     <!--FIN Panel Izquierdo-->
                     <!--Panel Derecho-->
-                    <div class="col-9 ">
+                    <div class="col-sm-12 col-lg-9 px-sm-0">
                         <!--Datos Acceso-->
-                        <div class="container-fluid col-10 offset-1 py-5 pl-5 cuenta">
+                        <div class="container-lg-fluid col-sm-12 col-lg-10 offset-lg-1 mt-sm-4 mt-lg-0 py-5 pl-5 cuenta">
                             <h2 class="mb-5" >
                                 <h:outputText value="#{msgs['usuario.cuenta_acceso']}"/>
                             </h2>
@@ -42,7 +42,7 @@
                         </div>
                         <!--Fin Datos Acceso-->
                         <!--Datos Personales-->
-                        <div class="container-fluid col-10 offset-1 mt-4 py-5 pl-5 cuenta">
+                        <div class="container-lg-fluid col-sm-12 col-lg-10 offset-lg-1 mt-4 py-5 pl-5 cuenta">
                             <h2 class="mb-5">
                                 <h:outputText value="#{msgs['usuario.cuenta_personales']}"/>
                             </h2>

@@ -14,33 +14,33 @@
             <!--FIN espacio-->
             <div class="container my-5">
                 <div class="row">
-                    <div class="col-2 banner py-2">
+                    <div class="col-sm-12 col-lg-2 banner py-2">
                         <h4 class="banner__titulo">
                             <h:outputText value="#{msgs['formulario.tienda_titulo']}"/>
                         </h4>
                     </div>
-                    <div class="col-10 formulario pt-5">
+                    <div class="col-sm-12 col-lg-10 formulario pt-5 fondo--blanco">
                         <!--Formulario de registro de las Tiendas. Redirige a index-->
                         <h:form enctype="multipart/form-data">
-                            <div class="row mb-3">
-                                <div class="col-lg-6 ">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-6 mb-sm-2">
                                     <p:inputText id="cif" value="#{tienda.cif}" required="true" label="cif" styleClass="formulario__input" maxlength="9"/>
                                     <h:outputLabel for="cif" value="#{msgs['formulario.cif']}"/>
                                     <h:message for="cif" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mb-sm-2">
                                     <p:inputText id="nombre" value="#{tienda.nombre}" required="true" label="nombre" styleClass="formulario__input"/>
                                     <h:outputLabel for="nombre" value="#{msgs['formulario.nombre']} "/>
                                     <h:message for="nombre" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-md-6 mb-sm-2">
                                     <p:inputText id="responsable" value="#{tienda.responsable}" required="true" label="responsable" styleClass="formulario__input"/>
                                     <h:outputLabel for="responsable" value="#{msgs['formulario.responsable']} "/>
                                     <h:message for="responsable" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-sm-2">
                                     <p:inputText id="telefono" value="#{tienda.telefono}" required="true" label="telefono" styleClass="formulario__input" maxlength="9">
                                         <p:keyFilter regEx="/(\d)/"/>
                                     </p:inputText>
@@ -48,18 +48,15 @@
                                     <h:message for="telefono" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-
-                            <div class="row mb-3">
+                            <div class="row mb-3 mb-sm-2">
                                 <div class="col-md-12">
                                     <p:inputText id="descripcion" value="#{tienda.descripcion}" required="true" label="descripcion" styleClass="formulario__input"/>
                                     <h:outputLabel for="descripcion" value="#{msgs['formulario.descripcion']} "/>
                                     <h:message for="descripcion" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-
-
-                            <div class="row mb-3">
-                                <div class="col-md-4" >
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-4 mb-sm-2" >
                                     <p:selectOneMenu id="tipoVia" value="#{tienda.tipoVIA}" required="true" label="tipoVia" styleClass="formulario__input" filter="true">
                                         <f:selectItem itemLabel="Seleccione tipo via" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{controlador.tipoViasSevilla()}"/>
@@ -67,7 +64,7 @@
                                     <h:outputLabel for="tipoVia" value="#{msgs['formulario.tipoVia']}"/>
                                     <h:message for="tipoVia" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-lg-8 mb-sm-2">
                                     <p:selectOneMenu id="direccion" value="#{tienda.direccion}" required="true" label="direccion" styleClass="formulario__input" filter="true">
                                         <f:selectItem itemLabel="Seleccione nombre via" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{controlador.callesSevilla()}"/>
@@ -77,20 +74,20 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3" >
-                                <div class="col-md-2">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-md-2 mb-sm-2">
                                     <p:inputText id="numeroVia" value="#{tienda.numeroVia}" required="true" label="numeroVia" styleClass="formulario__input" maxlength="5"/>
                                     <h:outputLabel for="numeroVia" value="#{msgs['formulario.numeroVia']}"/>
                                     <h:message for="numeroVia" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-2 ">
+                                <div class="col-md-2 mb-sm-2">
                                     <p:inputText id="cp" value="#{tienda.cp}" required="true" label="cp" styleClass="formulario__input" maxlength="5">
                                         <p:keyFilter regEx="/[0-9]/"/>
                                     </p:inputText>
                                     <h:outputLabel for="cp" value="#{msgs['formulario.cp']}"/>
                                     <h:message for="cp" styleClass="mensaje__error"/>
                                 </div>
-                                <div class="col-md-8" >
+                                <div class="col-md-8 mb-sm-2" >
                                     <p:selectOneMenu id="barrio" value="#{tienda.barrio}" required="true" label="barrio" styleClass="formulario__input" filter="true">
                                         <f:selectItem itemLabel="Seleccione barrio" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{controlador.barriosSevilla()}"/>
@@ -100,22 +97,23 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-md-12">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-md-12 mb-sm-2">
                                     <p:inputText id="email" value="#{tienda.email}" a:type="email" required="true" label="email" styleClass="formulario__input"/>
                                     <h:outputLabel for="email" value="#{msgs['formulario.email']} "/>
                                     <h:message for="email" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            <div class="row mb-3" >
-                                <div class="col-6 ">
-                                    <h:inputFile value="#{tienda.fotoSubida}" id="foto" styleClass="enlace--boton"/>
-                                    <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass=""/>
+                            <div class="row mb-3 mb-sm-4" >
+                                <div class="col-12 centrar--texto">
+                                    <h:inputFile value="#{tienda.fotoSubida}" id="foto" styleClass="subirArchivo"/>
+                                    <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass="subirArchivoEtiqueta"/>
+                                    <span class="nombreArchivo"></span>
                                     <h:message for="foto" styleClass="mensaje__error"/>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-8 offset-2">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-8 offset-lg-2 mb-sm-2">
                                     <div class="md-form">
                                         <p:inputText id="usuario" value="#{tienda.nombre_usuario}" required="true" label="usuario" styleClass="formulario__input"/>
                                         <h:outputLabel for="usuario" value="#{msgs['formulario.usuario']} "/>
@@ -123,8 +121,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-8 offset-2">
+                            <div class="row mb-3 mb-sm-2">
+                                <div class="col-lg-8 offset-lg-2 ">
                                     <div class="md-form">
                                         <p:password id="password" feedback="true" value="#{tienda.password}" required="true" label="password" styleClass="formulario__input" weakLabel="Débil" strongLabel="Fuerte" promptLabel="Porfavor, introduzca una contraseña"/>
                                         <h:outputLabel for="password" value="#{msgs['formulario.password']} "/>
@@ -132,7 +130,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h:commandButton value="#{msgs['formulario.boton_registro']}" action="#{controlador.addNuevaTienda(tienda)}" styleClass="mt-5 col-12 enlace--boton"/>
+                            <h:commandButton value="#{msgs['formulario.boton_registro']}" action="#{controlador.addNuevaTienda(tienda)}" styleClass="mt-5 col-12 enlace--boton mb-sm-2"/>
                             <!--<h:messages globalOnly="true" errorClass="text-danger" />-->
                         </h:form>
                         <!--FIN Formulario-->

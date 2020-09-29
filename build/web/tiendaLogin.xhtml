@@ -8,15 +8,17 @@
 
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
+            <!--Espacio del menu-->
             <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
             <div class="container registro my-5">
-                
-                <div class="row col-8 offset-2">
-                    <h1 class="col-12 centrar--texto my-5">
+
+                <div class="col-sm-12 col-lg-8 offset-lg-2 ">
+                    <h1 class="col-sm-12 centrar--texto my-5 ">
                         <h:outputText value="#{msgs['saludo2']}"/>
                     </h1>
                     <!--Formulario de Acceso de las Tiendas. Acceso a tiendaRegistro.xhtml-->
-                    <h:form styleClass="col-12 ">
+                    <h:form styleClass="col-lg-12 ">
                         <h:inputText id="username" value="#{tienda.nombre_usuario}" required="true" label="username" a:placeholder="Nombre de usuario" styleClass="formulario__input" a:autofocus="true"/>
                         <h:outputLabel for="username" value="#{msgs['login.usuario']}" />
                         <h:message for="username" styleClass="mensaje__error"  ></h:message>
@@ -28,9 +30,11 @@
                     </h:form>
                     <!--FIN Formulario Acceso-->
                     <!--Enlace para registrarse-->
-                    <h:link outcome="tiendaRegistro" value="#{msgs['tiendaLogin.mensaje']}" styleClass="col-12 centrar--texto mb-5 mt-4"/>
+                    <div class="col-lg-12 centrar--texto mb-5 mt-4">
+                        <h:link outcome="tiendaRegistro" value="#{msgs['tiendaLogin.mensaje']}"/>
+
+                    </div>
                 </div>
-                
             </div>
         </ui:define>
     </ui:composition>

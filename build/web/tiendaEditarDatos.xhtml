@@ -7,7 +7,6 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <!--Espacio del menu-->
@@ -15,105 +14,107 @@
             <!--FIN espacio-->
             <div class="container my-5">
                 <div class="row">
-                    <div class="col-2 banner py-2">
+                    <div class="col-sm-12 col-lg-2 banner py-2">
                         <h4 class="banner__titulo">
                             <h:outputText value="#{msgs['formulario.tienda_titulo']}"/>
                         </h4>
                     </div>
-                    <div class="col-10 formulario pt-5 fondo--blanco pb-5">
+                    <div class="col-sm-12 col-lg-10 formulario pt-5 fondo--blanco pb-5">
                         <!--Formulario de registro de las Tiendas. Redirige a index-->
-                        <h:form styleClass="mb-5 col-12" enctype="multipart/form-data">
-                            <div class="row mb-3">
-                                <div class="col-lg-6 ">
-                                    <p:inputText id="cif" value="#{tienda.cif}" a:placeholder="#{session.getValue('usuarioLogeado').cif}" label="cif" styleClass="formulario__input" maxlength="9"/>
-                                    <h:outputLabel for="cif" value="#{msgs['formulario.cif']}"/>
-                                    <h:message for="cif" styleClass="mensaje__error"/>
+                        <div class="row">
+                            <h:form styleClass="mb-5 col-12" enctype="multipart/form-data">
+                                <div class="row mb-3 mb-sm-2">
+                                    <div class="col-lg-6 mb-sm-2">
+                                        <p:inputText id="cif" value="#{tienda.cif}" a:placeholder="#{session.getValue('usuarioLogeado').cif}" label="cif" styleClass="formulario__input" maxlength="9"/>
+                                        <h:outputLabel for="cif" value="#{msgs['formulario.cif']}"/>
+                                        <h:message for="cif" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class="col-lg-6 mb-sm-2">
+                                        <p:inputText id="nombre" value="#{tienda.nombre}" a:placeholder="#{session.getValue('usuarioLogeado').nombre}" label="nombre" styleClass="formulario__input"/>
+                                        <h:outputLabel for="nombre" value="#{msgs['formulario.nombre']} "/>
+                                        <h:message for="nombre" styleClass="mensaje__error"/>
+                                    </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <p:inputText id="nombre" value="#{tienda.nombre}" a:placeholder="#{session.getValue('usuarioLogeado').nombre}" label="nombre" styleClass="formulario__input"/>
-                                    <h:outputLabel for="nombre" value="#{msgs['formulario.nombre']} "/>
-                                    <h:message for="nombre" styleClass="mensaje__error"/>
+                                <div class="row mb-3 mb-sm-2">
+                                    <div class="col-md-6 mb-sm-2">
+                                        <p:inputText id="responsable" value="#{tienda.responsable}" a:placeholder="#{session.getValue('usuarioLogeado').responsable}" label="responsable" styleClass="formulario__input"/>
+                                        <h:outputLabel for="responsable" value="#{msgs['formulario.responsable']} "/>
+                                        <h:message for="responsable" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class="col-md-6 mb-sm-2">
+                                        <p:inputText id="telefono" value="#{tienda.telefono}" a:placeholder="#{session.getValue('usuarioLogeado').telefono}" label="telefono" styleClass="formulario__input">
+                                            <p:keyFilter regEx="/(\d)/"/>
+                                        </p:inputText>
+                                        <h:outputLabel for="telefono" value="#{msgs['formulario.telefono']} "/>
+                                        <h:message for="telefono" styleClass="mensaje__error"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <p:inputText id="responsable" value="#{tienda.responsable}" a:placeholder="#{session.getValue('usuarioLogeado').responsable}" label="responsable" styleClass="formulario__input"/>
-                                    <h:outputLabel for="responsable" value="#{msgs['formulario.responsable']} "/>
-                                    <h:message for="responsable" styleClass="mensaje__error"/>
+                                <div class="row mb-3 mb-sm-2" >
+                                    <div class="col-lg-4 mb-sm-2" >
+                                        <p:selectOneMenu id="tipoVia" value="#{tienda.tipoVIA}" label="tipoVia" styleClass="formulario__input" filter="true">
+                                            <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').tipoVIA}" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{controlador.tipoViasSevilla()}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputLabel for="tipoVia" value="#{msgs['formulario.tipoVia']}"/>
+                                        <h:message for="tipoVia" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class="col-lg-8 mb-sm-2">
+                                        <p:selectOneMenu id="direccion" value="#{tienda.direccion}" label="direccion" styleClass="formulario__input" filter="true">
+                                            <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').direccion}" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{controlador.callesSevilla()}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputLabel for="direccion" value="#{msgs['formulario.direccion']} "/>
+                                        <h:message for="direccion" styleClass="mensaje__error"/>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <p:inputText id="telefono" value="#{tienda.telefono}" a:placeholder="#{session.getValue('usuarioLogeado').telefono}" label="telefono" styleClass="formulario__input">
-                                        <p:keyFilter regEx="/(\d)/"/>
-                                    </p:inputText>
-                                    <h:outputLabel for="telefono" value="#{msgs['formulario.telefono']} "/>
-                                    <h:message for="telefono" styleClass="mensaje__error"/>
+                                <div class="row mb-3 mb-sm-2" >
+                                    <div class="col-md-2 mb-sm-2">
+                                        <p:inputText id="numeroVia" value="#{tienda.numeroVia}" a:placeholder="#{session.getValue('usuarioLogeado').numeroVia}" label="numeroVia" styleClass="formulario__input" maxlength="5"/>
+                                        <h:outputLabel for="numeroVia" value="#{msgs['formulario.numeroVia']}"/>
+                                        <h:message for="numeroVia" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class="col-md-2 mb-sm-2">
+                                        <p:inputText id="cp" value="#{tienda.cp}" a:placeholder="#{session.getValue('usuarioLogeado').cp}" label="cp" styleClass="formulario__input" maxlength="5">
+                                            <p:keyFilter regEx="/[0-9]/"/>
+                                        </p:inputText>
+                                        <h:outputLabel for="cp" value="#{msgs['formulario.cp']}"/>
+                                        <h:message for="cp" styleClass="mensaje__error"/>
+                                    </div>
+                                    <div class="col-md-8 mb-sm-2" >
+                                        <p:selectOneMenu id="barrio" value="#{tienda.barrio}" label="barrio" styleClass="formulario__input" filter="true" >
+                                            <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').barrio}" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{controlador.barriosSevilla()}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputLabel for="barrio" value="#{msgs['formulario.barrio']} "/>
+                                        <h:message for="barrio" styleClass="mensaje__error"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3" >
-                                <div class="col-md-4" >
-                                    <p:selectOneMenu id="tipoVia" value="#{tienda.tipoVIA}" label="tipoVia" styleClass="formulario__input" filter="true">
-                                        <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').tipoVIA}" itemValue="" noSelectionOption="true"/>
-                                        <f:selectItems value="#{controlador.tipoViasSevilla()}"/>
-                                    </p:selectOneMenu>
-                                    <h:outputLabel for="tipoVia" value="#{msgs['formulario.tipoVia']}"/>
-                                    <h:message for="tipoVia" styleClass="mensaje__error"/>
+                                <div class="row mb-3 mb-sm-2" >
+                                    <div class="col-md-12 mb-sm-2">
+                                        <h:inputText id="email" value="#{tienda.email}" a:type="email" a:placeholder="#{session.getValue('usuarioLogeado').email}" label="email" styleClass="formulario__input"/>
+                                        <h:outputLabel for="email" value="#{msgs['formulario.email']} "/>
+                                        <h:message for="email" styleClass="mensaje__error"/>
+                                    </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <p:selectOneMenu id="direccion" value="#{tienda.direccion}" label="direccion" styleClass="formulario__input" filter="true">
-                                        <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').direccion}" itemValue="" noSelectionOption="true"/>
-                                        <f:selectItems value="#{controlador.callesSevilla()}"/>
-                                    </p:selectOneMenu>
-                                    <h:outputLabel for="direccion" value="#{msgs['formulario.direccion']} "/>
-                                    <h:message for="direccion" styleClass="mensaje__error"/>
+                                <div class="row mb-3 mb-sm-2 mx-0 px-0 justify-content-around align-items-center">
+                                    <div class="col-sm-12 col-lg-4 centrar--texto" >
+                                        <p:graphicImage url="resources/images/#{session.getValue('usuarioLogeado').nombreAvatar}" styleClass="imagen--avatar"/>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4 centrar--texto" >
+                                        <h:inputFile value="#{tienda.fotoSubida}" id="foto" styleClass="subirArchivo" />
+                                        <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass="subirArchivoEtiqueta"/>
+                                        <span class="nombreArchivo"></span>
+                                        <h:message for="foto" styleClass="mensaje__error"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3" >
-                                <div class="col-md-2">
-                                    <p:inputText id="numeroVia" value="#{tienda.numeroVia}" a:placeholder="#{session.getValue('usuarioLogeado').numeroVia}" label="numeroVia" styleClass="formulario__input" maxlength="5"/>
-                                    <h:outputLabel for="numeroVia" value="#{msgs['formulario.numeroVia']}"/>
-                                    <h:message for="numeroVia" styleClass="mensaje__error"/>
-                                </div>
-                                <div class="col-md-2 ">
-                                    <p:inputText id="cp" value="#{tienda.cp}" a:placeholder="#{session.getValue('usuarioLogeado').cp}" label="cp" styleClass="formulario__input" maxlength="5">
-                                        <p:keyFilter regEx="/[0-9]/"/>
-                                    </p:inputText>
-                                    <h:outputLabel for="cp" value="#{msgs['formulario.cp']}"/>
-                                    <h:message for="cp" styleClass="mensaje__error"/>
-                                </div>
-                                <div class="col-md-8" >
-                                    <p:selectOneMenu id="barrio" value="#{tienda.barrio}" label="barrio" styleClass="formulario__input" filter="true" >
-                                        <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').barrio}" itemValue="" noSelectionOption="true" />
-                                        <f:selectItems value="#{controlador.barriosSevilla()}"/>
-                                    </p:selectOneMenu>
-                                    <h:outputLabel for="barrio" value="#{msgs['formulario.barrio']} "/>
-                                    <h:message for="barrio" styleClass="mensaje__error"/>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <h:inputText id="email" value="#{tienda.email}" a:type="email" a:placeholder="#{session.getValue('usuarioLogeado').email}" label="email" styleClass="formulario__input"/>
-                                    <h:outputLabel for="email" value="#{msgs['formulario.email']} "/>
-                                    <h:message for="email" styleClass="mensaje__error"/>
-                                </div>
-                            </div>
-                            <div class="row mb-3 d-flex col-12  justify-content-around align-items-center ">
-                                <div class="col-4 centrar--texto" >
-                                    <p:graphicImage url="resources/images/#{session.getValue('usuarioLogeado').nombreAvatar}" styleClass="imagen--avatar"/>
-                                </div>
-                                <div class="col-4 " >
-
-                                    <h:inputFile value="#{tienda.fotoSubida}" id="foto" styleClass="" label="Foto"/>
-                                    <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" style="display: block"/>
-                                    <h:message for="foto" styleClass="mensaje__error"/>
-                                </div>
-                            </div>
-                            <h:commandButton value="#{msgs['formulario.boton_editar']}" action="#{controlador.editarDatosTienda(tienda)}" styleClass="mt-5 col-12 enlace--boton"/>
-                            <h:messages globalOnly="true" styleClass="mensaje-info" />
-                        </h:form>
-                        <!--FIN Formulario-->
-                        <!--Volver-->
-                        <h:link outcome="tiendaCuenta" value="#{msgs['link.volver']}" styleClass="col-12 centrar--texto mb-3"/>
-                        <!--FIN Volver-->
+                                <h:commandButton value="#{msgs['formulario.boton_editar']}" action="#{controlador.editarDatosTienda(tienda)}" styleClass="mt-5 col-12 enlace--boton"/>
+                                <h:messages globalOnly="true" styleClass="mensaje-info" />
+                            </h:form>
+                            <!--FIN Formulario-->
+                            <!--Volver-->
+                            <h:link outcome="tiendaCuenta" value="#{msgs['link.volver']}" styleClass="col-12 centrar--texto mb-3"/>
+                            <!--FIN Volver-->
+                        </div>
                     </div>
                 </div>
             </div>

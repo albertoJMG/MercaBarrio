@@ -23,6 +23,7 @@
         <!--Estilos-->
         <h:outputStylesheet library="css" name="bootstrap-grid.css"/><!-- Solo para GRID CSS -->
         <h:outputStylesheet library="css" name="estilos.css"/>
+
         <title>#{msgs['app.nombre']}</title>
         <!--Ventana Modal-->
         <script type="text/javascript">
@@ -36,27 +37,6 @@
             }
         </script>
         <!--FIN Ventana Modal-->
-        <!-- Caption del carousel -->
-        <script type="text/javascript">
-            window.addEventListener('load',
-                    () => {
-                let subtitulo = document.getElementById('subtitulo_carousel');
-                let mensaje = document.getElementById('mensaje_carousel');
-                let i = 0;
-                let subtitulos = ['Los productos mas frescos.', 'Del mercado a tu casa.', 'Mercado de barrio.'];
-                let mensajes = ['De las tiendas en la que más confias.', 'Ahora incluso más fácil y en tu casa', 'Las tiendas que conoces de siempre, juntas!'];
-                setInterval(function () {
-                    subtitulo.innerHTML = subtitulos[i];
-                    mensaje.innerHTML = mensajes[i];
-                    i++;
-                    if (i > 2) {
-                        i = 0;
-                    }
-                }, 3150);
-            });
-
-        </script>
-        <!--FIN Caption del carousel-->
     </h:head>
     <h:body styleClass="fondo--claro">
         <!--Cabecera-->
@@ -182,11 +162,11 @@
             <!--Mensaje union de tiendas-->
             <!--Si hay una sesion iniciada, no vemos el mensaje de "Unirse a Mercabarrio"-->
             <h:panelGroup rendered="#{session.getValue('usuarioLogeado') == null}">
-                <div class="row footer__tienda col-sm-10 offset-sm-1 sombra--caja py-sm-1 py-4 mt-5">
+                <div class="row footer__tienda col-sm-8 offset-sm-2 sombra--caja py-sm-1 py-4 mt-5">
                     <h2 class="pt-2 col-sm-12 centrar--texto">
                         <h:outputText value="#{msgs['footer.mensaje_union']}"/>
                     </h2>
-                    <h:link outcome="tiendaLogin" value="#{msgs['footer.unirse_boton']}" styleClass="col-sm-12 footer__botonUnion"/>
+                    <h:link outcome="tiendaLogin" value="#{msgs['footer.unirse_boton']}" styleClass="col-sm-12 offset-sm-0 col-md-8 offset-md-2 footer__botonUnion"/>
                     <!--<a class="nav-link text-white btn btn-success col-sm-12 col-lg-4 btn-lg pt-2" href="">Unirse a MERCABARRIO</a>-->
                 </div>
             </h:panelGroup>
@@ -217,5 +197,17 @@
             <!--FIN Aviso Legal y Privacidad-->
         </div>
         <!--FIN Footer-->
+
+        <!--Como se modifica el estilo del input type file, para que salga el nombre del archivo que se pretende subir debemos introducir este codigo JS -->
+        <script>
+            var inputs = document.querySelectorAll(".subirArchivo");
+            Array.prototype.forEach.call(inputs, function (input) {
+                input.addEventListener("change", function (e) {
+                    var fileName = "";
+                    fileName = e.target.value.split("\\").pop();
+                    document.querySelector(".nombreArchivo").innerHTML = fileName;
+                });
+            });
+        </script>
     </h:body> 
 </html>

@@ -12,69 +12,72 @@
             <div style="height: 5.2rem"></div>
             <!--FIN espacio-->
             <ui:param name="tiendaG" value="#{session.getValue('usuarioLogeado')}"/>
-            <div class="container-fluid col-10 tienda_datos centrar--texto mb-5">
-                <div class="row d-flex justify-content-around mt-3 p-2">
-                    <h:panelGroup rendered="#{controlador.todosSubPedidos(tiendaG.id_usuario).size() gt 0}">
-                        <p:dataTable value="#{controlador.todosSubPedidos(tiendaG.id_usuario)}" var="sp" styleClass="tabla col-12 my-3" rows="11" paginator="true" reflow="true" >
-                            <p:column>
-                                <f:facet name="header" >
-                                    <h:outputText value="#{msgs['tienda.infoPedidos_idPedido']}"/>
-                                </f:facet>
-                                <h:outputText value="#{sp.pedido.id_pedido}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['tienda.infoPedidos_idArticuloL']}"/>
-                                </f:facet>
-                                <h:outputText value="#{sp.producto.id_producto}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['tienda.infoPedidos_nombre']}"/>
-                                </f:facet>
-                                <h:outputText value="#{sp.producto.nombre} "/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['tienda.infoPedidos_cantidadL']}"/>
-                                </f:facet>
-                                <h:outputText value="#{sp.cantidad_producto} "/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['tienda.infoPedidos_fecha']}"/>
-                                </f:facet>
-                                <h:outputText value="#{controlador.formatearFecha(sp.pedido.fecha_pedido)}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['tienda.infoPedidos_fecha']}"/>
-                                </f:facet>
-                                <h:outputText value="#{sp.estado} "/>
-                            </p:column>
-                            <p:column >
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['tienda.infoPedidos_gestion']}"/>
-                                </f:facet>
-                                <div class="row">
-                                    <h:form styleClass="col-12 d-flex justify-content-between " rendered="#{sp.estado == 'PENDIENTE'}">
-                                        <h:commandLink value="Actualizar estado" action="#{controlador.actualizarEstadoSubPedido(sp.id_subPedido)}" styleClass="enlace--boton">
-                                        </h:commandLink>
-                                    </h:form>
-                                </div>
-                            </p:column>
-                        </p:dataTable>
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{controlador.todosSubPedidos(tiendaG.id_usuario).size() eq 0}">
-                        <div class="row my-5 mensaje-vacio">
-                            <h3 class="centrar--texto mensaje-vacio__texto">
-                                <h:outputText value="#{msgs['pedido.vacio_mensaje']}" />
-                            </h3>
-                            <h:graphicImage url="resources/images/sin_pedidos.png" styleClass="mensaje-vacio__imagen"/>
-                        </div>
-                    </h:panelGroup>
+            <h2 class="col-10 offset-1">
+                <h:outputText value="#{msgs['menu.pedidos']}" />
+            </h2>
+            <!--Mensaje en el caso de que la Tienda aun no tenga productos-->
+            <h:panelGroup rendered="#{controlador.todosSubPedidos(tiendaG.id_usuario).size() eq 0}">
+                <div class="row my-5 mensaje-vacio">
+                    <h3 class="centrar--texto mensaje-vacio__texto">
+                        <h:outputText value="#{msgs['pedido.vacio_mensaje']}" />
+                    </h3>
+                    <h:graphicImage url="resources/images/sin_pedidos.png" styleClass="mensaje-vacio__imagen"/>
                 </div>
-            </div>
+            </h:panelGroup>
+            <!--FIN Mensaje-->
+            <!--Tabla con los Pedido su informacion y gestion. Se mostrara si se han realizado pedidos a esa Tienda-->
+            <h:panelGroup rendered="#{controlador.todosSubPedidos(tiendaG.id_usuario).size() gt 0}">
+                <p:dataTable value="#{controlador.todosSubPedidos(tiendaG.id_usuario)}" var="sp" styleClass="col-10 offset-1 my-5 centrar--texto tablaResponsive" rows="11" paginator="true" reflow="true" tableStyle="table-layout:auto" >
+                    <p:column >
+                        <f:facet name="header" >
+                            <h:outputText value="#{msgs['tienda.infoPedidos_idPedido']}"/>
+                        </f:facet>
+                        <h:outputText value="#{sp.pedido.id_pedido}"/>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['tienda.infoPedidos_idArticuloL']}"/>
+                        </f:facet>
+                        <h:outputText value="#{sp.producto.id_producto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['tienda.infoPedidos_nombre']}"/>
+                        </f:facet>
+                        <h:outputText value="#{sp.producto.nombre} "/>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['tienda.infoPedidos_cantidadL']}"/>
+                        </f:facet>
+                        <h:outputText value="#{sp.cantidad_producto} "/>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['tienda.infoPedidos_fecha']}"/>
+                        </f:facet>
+                        <h:outputText value="#{controlador.formatearFecha(sp.pedido.fecha_pedido)}"/>
+                    </p:column>
+                    <p:column  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['tienda.infoPedidos_estado']}"/>
+                        </f:facet>
+                        <h:outputText value="#{sp.estado} "/>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['tienda.infoPedidos_gestion']}"/>
+                        </f:facet>
+                        <div class="row">
+                            <h:form styleClass="col-12 my-2 " rendered="#{sp.estado == 'PENDIENTE'}">
+                                <h:commandButton value="Actualizar estado" action="#{controlador.actualizarEstadoSubPedido(sp.id_subPedido)}" styleClass="enlace--boton">
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+            <!--FIN Tabla-->
         </ui:define>
     </ui:composition>
 

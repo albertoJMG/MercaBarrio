@@ -7,7 +7,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <!--Espacio del menu-->
@@ -21,14 +20,12 @@
             </h1>
             <!--Si no hay Pedidos realizados(que esten confirmados) muestra un mensaje-->
             <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() == 0 }">
-
                 <div class="row my-5 mensaje-vacio">
                     <h3 class="centrar--texto mensaje-vacio__texto">
                         <h:outputText value="#{msgs['pedido.vacio_mensaje']}" />
                     </h3>
                     <h:graphicImage url="resources/images/sin_pedidos.png" styleClass="mensaje-vacio__imagen"/>
                 </div>
-
             </h:panelGroup>
             <!--Si el cliente ha realizado Pedidos, estos se mostraran-->
             <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() > 0}" id="hola">
@@ -63,7 +60,7 @@
                             </f:facet>
                             <h:outputText value="#{p.envio.estado_envio}"/>
                         </p:column>
-                        <p:column width="180">
+                        <p:column width="180" styleClass="py-2" >
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['cliente_pedidos.articulos']}"/>
                             </f:facet>
@@ -82,10 +79,10 @@
                             </h:commandLink>
                         </p:column>
                     </p:dataTable>
-
-                    <p:overlayPanel widgetVar="pedidoInfo" hideEffect="fade" dynamic="false" style="width: 40vw" modal="true" showCloseIcon="true" dismissable="true" >
+                    <!--FIN Tabla-->
+                    <!--Ventana que muestra el contenido(articulos) del Pedido-->
+                    <p:overlayPanel widgetVar="pedidoInfo" hideEffect="fade" dynamic="false" styleClass="infoPedido" modal="true" showCloseIcon="true" dismissable="true" >
                         <p:outputPanel id="elPanel" >
-
                             <div class="col-12 px-0">
                                 <p class="articulos__encabezado centrar--texto my-2 p-2">
                                     <h:outputText value="#{info.pedidoSeleccionado.id_pedido}"/>
@@ -100,7 +97,7 @@
                                                 <h:outputText value="#{sp.producto.nombre}"/>
                                             </h4>
                                             <p class="p-0 m-2">
-                                                <h:outputText value="#{sp.producto.descripcion}"/>
+                                                <h:outputText value="#{sp.producto.breve_descripcion}"/>
                                             </p>
                                             <p class="p-0 texto--error texto--der">
                                                 <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
@@ -114,8 +111,7 @@
                             </div>
                         </p:outputPanel>
                     </p:overlayPanel>
-
-                    <!--FIN Tabla-->
+                    <!--FIN Ventana-->
                 </h:form>
             </h:panelGroup>
         </ui:define>

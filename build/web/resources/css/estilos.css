@@ -13,7 +13,7 @@ and open the template in the editor.
 @import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
 * {
-  font-family: "Karla", sans-serif;
+  font-family: "Karla", sans-serif !important;
   margin: 0rem; }
 
 /*Bloques*/
@@ -282,6 +282,9 @@ and open the template in the editor.
   background-color: #cc0433;
   color: #fff; }
 
+.infoPedido {
+  width: 55vw; }
+
 /*Modificadores*/
 .panel--gridView {
   height: 22rem; }
@@ -484,7 +487,48 @@ table .ui-icon {
         width: 100% !important;
     
 }*/
+.subirArchivo {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1; }
+
+.subirArchivoEtiqueta {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #cc0433;
+  display: inline-block;
+  transition: all .5s;
+  cursor: pointer;
+  padding: 15px 40px !important;
+  text-transform: uppercase;
+  width: fit-content;
+  text-align: center; }
+
+.nombreArchivo {
+  display: block; }
+
 /* RESPONSIVE */
+@media screen and (max-width: 991px) {
+  .banner {
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+    border-radius: 0.50rem; }
+    .banner .banner__titulo {
+      writing-mode: initial;
+      text-orientation: initial; }
+
+  .formulario {
+    border-radius: 0.5rem; }
+
+  .infoPedido {
+    width: 75vw; } }
 @media screen and (max-width: 767px) {
   .tablas-datos .tablas-datos__imagen {
     width: 5rem;
@@ -516,17 +560,13 @@ table .ui-icon {
   .ui-selectonemenu-panel {
     /*background-color: red;*/
     /*font-size: 12px !important;*/
-    max-width: 80vw !important; } }
-@media screen and (max-width: 991px) {
-  .banner {
-    border: 1px solid #dee2e6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    justify-content: space-around;
-    border-radius: 0.50rem; }
-    .banner .banner__titulo {
-      writing-mode: initial;
-      text-orientation: initial; } }
+    max-width: 80vw !important; }
+
+  .ui-widget-content > td {
+    display: flex !important;
+    align-items: center !important; }
+
+  .infoPedido {
+    width: 95vw; } }
 
 /*# sourceMappingURL=estilos.css.map */
