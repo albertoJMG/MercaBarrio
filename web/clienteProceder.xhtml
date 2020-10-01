@@ -17,22 +17,22 @@
             </h1>
             <div class="container p-0 mb-5">
                 <h:form>
-                    <div class="row">
-                        <div class="col-7">
-                            <div class="col-12 producto_detalle">
+                    <div class="row mx-0 px-0 d-lg-flex justify-content-lg-around">
+                        <!--Panel con los Datos de Envio y el Método de Pago-->
+                        <div class="row col-sm-12 col-lg-5 d-md-flex justify-content-md-between px-sm-0 mx-sm-0 d-lg-block">
+                            <div class="col-sm-12 col-md-4 col-lg-12 producto_detalle pb-3 mb-3">
                                 <h2 class="my-3">
                                     <h:outputText value="#{msgs['cliente_proceder.datos_envio']}"/>
                                 </h2>
-                                <p>#{c.direccion}</p>
-                                <p>#{c.cp}</p>
-
+                                <p><h:outputText value="#{c.tipoVIA} #{c.direccion} #{c.numeroVia}"/></p>
+                                <p><h:outputText value="#{c.barrio}"/></p>
+                                <p><h:outputText value="#{c.cp}"/></p>
                             </div>
-                            <div class="col-12 producto_detalle">
+                            <div class="col-sm-12 col-md-7 col-lg-12 producto_detalle mb-3 pb-2">
                                 <h2 class="my-3">
                                     <h:outputText value="#{msgs['cliente_proceder.metodo']}"/>
                                 </h2>
-
-                                <p:selectOneRadio id="city2" value="#{pedido.metodo_pago}" layout="responsive" columns="2">
+                                <p:selectOneRadio value="#{pedido.metodo_pago}" layout="responsive" columns="2">
                                     <f:selectItem itemLabel="Contra-reembolso" itemValue="reembolso"/>
                                     <f:selectItem itemLabel="Transferencia bancaria" itemValue="transferencia"/>
                                     <f:selectItem itemLabel="Tarjeta" itemValue="tarjeta"/>
@@ -40,43 +40,45 @@
                                 </p:selectOneRadio>
                             </div>
                         </div>
-                        <div class="col-5 producto_detalle">
+                        <!--FIN Panel-->
+                        <!--Resumen de la compra-->
+                        <div class="col-sm-12 col-lg-6 producto_detalle">
                             <h2 class="centrar--texto my-3">
                                 <h:outputText value="#{msgs['cliente_proceder.compra']}"/>
                             </h2>
-                            <div class="col-12 px-0">
+                            <div class="col-12">
                                 <ui:repeat value="#{controlador.listaArticulosCarrito()}" var="sp">
-                                    <div class="row producto_detalle pt-3 mx-0 mb-2">
-                                        <div class="col-2 mx-0 ">
-                                            <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em"/>
-                                        </div>
-                                        <div class="col-10 mx-0 pl-5">
-                                            <h4>
-                                                <h:outputText value="#{sp.producto.nombre}"/>
-                                            </h4>
-                                            <p class="p-0 m-2">
-                                                <h:outputText value="#{sp.producto.descripcion}"/>
-                                            </p>
-                                            <p class="p-0 texto--error texto--der">
-                                                <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
-                                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                                </h:outputText>
-                                                <h:outputText value="/#{p.unidad}"/>
-                                            </p>
+                                    <div class="container producto_detalle mb-2">
+                                        <h4 class="centrar--texto col-12 my-3">
+                                            <h:outputText value="#{sp.producto.nombre}"/>
+                                        </h4>
+                                        <div class="row mb-3 d-flex align-items-center">
+                                            <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em" styleClass="col-sm-4 col-md-3 m-0" />
+                                            <div class="row col-sm-8 col-md-9 ">
+                                                <p class="mb-3">
+                                                    <h:outputText value="#{sp.producto.breve_descripcion}"/>
+                                                </p>
+                                                <p class="texto--error col-12 texto--der">
+                                                    <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
+                                                        <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                    </h:outputText>
+                                                    <h:outputText value="/#{p.unidad}"/>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </ui:repeat>
-                                <p class="texto--error my-3"> <h:outputText value="#{msgs['cliente_proceder.importe']} "/>
+                                <p class="texto--error my-3"> <h:outputText value="#{msgs['cliente_proceder.importe']}: "/>
                                     <h:outputText value="#{controlador.importe()}"> 
                                         <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                     </h:outputText>
-
                                 </p>
                             </div>
                         </div>
+                        <!--FIN Resumen-->
                     </div>
-                    <div>
-                        <h:commandLink action="#{controlador.confirmarCompra(pedido)}" value="Comprar"/>
+                    <div class="texto--der mt-3 mr-4">
+                        <h:commandLink action="#{controlador.confirmarCompra(pedido)}" value="Comprar" styleClass="enlace--boton"/>
                     </div>
                 </h:form>
             </div>

@@ -16,26 +16,26 @@
             <!--Muestra todos los articulos que compone el Pedido -->
             <h:panelGroup rendered="#{controlador.listaArticulosCarrito().size() gt 0}" >
                 <ui:repeat value="#{controlador.listaArticulosCarrito()}" var="sp">
-                    <div class="container mb-2">
-                        <div class="row producto_detalle p-3 mx-0">
-                            <div class="col-2 mx-0">
-                                <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 10em; height: 10em"/>
-                            </div>
-                            <div class="col-10 mx-0">
-                                <h3><h:outputText value="#{sp.producto.nombre}"></h:outputText></h3>
-                                <p><h:outputText value="#{sp.producto.descripcion}"></h:outputText></p>
+                    <div class="container  producto_detalle mb-2">
+                        <h3 class="centrar--texto col-12 my-3">
+                            <h:outputText value="#{sp.producto.nombre}"/>
+                        </h3>
+                        <div class="row mb-3 d-flex align-items-center">
+                            <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 10em; height: 10em" styleClass="col-sm-4 col-md-3 m-0" />
+                            <div class="row col-sm-8 col-md-9 ">
+                                <p class="mb-5"><h:outputText value="#{sp.producto.breve_descripcion}"></h:outputText></p>
                                 <p><h:outputText value="#{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/></p>
-                                <p class="texto--error texto--der">
+                                <p class="texto--error col-12 texto--der">
                                     <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
                                         <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                     </h:outputText>
                                     <h:outputText value="/#{sp.producto.unidad}"/>
                                 </p>
                             </div>
-                            <h:form>
-                                <h:commandLink action="#{controlador.borrarArticuloCarrito(sp.id_subPedido)}" value="Borrar"/>
-                            </h:form>
                         </div>
+                        <h:form style="border: 1px solid red" styleClass="texto--der mb-2">
+                            <h:commandLink action="#{controlador.borrarArticuloCarrito(sp.id_subPedido)}" value="Borrar"/>
+                        </h:form>
                     </div>
                 </ui:repeat>
                 <!--FIN-->
@@ -62,10 +62,7 @@
                 </div>
             </h:panelGroup>
             <!--FIN-->
-
         </ui:define>
     </ui:composition>
-
-
 </html>
 

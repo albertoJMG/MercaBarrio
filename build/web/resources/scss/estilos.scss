@@ -38,7 +38,7 @@ $responsive-MaxMD-BP: 991px;
 }
 
 * {
-    font-family: "Karla", sans-serif !important;
+    font-family: "Karla", sans-serif;
     margin: 0rem;
 }
 
@@ -717,6 +717,11 @@ table .ui-icon{
     .infoPedido{
         width: 75vw ;
     }
+    
+    .imagen__producto{
+        display: flex;
+        justify-content: center;
+    }
 }
 
 
@@ -771,6 +776,14 @@ table .ui-icon{
 
     .infoPedido{
         width: 95vw ;
+    }
+
+    .tienda_datos--altura{
+        height: auto;
+    }
+
+    .tienda_datos{
+        height: auto;
     }
 
 }

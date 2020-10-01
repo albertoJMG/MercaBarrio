@@ -22,10 +22,10 @@
                     <p class="texto--gris col-12">#{productoElegido.breve_descripcion}</p>
                 </div>
                 <div class="row p-2">
-                    <div class="col-4 p-0 m-0">
-                        <img src="resources/images/#{productoElegido.nombreFoto}" class="col-12"></img> 
+                    <div class="col-sm-12 col-lg-4 p-0 m-0 imagen__producto">
+                        <h:graphicImage url="resources/images/#{productoElegido.nombreFoto}" styleClass="col-sm-6 col-lg-12"/> 
                     </div>
-                    <div class="col-8 ">
+                    <div class="col-sm-12 col-lg-8 mt-sm-5">
                         <div class="row">
                             <div class="col-12 ">
                                 <p class="mb-3">
@@ -57,9 +57,8 @@
                                 </p>
                                 
                             </div>
-                            <div class="row col-12 mt-1" >
+                            <div class="col-12 mt-1" >
                                 <p:panel styleClass="col-12 centrar--texto fondo--claro " >
-
                                     <h:panelGrid columns="3" styleClass="col-12">
                                         <h:outputText value="#{msgs['formulario_producto.stock']}"/>
                                         <h:outputText value="#{msgs['formulario_producto.iva']}"/>
@@ -80,42 +79,39 @@
                 </div>
                 <!--Solo visible si el usuario logueado es Cliente-->
                 <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado'))}">
-                    <h:form styleClass="">
-                        <div class="row col-12 centrar--texto my-5 d-flex justify-content-around ">
-                            <div class="col-md-2 ">
-
+                    <h:form>
+                        <div class="row col-12 centrar--texto my-5 d-flex justify-content-around">
+                            <div class="col-sm-4 col-md-3 col-lg-2">
                                 <h:outputLabel for="cantidad" value="#{msgs['formulario_producto.cantidad']}"/>
-                                <p:spinner value="#{subPedido.cantidad_producto}" id="cantidad" required="true" stepFactor="1" min="1" styleClass="formulario__input" converterMessage="Introduzca digitos por favor" max="#{productoElegido.stock}" >
-                                </p:spinner>
+                                <p:spinner value="#{subPedido.cantidad_producto}" id="cantidad" required="true" stepFactor="1" min="1" styleClass="formulario__input" converterMessage="Introduzca digitos por favor" max="#{productoElegido.stock}" />
                             </div>
-                            <div class="col-md-2 d-flex align-items-strech">
-
+                            <div class="col-sm-2 d-flex align-items-strech">
                                 <h:commandButton value="#{msgs['link.add']}" action="#{controlador.addNuevoSubPedido(subPedido)}" styleClass="enlace--boton">
                                     <!--Este parametro es rescatado en el metodo addNuevoSubPedido de la entidad SubPedido-->
                                     <f:param name="id" value="#{producto.id_producto}"/>
                                 </h:commandButton>
                             </div>
                         </div>
-
                     </h:form>
                 </h:panelGroup>
+                <!--FIN Cliente-->
                 <!--Solo visible si el usuario es Tienda-->
                 <h:panelGroup rendered="#{controlador.esTienda(session.getValue('usuarioLogeado'))}">
-                    <h:form>
-                        <div class="row col-12 text-center my-5 d-flex justify-content-around ">
-                            <div class="col-md-2 ">
-                                <h:commandButton value="#{msgs['link.borrar']}" action="#{controlador.borrarProducto()}" styleClass="enlace--boton ">
+                    <h:form >
+                        <div class="row col-12 centrar--texto m-0 my-5 p-0 justify-content-around " >
+                            <div class="col-sm-2 d-flex align-items-strech">
+                                <h:commandLink value="#{msgs['link.borrar']}" action="#{controlador.borrarProducto()}" styleClass="enlace--boton  ">
                                     <f:param name="elProductoABorrar" value="#{productoElegido.id_producto}"/>
                                     <f:param name="destino" value="tiendaInicio"/>
-                                </h:commandButton>
+                                </h:commandLink>
                             </div>
-                            <div class="col-md-2 d-flex align-items-strech">
-                                <h:link value="#{msgs['link.volver']}" outcome="tiendaInicio" styleClass="enlace--boton">
-                                </h:link>
+                            <div class="col-sm-2 d-flex align-items-strech mr-5">
+                                <h:link value="#{msgs['link.volver']}" outcome="tiendaInicio" styleClass="enlace--boton"/>
                             </div>
                         </div>
                     </h:form>
                 </h:panelGroup>
+                <!--FIN Tienda-->
             </div>
             <!--FIN Informacion Producto-->
         </ui:define>

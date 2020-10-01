@@ -9,8 +9,13 @@
 
     <ui:composition template="./WEB-INF/templates/templateAdmin.xhtml">
         <ui:define name="content">
-
+            <!--Espacio del menu-->
             <div style="height: 5.2rem"></div>
+            <!--FIN espacio-->
+            <h1 class="centrar--texto my-5">
+                <h:outputText value="#{msgs['admin.administracion']}"/>
+            </h1>
+            <!--Funcionalidad solo para el SuperAdmin. Subir las imagenes de los Productos por primera vez-->
             <h:panelGroup  rendered="#{session.getValue('usuarioLogeado').nombre_usuario == 'superAdmin'}" layout="block">
                 <div class="container my-5 ">
                     <h1>Subida de fotos iniciales</h1>
@@ -20,13 +25,15 @@
                     </h:form>
                 </div>
             </h:panelGroup>
-            <h:form> 
+            <!--FIN-->
+            <!--Muestra todas las Tiendas-->
+            <h:form styleClass="mb-4"> 
                 <p:dataScroller value="#{controlador.tiendas()}" var="tiend" chunkSize="5" styleClass="container">
                     <f:facet name="header">
                         <h:outputText value="#{msgs['admin.tabla_cabecera']}"/>
                     </f:facet>
 
-                    <h:panelGrid columns="2" style="width: 100%; border-bottom: 1px solid red" styleClass="prueba01 d-flex justify-content-between"  >
+                    <h:panelGrid columns="2" style="border-bottom: 1px solid grey" styleClass="prueba01 d-flex justify-content-between"  >
                         <p:outputPanel>
                             <p:graphicImage url="resources/images/#{tiend.nombreAvatar}" styleClass="imagen--avatar"/> 
                         </p:outputPanel>
@@ -39,7 +46,7 @@
 
                             <h:outputText value="#{msgs['formulario.direccion']}:" />
                             <h:outputText value="#{tiend.tipoVIA} #{tiend.direccion}"/>
-                            
+
                             <h:outputText value="#{msgs['formulario.telefono']}:" />
                             <h:outputText value="#{tiend.telefono}" />
                         </h:panelGrid>
@@ -49,6 +56,7 @@
                     </h:panelGrid>
                 </p:dataScroller>
             </h:form>
+            <!--FIN-->
         </ui:define>
     </ui:composition>
 

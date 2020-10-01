@@ -13,7 +13,7 @@ and open the template in the editor.
 @import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
 * {
-  font-family: "Karla", sans-serif !important;
+  font-family: "Karla", sans-serif;
   margin: 0rem; }
 
 /*Bloques*/
@@ -528,7 +528,11 @@ table .ui-icon {
     border-radius: 0.5rem; }
 
   .infoPedido {
-    width: 75vw; } }
+    width: 75vw; }
+
+  .imagen__producto {
+    display: flex;
+    justify-content: center; } }
 @media screen and (max-width: 767px) {
   .tablas-datos .tablas-datos__imagen {
     width: 5rem;
@@ -567,6 +571,12 @@ table .ui-icon {
     align-items: center !important; }
 
   .infoPedido {
-    width: 95vw; } }
+    width: 95vw; }
+
+  .tienda_datos--altura {
+    height: auto; }
+
+  .tienda_datos {
+    height: auto; } }
 
 /*# sourceMappingURL=estilos.css.map */
