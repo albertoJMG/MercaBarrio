@@ -10,7 +10,7 @@
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <!--Espacio del menu-->
-            <div style="height: 5.2rem"></div>
+            <div class="espacio_menu"></div>
             <!--FIN espacio-->
             <!--Mensaje de confirmacion-->
             <h2 class="texto--verde mt-5 centrar--texto mb-5">
@@ -60,7 +60,7 @@
                                 <h:panelGrid columns="1" styleClass="col-12"  >
                                     <h:commandLink action="producto_tInicio" >
                                         <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
-                                        <p:graphicImage url="resources/images/#{random.nombreFoto}" styleClass="tablas-datos__imagen"/>
+                                        <p:graphicImage url="resources/images/#{random.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
                                     </h:commandLink>
                                     <h:outputText value="#{random.nombre}" />
                                     <h:panelGroup>
@@ -69,7 +69,7 @@
                                         </h:outputText>
                                         <h:outputText value="/#{random.unidad}"/>
                                     </h:panelGroup>
-                                    <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces">
+                                    <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces-grid">
                                         <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
                                         <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
                                     </h:commandLink>

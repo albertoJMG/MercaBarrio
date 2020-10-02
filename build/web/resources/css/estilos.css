@@ -212,13 +212,21 @@ and open the template in the editor.
   font-size: 3rem;
   line-height: 2; }
 
-.tablas-datos .tablas-datos__imagen {
+.tablas-datos .tablas-datos__imagen-list {
   width: 10rem;
   height: 10rem; }
-.tablas-datos .tablas-datos__enlaces {
+.tablas-datos .tablas-datos__enlaces-list {
   color: #007bff !important;
   text-decoration: none; }
-.tablas-datos .tablas-datos__nombres {
+.tablas-datos .tablas-datos__nombres-list {
+  font-size: 1.8rem; }
+.tablas-datos .tablas-datos__imagen-grid {
+  width: 10rem;
+  height: 10rem; }
+.tablas-datos .tablas-datos__enlaces-grid {
+  color: #007bff !important;
+  text-decoration: none; }
+.tablas-datos .tablas-datos__nombres-grid {
   font-size: 1.8rem; }
 
 .tabla-info .tabla-info__grid {
@@ -411,6 +419,9 @@ and open the template in the editor.
 .mayusculas {
   text-transform: uppercase; }
 
+.espacio_menu {
+  height: 5.2rem; }
+
 /*GENERAL*/
 a {
   color: #007bff;
@@ -534,14 +545,13 @@ table .ui-icon {
     display: flex;
     justify-content: center; } }
 @media screen and (max-width: 767px) {
-  .tablas-datos .tablas-datos__imagen {
+  .tablas-datos .tablas-datos__imagen-list {
     width: 5rem;
     height: 5rem; }
-  .tablas-datos .tablas-datos__enlaces {
+  .tablas-datos .tablas-datos__enlaces-list {
     color: #007bff !important;
-    font-size: 0.8rem;
-    text-decoration: none; }
-  .tablas-datos .tablas-datos__nombres {
+    font-size: 0.8rem; }
+  .tablas-datos .tablas-datos__nombres-list {
     font-size: 1.2rem !important; }
 
   .ocultar {
@@ -578,5 +588,13 @@ table .ui-icon {
 
   .tienda_datos {
     height: auto; } }
+@media screen and (max-width: 575px) {
+  .barnav {
+    height: 6.6rem; }
+    .barnav .barnav__enlaces {
+      flex-direction: row; }
+
+  .espacio_menu {
+    height: 6.6rem; } }
 
 /*# sourceMappingURL=estilos.css.map */

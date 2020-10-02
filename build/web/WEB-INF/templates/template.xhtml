@@ -29,7 +29,7 @@
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {
                 if (args.validationFailed || !args.loggedIn) {
-                    PF('dlg').jq.effect("shake", {times: 5}, 100);
+                    PF('dlg').jq.effect("shake", {times: 5}, 200);
                 } else {
                     PF('dlg').hide();
                     $('#loginLink').fadeOut();
@@ -42,16 +42,16 @@
         <!--Cabecera-->
         <nav class="barnav container-fluid">
             <div class="row">
-                <div class="col-sm-2 col-1 centrar--texto" >
+                <div class="col-2 col-sm-2 col-1 centrar--texto" >
                     <h:link outcome="#{controlador.navegacionLogo()}">
                         <h:graphicImage url="resources/images/logoMB.svg" height="80rem" />
                     </h:link>
                 </div>
-                <h1 class="barnav__nombreAPP col-sm-8 col-10 centrar--texto" >
+                <h1 class="barnav__nombreAPP col-10 col-sm-8 col-10 centrar--texto" >
                     <h:outputText value="#{msgs['app.nombre']}"/>
                 </h1>
                 <h:panelGroup rendered="true" layout="block">
-                    <ul class="col-sm-2 col-1 barnav__enlaces">
+                    <ul class="col-sm-2 col-12 barnav__enlaces">
                         <!--Mostramos 'REGRISTRO' y 'ACCESO' si no hay ningun usuario logueado-->
                         <h:panelGroup rendered="#{session.getValue('usuarioLogeado') == null }" layout="block">
                             <li>
@@ -82,7 +82,7 @@
                                         </h:panelGrid>
                                     </p:dialog>    
                                 </h:form>
-                                <!--FIN Ventana modal y formulario de accesoo-->
+                                <!--FIN Ventana modal y formulario de acceso-->
                             </li>
                         </h:panelGroup>
                         <!--Si hay usuario logueado mostramos el nombre y cerrar session-->
@@ -103,7 +103,7 @@
         <!--Submenu dependiendo del tipo de usuario logueado-->
         <h:panelGroup rendered="#{session.getValue('usuarioLogeado') != null}" layout="block">
             <!--Espacio del menu-->
-            <div style="height: 5.2rem"></div>
+            <div class="espacio_menu"></div>
             <!--FIN espacio-->
             <div class="row col-12 menu m-0 p-0">
                 <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado'))}">
@@ -126,7 +126,7 @@
         <!--FIN subMenu CLIENTES Y TIENDAS-->
         <!--FIN Cabecera-->
         <!--Contenido de la web-->
-        <div id="content" class="center_content">
+        <div id="content">
             <!--<f:view transient="true">-->
             <ui:insert name="content">Content</ui:insert>
             <!--</f:view>-->
@@ -162,12 +162,14 @@
             <!--Mensaje union de tiendas-->
             <!--Si hay una sesion iniciada, no vemos el mensaje de "Unirse a Mercabarrio"-->
             <h:panelGroup rendered="#{session.getValue('usuarioLogeado') == null}">
-                <div class="row footer__tienda col-sm-8 offset-sm-2 sombra--caja py-sm-1 py-4 mt-5">
-                    <h2 class="pt-2 col-sm-12 centrar--texto">
-                        <h:outputText value="#{msgs['footer.mensaje_union']}"/>
-                    </h2>
-                    <h:link outcome="tiendaLogin" value="#{msgs['footer.unirse_boton']}" styleClass="col-sm-12 offset-sm-0 col-md-8 offset-md-2 footer__botonUnion"/>
-                    <!--<a class="nav-link text-white btn btn-success col-sm-12 col-lg-4 btn-lg pt-2" href="">Unirse a MERCABARRIO</a>-->
+                <div class="container footer__tienda sombra--caja mt-5">
+                    <div class="container-fluid">
+                        <h2 class="pt-2 mb-2 col-12 centrar--texto">
+                            <h:outputText value="#{msgs['footer.mensaje_union']}"/>
+                        </h2>
+                        <h:link outcome="tiendaLogin" value="#{msgs['footer.unirse_boton']}" styleClass="col-sm-12 offset-sm-0 col-md-8 offset-md-2 py-2 footer__botonUnion"/>
+                        <!--<a class="nav-link text-white btn btn-success col-sm-12 col-lg-4 btn-lg pt-2" href="">Unirse a MERCABARRIO</a>-->
+                    </div>
                 </div>
             </h:panelGroup>
             <!--FIN mensaje-->

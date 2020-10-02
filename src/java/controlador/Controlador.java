@@ -146,7 +146,7 @@ public class Controlador {
             }
         }
         externalContext.invalidateSession();
-        return "index";
+        return "index?faces-redirect=true";
     }
 
     /*
@@ -349,7 +349,7 @@ public class Controlador {
                 System.err.println("Error al logear" + ex.getMessage());
             }
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", c);
-            return "clienteInicio";
+            return "clienteInicio?faces-redirect=true";
         } else {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error en el acceso", "El usuario o el password son erroneos");
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -372,7 +372,7 @@ public class Controlador {
         if (valido) {
             Tienda t = MercaBarrioModelo.loginT(u.getNombre_usuario(), u.getPassword());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", t);
-            return "tiendaInicio";
+            return "tiendaInicio?faces-redirect=true";
 //            return "tiendaInicio?faces-redirect=true";
         } else {
             String msg = "El usuario o el password son erroneos";

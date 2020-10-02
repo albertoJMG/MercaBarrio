@@ -21,6 +21,7 @@ $colorAnexos_Titulos: #ffc107; //Amarillo
 $colorAdvertencia: #ffc107; 
 $sombra: black;
 
+$responsive-MaxExtraSM-BP: 575px;
 $responsive-MaxSM-BP: 767px;
 $responsive-MaxMD-BP: 991px;
 
@@ -297,15 +298,27 @@ $responsive-MaxMD-BP: 991px;
 }
 
 .tablas-datos{
-    .tablas-datos__imagen{
+
+    .tablas-datos__imagen-list{
         width: 10rem;
         height: 10rem
     }
-    .tablas-datos__enlaces{
+    .tablas-datos__enlaces-list{
         color: $colorEnlaces !important;
         text-decoration: none;
     }
-    .tablas-datos__nombres{
+    .tablas-datos__nombres-list{
+        font-size: 1.8rem;
+    }
+    .tablas-datos__imagen-grid{
+        width: 10rem;
+        height: 10rem
+    }
+    .tablas-datos__enlaces-grid{
+        color: $colorEnlaces !important;
+        text-decoration: none;
+    }
+    .tablas-datos__nombres-grid{
         font-size: 1.8rem;
     }
 
@@ -562,6 +575,10 @@ $responsive-MaxMD-BP: 991px;
     text-transform: uppercase;
 }
 
+.espacio_menu{
+    height: 5.2rem;
+}
+
 /*GENERAL*/
 
 a{
@@ -717,7 +734,7 @@ table .ui-icon{
     .infoPedido{
         width: 75vw ;
     }
-    
+
     .imagen__producto{
         display: flex;
         justify-content: center;
@@ -728,17 +745,15 @@ table .ui-icon{
 @media screen and (max-width: $responsive-MaxSM-BP) {
 
     .tablas-datos{
-        .tablas-datos__imagen{
+        .tablas-datos__imagen-list{
             width: 5rem;
             height: 5rem
         }
-        .tablas-datos__enlaces{
+        .tablas-datos__enlaces-list{
             color: $colorEnlaces !important;
             font-size: 0.8rem;
-            text-decoration: none;
-
         }
-        .tablas-datos__nombres{
+        .tablas-datos__nombres-list{
             font-size: 1.2rem !important;
         }
     }
@@ -788,4 +803,19 @@ table .ui-icon{
 
 }
 
+
+@media screen and (max-width: $responsive-MaxExtraSM-BP) {
+
+    .barnav{
+        height: 6.6rem;
+        .barnav__enlaces{
+            flex-direction: row;        
+        }
+    }
+
+    .espacio_menu{
+        height: 6.6rem;
+    }
+
+}
 

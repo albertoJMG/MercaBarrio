@@ -9,7 +9,7 @@
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <!--Espacio del menu-->
-            <div style="height: 5.2rem"></div>
+            <div class="espacio_menu"></div>
             <!--FIN espacio-->
             <ui:param name="c" value="#{session.getValue('usuarioLogeado')}"/>
             <h1 class="centrar--texto m-5">
@@ -32,9 +32,9 @@
                                 <h2 class="my-3">
                                     <h:outputText value="#{msgs['cliente_proceder.metodo']}"/>
                                 </h2>
-                                <p:selectOneRadio value="#{pedido.metodo_pago}" layout="responsive" columns="2">
+                                <p:selectOneRadio value="#{pedido.metodo_pago}" layout="responsive" columns="2" required="true">
                                     <f:selectItem itemLabel="Contra-reembolso" itemValue="reembolso"/>
-                                    <f:selectItem itemLabel="Transferencia bancaria" itemValue="transferencia"/>
+                                    <f:selectItem itemLabel="Transferencia" itemValue="transferencia"/>
                                     <f:selectItem itemLabel="Tarjeta" itemValue="tarjeta"/>
                                     <f:selectItem itemLabel="PayPal" itemValue="paypal"/>
                                 </p:selectOneRadio>

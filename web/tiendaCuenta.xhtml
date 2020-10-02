@@ -7,9 +7,9 @@
     <ui:composition template="./WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <!--Espacio del menu-->
-            <div style="height: 5.2rem"></div>
+            <div class="espacio_menu"></div>
             <!--FIN espacio-->
-            <div class="container-fluid col-10 my-5 " >
+            <div class="container my-5 " >
                 <div class="row">
                     <!--Panel Izquierdo-->
                     <div class="col-sm-12 col-lg-3 cuenta">
@@ -29,9 +29,9 @@
                     </div>
                     <!--FIN Panel Izquierdo-->
                     <!--Panel Derecho-->
-                    <div class="col-sm-12 col-lg-9 px-sm-0">
+                    <div class="col-12 col-sm-12 col-lg-9 px-sm-0">
                         <!--Datos Acceso-->
-                        <div class="container-lg-fluid col-sm-12 col-lg-10 offset-lg-1 mt-sm-4 mt-lg-0 py-5 pl-5 cuenta">
+                        <div class="container-lg-fluid col-12 col-sm-12 col-lg-11 offset-lg-1 mt-4 mt-lg-0 py-5 pl-5 cuenta">
                             <h2 class="mb-5" >
                                 <h:outputText value="#{msgs['usuario.cuenta_acceso']}"/>
                             </h2>
@@ -42,7 +42,7 @@
                         </div>
                         <!--Fin Datos Acceso-->
                         <!--Datos Personales-->
-                        <div class="container-lg-fluid col-sm-12 col-lg-10 offset-lg-1 mt-4 py-5 pl-5 cuenta">
+                        <div class="container-lg-fluid col-sm-12 col-lg-11 offset-lg-1 mt-4 py-5 pl-5 cuenta">
                             <h2 class="mb-5">
                                 <h:outputText value="#{msgs['usuario.cuenta_personales']}"/>
                             </h2>
