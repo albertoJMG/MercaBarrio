@@ -25,24 +25,20 @@ import org.primefaces.PrimeFaces;
 import util.MercaBarrioUtil;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -55,20 +51,21 @@ import org.xml.sax.SAXException;
 @RequestScoped
 public class Controlador {
 
-//    @Inject
-//    private Cliente cliente;
-//    @Inject
-//    private Tienda tienda;
-//    @Inject
-//    private Pedido pedido;
-//    @Inject
-//    private SubPedido subPedido;
-//    @Inject
-//    private Producto producto;
-//    @Inject
-//    private Administrador administrador;
-//    @Inject
-//    private Envio envio;
+    @Inject
+    private Cliente cliente;
+    @Inject
+    private Tienda tienda;
+    @Inject
+    private Pedido pedido;
+    @Inject
+    private SubPedido subPedido;
+    @Inject
+    private Producto producto;
+    @Inject
+    private Administrador administrador;
+    @Inject
+    private Envio envio;
+
     /**
      * Método para comporbar si el Usuario loguerado es del tipo Cliente
      *
@@ -114,9 +111,9 @@ public class Controlador {
             navegacion = "clienteInicio";
         } else if (u instanceof Tienda) {
             navegacion = "tiendaInicio";
-        } else if(u instanceof Administrador){
+        } else if (u instanceof Administrador) {
             navegacion = "adminGestion";
-        }else{
+        } else {
             navegacion = "index";
         }
         return navegacion;
@@ -136,7 +133,7 @@ public class Controlador {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Usuario u = (Usuario) sessionMap.get("usuarioLogeado");
-        //Si el Usuario logueado es del tipo Cliente, eliminamos el ultimo Pedido(se realiza automaticamente) 
+        //Si el Usuario logueado es del tipo Cliente, eliminamos el ultimo Pedido(este se realiza automaticamente) 
         //si el Cliente cierra antes de confirmar el Pedido 
         if (u instanceof Cliente) {
             Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
@@ -150,7 +147,7 @@ public class Controlador {
     }
 
     /*
-     <<<>>> Metodos de AÑADIR<<<>>>  
+     <<<>>> Metodos de AÑADIR <<<>>>  
      */
     /**
      * Metodo que según si se ha creado correctamente el Cliente redirige a una
@@ -167,7 +164,7 @@ public class Controlador {
         if (exito) {
             return "index";
         } else {
-            String msg = "El usuario ya existe";
+            String msg = "Ya existe un usuario con ese nombre";
             FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.addMessage(null, facesMessage);
@@ -192,13 +189,13 @@ public class Controlador {
             t.setNombreAvatar(imagen);
             MercaBarrioUtil.subirFoto(t.getFotoSubida());
         }
-        ////// DE MOMENTO TODA TIENDA QUE SE REGISTE ES INMEDIATAMENTE ACEPTADA EN LA PLATAFORMA
+        ////// DE MOMENTO TODA TIENDA QUE SE REGISTE ES INMEDIATAMENTE ACEPTADA EN LA PLATAFORMA,esta funcion deberia ser realizada por los Administradores
         t.setAceptada(true);
         boolean exito = MercaBarrioModelo.crearTienda(t);
         if (exito) {
             return "tiendaLogin";
         } else {
-            String msg = "El usuario ya existe";
+            String msg = "Ya existe un usuario con ese nombre";
             FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.addMessage(null, facesMessage);
@@ -220,11 +217,11 @@ public class Controlador {
         //Recuperamos al cliente de la sesion
         Cliente cliente = (Cliente) sessionMap.get("usuarioLogeado");
         //Recuperamos el Id del producto (de producto.xhtml)
-        String id = externalContext.getRequestParameterMap().get("id");
+        String idProducto = externalContext.getRequestParameterMap().get("id");
         //Obtenemos el ultimo pedido del Cliente (logueado) que sera el unico no finalizado
         Pedido ped = cliente.getPedidos().get(cliente.getPedidos().size() - 1);
         //Buscamos el Producto que debemos añadir al SubPedido
-        Producto pro = MercaBarrioModelo.buscarProducto(Long.parseLong(id));
+        Producto pro = MercaBarrioModelo.buscarProducto(Long.parseLong(idProducto));
         s.setProducto(pro);
         s.setTienda(pro.getTiendaP());
         s.setEstado(SubPedido.EstadoSubPedido.PENDIENTE);
@@ -280,11 +277,11 @@ public class Controlador {
                 System.err.println("Error al añadir Producto " + ex.getMessage());
                 System.err.println(ex.getStackTrace());
             }
-            //Cuando ya se ha creado y persistido el Producto, se ha añadido dicho Producto a la Tienda, y actualizada esta
+            //Cuando ya se ha creado y persistido el Producto, se ha añadido dicho Producto a la Tienda y actualizada esta,
             //se machaca el usuario logueado con la Tienda
             sessionMap.put("usuarioLogeado", t);
             if (exito) {
-                return "tiendaProductos";
+                return "tiendaProductos?faces-redirect=true";
             } else {
                 String msg = "Revise el formulario";
                 FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
@@ -296,21 +293,28 @@ public class Controlador {
     }
 
     /*
-     <<<>>> Metodos de LOGIN<<<>>>  
+     <<<>>> Metodos de LOGIN <<<>>>  
+     */
+    /**
+     * Método que realiza el Login del usuario -Administrador-
+     *
+     * @param u Usuario de tipo Administrador que se recibe del formulário de
+     * acceso
+     * @return String con el nombre de la web segun si se ha tenido exito
+     * logueando o no.
      */
     public String loginAdmin(Usuario u) {
         Administrador admin = new Administrador();
         String casoNavegacion;
-        MercaBarrioModelo.loginA(u.getNombre_usuario(), u.getPassword());
         if (MercaBarrioModelo.loginA(u.getNombre_usuario(), u.getPassword()) != null) {
             admin = MercaBarrioModelo.loginA(u.getNombre_usuario(), u.getPassword());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", admin);
-            casoNavegacion = "adminGestion";
+            casoNavegacion = "adminGestion?faces-redirect=true";
         } else if (u.getNombre_usuario().equals("superAdmin") && u.getPassword().equals("a")) {
             admin.setNombre_usuario(u.getNombre_usuario());
             admin.setPassword(u.getPassword());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", admin);
-            casoNavegacion = "adminGestion";
+            casoNavegacion = "adminGestion?faces-redirect=true";
         } else {
             casoNavegacion = "adminLogin";
         }
@@ -324,7 +328,6 @@ public class Controlador {
      * @param u Usuario de tipo Cliente que se recibe del formulário de acceso
      * @return String con el nombre de la web segun si se ha tenido exito
      * logueando o no.
-     * @see MercaBarrioModelo
      */
     public String clienteLogin(Usuario u) {
         FacesMessage message;
@@ -373,7 +376,6 @@ public class Controlador {
             Tienda t = MercaBarrioModelo.loginT(u.getNombre_usuario(), u.getPassword());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", t);
             return "tiendaInicio?faces-redirect=true";
-//            return "tiendaInicio?faces-redirect=true";
         } else {
             String msg = "El usuario o el password son erroneos";
             FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
@@ -418,7 +420,7 @@ public class Controlador {
         List<Tienda> tiendas;
         List<Tienda> tiendasAdmitidas = new LinkedList<>();
         //Todas las Tiendas de un barrio del mismo barrio que el Cliente
-        tiendas = MercaBarrioModelo.tiendasBarrioConcreto(c.getBarrio());
+        tiendas = MercaBarrioModelo.buscarTiendasBarrioConcreto(c.getBarrio());
         //De todas las Tiendas solo aquellas que han sido comprobadas y admitidas por los Administradores
         for (Tienda t : tiendas) {
             if (t.isAceptada()) {
@@ -436,7 +438,7 @@ public class Controlador {
      */
     public Tienda buscarTienda(Long id) {
         Tienda t = null;
-        return t = MercaBarrioModelo.buscarTiendaModelo(id);
+        return t = MercaBarrioModelo.buscarTienda(id);
     }
 
     /**
@@ -451,6 +453,17 @@ public class Controlador {
     }
 
     /**
+     * Método para buscar un Producto segun su idProducto
+     *
+     * @param id Long con el idProducto del Producto
+     * @return Devuelve el -Producto-
+     */
+    public Producto buscarProducto(Long id) {
+        Producto p = MercaBarrioModelo.buscarProducto(id);
+        return p;
+    }
+
+    /**
      * Método para mostar los productos pertenecientes a una Tienda concreta.
      * Método usado en clienteProductosTienda.xhtml
      *
@@ -458,16 +471,24 @@ public class Controlador {
      * Productos
      * @return Lista de todos los Productos de la Tienda
      */
-    public List<Producto> verProductos(Long id_tienda) {
+    public List<Producto> todosProductosTienda(Long id_tienda) {
         List<Producto> productos;
-        productos = MercaBarrioModelo.obtenerProductos(id_tienda);
+        productos = MercaBarrioModelo.buscarProductosPorTienda(id_tienda);
         return productos;
     }
 
-    public List<Producto> productosDisponibles(Long id_tienda) {
+    /**
+     * Método para mostrar los Productos disponibles (Aquellos que la Tienda no
+     * ha dado de baja)
+     *
+     * @param id_tienda Id de la tienda de la que se quieren mostrar los
+     * Productos disponibles
+     * @return Lista de todos los Productos disponibles de la Tienda
+     */
+    public List<Producto> productosDisponiblesTienda(Long id_tienda) {
         List<Producto> productos;
         List<Producto> productosDisponibles = new LinkedList<>();
-        productos = MercaBarrioModelo.obtenerProductos(id_tienda);
+        productos = MercaBarrioModelo.buscarProductosPorTienda(id_tienda);
         for (Producto p : productos) {
             if (p.isEstadoProducto()) {
                 productosDisponibles.add(p);
@@ -477,25 +498,14 @@ public class Controlador {
     }
 
     /**
-     * Método para buscar un Producto segun su id
-     *
-     * @param id Long con el id del Producto
-     * @return Devuelve el -Producto-
-     */
-    public Producto buscarProducto(Long id) {
-        Producto p = MercaBarrioModelo.buscarProducto(id);
-        return p;
-    }
-
-    /**
      * Método que devuelve una lista con los tres últimos Productos de una
      * Tienda
      *
-     * @param id ID de la Tienda cuyos productos se desean mostrar
+     * @param id_tienda ID de la Tienda cuyos productos se desean mostrar
      * @return Lista de Productos
      */
-    public List<Producto> ultimosProductos(Long id) {
-        Tienda t = MercaBarrioModelo.buscarTiendaModelo(id);
+    public List<Producto> ultimosProductos(Long id_tienda) {
+        Tienda t = MercaBarrioModelo.buscarTienda(id_tienda);
         List<Producto> listaUltimosproductos = new LinkedList<>();
         for (Producto p : t.getProductos()) {
             if (p.isEstadoProducto()) {
@@ -533,10 +543,10 @@ public class Controlador {
      * Productos
      * @return Lista con 3 Productos aleatorio de la Tienda
      */
-    public List<Producto> productosRamdom(Long id_tienda) {
+    public List<Producto> productosRandom(Long id_tienda) {
         List<Producto> pRandom = new LinkedList();
-        List<Producto> productos = productosDisponibles(id_tienda);
-//        productos = MercaBarrioModelo.obtenerProductos(id_tienda);
+        List<Producto> productos = productosDisponiblesTienda(id_tienda);
+//        productos = MercaBarrioModelo.buscarProductosPorTienda(id_tienda);
         int contador = 3;
         if (productos.size() > 3) {
             int index;
@@ -552,12 +562,12 @@ public class Controlador {
     /**
      * Método que busca y devuelve los Pedidos realizados por el usuario Cliente
      *
-     * @param id
+     * @param id_cliente
      * @return Lista de los Pedidos realizados
      * @see MercaBarrioModelo
      */
-    public List<Pedido> verHistoricoPedidos(String id) {
-        Cliente c = MercaBarrioModelo.buscarCliente(Long.parseLong(id));
+    public List<Pedido> pedidosRealizados(String id_cliente) {
+        Cliente c = MercaBarrioModelo.buscarCliente(Long.parseLong(id_cliente));
         List<Pedido> todosPedidos = c.getPedidos();
         List<Pedido> pedidosConfirmados = new LinkedList<>();
 //        List<Pedido> antiguosPedidos = MercaBarrioModelo.buscarPedidosConfirmados();
@@ -566,6 +576,7 @@ public class Controlador {
                 pedidosConfirmados.add(p);
             }
         }
+        Collections.reverse(pedidosConfirmados);
         return pedidosConfirmados;
     }
 
@@ -593,10 +604,20 @@ public class Controlador {
      */
     public List<SubPedido> todosSubPedidos(String id_tienda) {
 
-        List<SubPedido> subPedidos = MercaBarrioModelo.subPedidosTienda(id_tienda);
+        List<SubPedido> subPedidos = MercaBarrioModelo.buscarSubPedidosTienda(id_tienda);
         Collections.reverse(subPedidos);
 
         return subPedidos;
+    }
+
+    /**
+     * Método que devuelve una lista con todas las Tiendas registradas
+     *
+     * @return Lista con todas las Tiendas registradas en la aplicación
+     */
+    public List<Tienda> todasLasTiendas() {
+        List<Tienda> t = MercaBarrioModelo.buscarTiendas();
+        return t;
     }
 
     /*
@@ -615,9 +636,14 @@ public class Controlador {
         return casoNavegacion;
     }
 
-    public void borrarArticuloCarrito(String id) {
+    /**
+     * Método que borra un articulo del carrito o Pedido del Cliente
+     *
+     * @param id_subPedido
+     */
+    public void borrarArticuloCarrito(String id_subPedido) {
 //        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        Cliente c = MercaBarrioModelo.borrarArticuloCarrito(Long.parseLong(id));
+        Cliente c = MercaBarrioModelo.borrarArticuloCarrito(Long.parseLong(id_subPedido));
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", c);
     }
 
@@ -785,7 +811,7 @@ public class Controlador {
     public String editarProducto(Producto p) {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         String id_producto = externalContext.getRequestParameterMap().get("id_productoEditar");
-        System.out.println("------------<-----------------<-----------------< " + id_producto);
+//        System.out.println("------------<-----------------<-----------------< " + id_producto);
 
         Producto productoEditar = MercaBarrioModelo.buscarProducto(Long.parseLong(id_producto));
         //Comprobación de los campos de formulario
@@ -845,8 +871,13 @@ public class Controlador {
         Envio env = p.getEnvio();
         boolean estadoEnvio = true;
         List<SubPedido> subPedidos = p.getSubPedido();
-        for (SubPedido sps : subPedidos) {
-            if (!sps.getEstado().equals(SubPedido.EstadoSubPedido.PREPARADO)) {
+//        for (SubPedido sps : subPedidos) {
+//            if (!sps.getEstado().equals(SubPedido.EstadoSubPedido.PREPARADO)) {
+//                estadoEnvio = false;
+//            }
+//        }
+        for (int i = 0; i < subPedidos.size() && estadoEnvio; i++) {
+            if (!subPedidos.get(i).getEstado().equals(SubPedido.EstadoSubPedido.PREPARADO)) {
                 estadoEnvio = false;
             }
         }
@@ -861,56 +892,6 @@ public class Controlador {
      <<<>>> Metodos OTROS <<<>>>  
      */
     /**
-     * Método que calcula el importe total del Pedido
-     *
-     * @return Devuelve el importe del Pedido
-     */
-    public double importeTotal() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        Map<String, Object> sessionMap = externalContext.getSessionMap();
-        Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
-        double importeTotal = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
-
-        List<SubPedido> listaSubPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
-        for (SubPedido sp : listaSubPedidos) {
-            String opcion = sp.getProducto().getUnidadSuministro();
-            if (opcion.equals("gramo") || opcion.equals("mililitro")) {
-                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
-                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
-            } else {
-                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
-            }
-
-        }
-        return importeTotal;
-    }
-
-    public double importeTotal(Pedido p) {
-        double importeTotal = 0;
-        List<SubPedido> listaSubPedidos = p.getSubPedido();
-        for (SubPedido sp : listaSubPedidos) {
-            String opcion = sp.getProducto().getUnidadSuministro();
-            if (opcion.equals("gramo") || opcion.equals("mililitro")) {
-                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
-                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
-            } else {
-                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
-            }
-
-        }
-        return importeTotal;
-
-    }
-
-    public double importe() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        Map<String, Object> sessionMap = externalContext.getSessionMap();
-        Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
-        double importe = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
-        return importe;
-    }
-
-    /**
      * Método de confirmación de compra. Modifica los atributos(añade fecha y la
      * confirmación del cliente) al Pedido que esta realizando el cliente
      *
@@ -923,6 +904,7 @@ public class Controlador {
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
         Pedido pedidoActual = c.getPedidos().get(c.getPedidos().size() - 1);
         List<SubPedido> subPedidos = pedidoActual.getSubPedido();
+        //Modificacion del stock de los Productos que contienen el Pedido
         for (SubPedido sp : subPedidos) {
             Producto p = sp.getProducto();
             p.setStock(p.getStock() - sp.getCantidad_producto());
@@ -966,7 +948,7 @@ public class Controlador {
      *
      * @return Lista con los nombres de las vias de Sevilla
      */
-    public List callesSevilla() {
+    public List<String> callesSevilla() {
 
         List todasCalles = new ArrayList();
 
@@ -1000,7 +982,7 @@ public class Controlador {
      *
      * @return Lista con los tipos de vias de Sevilla
      */
-    public List tipoViasSevilla() {
+    public List<String> tipoViasSevilla() {
         List tipoVias = new ArrayList();
         try {
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -1035,7 +1017,7 @@ public class Controlador {
      *
      * @return Lista con los nombres de los barrio de Sevilla
      */
-    public List barriosSevilla() {
+    public List<String> barriosSevilla() {
 
         List todosBarrios = new ArrayList();
 
@@ -1078,28 +1060,101 @@ public class Controlador {
         String fechaFormateada = "";
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         fechaFormateada = formato.format(fecha);
-
         return fechaFormateada;
     }
 
-    public List<Tienda> tiendas() {
-        List<Tienda> t = MercaBarrioModelo.buscarTiendas();
-        return t;
-    }
-
-    public void confirmaTienda(Long id_usuario) {
-        Tienda t = MercaBarrioModelo.buscarTiendaModelo(id_usuario);
+    /**
+     * Método que valida a una Tienda pudiendo asi operar con la aplicacion
+     *
+     * @param id_tienda Id de la Tienda a confirmar
+     */
+    public void confirmaTienda(Long id_tienda) {
+        Tienda t = MercaBarrioModelo.buscarTienda(id_tienda);
         t.setAceptada(true);
         MercaBarrioModelo.actualizarTienda(t);
 
     }
 
-    public String confirmarRecepcion(Long id) {
-        Envio env = MercaBarrioModelo.buscarEnvio(id);
+    /**
+     * Método que realiza la confirmacion de entrega del Envio
+     *
+     * @param id_envio Id del Envio del que se confirma su recepción
+     */
+    public void confirmarRecepcion(Long id_envio) {
+        Envio env = MercaBarrioModelo.buscarEnvio(id_envio);
         env.setEstado_envio(Envio.EstadoEnvio.ENTREGADO);
         Date fechaActual = new Date();
         env.setFecha_recepcion(fechaActual);
         MercaBarrioModelo.actualizarEnvio(env);
-        return "";
+
     }
+
+    /**
+     * Método que calcula el precio de un Produco con el IVA
+     *
+     * @param id_producto Id del Producto del que se quiere obtener el precio
+     * con IVA
+     * @return double con el valor de aplicar el IVA al Producto
+     */
+    public double precioUnProductoIVA(Long id_producto) {
+        double importeIVA = 0.0;
+        Producto p = MercaBarrioModelo.buscarProducto(id_producto);
+        importeIVA = p.getPrecio() * (1 + ((double) p.getTipoIVA() / 100));
+        return importeIVA;
+    }
+
+    /**
+     * Método que calcula el importe total del Pedido
+     *
+     * @return Devuelve el importe del Pedido
+     */
+    public double importeTotal() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, Object> sessionMap = externalContext.getSessionMap();
+        Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
+        double importeTotal = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
+
+        List<SubPedido> listaSubPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
+        for (SubPedido sp : listaSubPedidos) {
+            String opcion = sp.getProducto().getUnidadSuministro();
+            if (opcion.equals("gramos") || opcion.equals("mililitros")) {
+                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
+                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            } else {
+                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            }
+
+        }
+        return importeTotal;
+    }
+
+    /**
+     * Método que calcula el importe total del Pedido
+     * 
+     * @return Devuelve el importe del Pedido
+     */
+    public double importe() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, Object> sessionMap = externalContext.getSessionMap();
+        Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
+        double importe = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
+        return importe;
+    }
+
+//    public double importeTotal(Pedido p) {
+//        double importeTotal = 0;
+//        List<SubPedido> listaSubPedidos = p.getSubPedido();
+//        for (SubPedido sp : listaSubPedidos) {
+//            String opcion = sp.getProducto().getUnidadSuministro();
+//            if (opcion.equals("gramos") || opcion.equals("mililitros")) {
+//                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
+//                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+//            } else {
+//                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+//            }
+//
+//        }
+//        return importeTotal;
+//
+//    }
 }

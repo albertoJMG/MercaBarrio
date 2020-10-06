@@ -19,8 +19,8 @@
                 <h:form>
                     <div class="row mx-0 px-0 d-lg-flex justify-content-lg-around">
                         <!--Panel con los Datos de Envio y el Método de Pago-->
-                        <div class="row col-sm-12 col-lg-5 d-md-flex justify-content-md-between px-sm-0 mx-sm-0 d-lg-block">
-                            <div class="col-sm-12 col-md-4 col-lg-12 producto_detalle pb-3 mb-3">
+                        <div class="col-12 col-lg-5 d-md-flex justify-content-md-between px-0 mx-0 d-lg-block">
+                            <div class="col-12 col-md-4 col-lg-12 producto_detalle pb-3 mb-3">
                                 <h2 class="my-3">
                                     <h:outputText value="#{msgs['cliente_proceder.datos_envio']}"/>
                                 </h2>
@@ -28,12 +28,12 @@
                                 <p><h:outputText value="#{c.barrio}"/></p>
                                 <p><h:outputText value="#{c.cp}"/></p>
                             </div>
-                            <div class="col-sm-12 col-md-7 col-lg-12 producto_detalle mb-3 pb-2">
+                            <div class="col-12 col-md-7 col-lg-12 producto_detalle mb-3 pb-2">
                                 <h2 class="my-3">
                                     <h:outputText value="#{msgs['cliente_proceder.metodo']}"/>
                                 </h2>
                                 <p:selectOneRadio value="#{pedido.metodo_pago}" layout="responsive" columns="2" required="true">
-                                    <f:selectItem itemLabel="Contra-reembolso" itemValue="reembolso"/>
+                                    <f:selectItem itemLabel="A la entrega" itemValue="reembolso"/>
                                     <f:selectItem itemLabel="Transferencia" itemValue="transferencia"/>
                                     <f:selectItem itemLabel="Tarjeta" itemValue="tarjeta"/>
                                     <f:selectItem itemLabel="PayPal" itemValue="paypal"/>
@@ -42,7 +42,7 @@
                         </div>
                         <!--FIN Panel-->
                         <!--Resumen de la compra-->
-                        <div class="col-sm-12 col-lg-6 producto_detalle">
+                        <div class=" col-12 col-lg-6 producto_detalle">
                             <h2 class="centrar--texto my-3">
                                 <h:outputText value="#{msgs['cliente_proceder.compra']}"/>
                             </h2>
@@ -54,12 +54,12 @@
                                         </h4>
                                         <div class="row mb-3 d-flex align-items-center">
                                             <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em" styleClass="col-sm-4 col-md-3 m-0" />
-                                            <div class="row col-sm-8 col-md-9 ">
-                                                <p class="mb-3">
+                                            <div class="row col-8 col-md-9 ">
+                                                <p class="mb-3 ">
                                                     <h:outputText value="#{sp.producto.breve_descripcion}"/>
                                                 </p>
                                                 <p class="texto--error col-12 texto--der">
-                                                    <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
+                                                    <h:outputText value="#{controlador.precioUnProductoIVA(sp.producto.id_producto)}">
                                                         <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                                     </h:outputText>
                                                     <h:outputText value="/#{p.unidad}"/>

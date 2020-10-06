@@ -33,7 +33,7 @@
                             <f:setPropertyActionListener target="#{buscadorProductosCliente.t}" value="#{tiendaElegida}"/>
                         </p:commandButton> 
                         <!--value="#{buscadorProductosCliente.productos}" para el value del dataGrid--> 
-                        <p:dataGrid var="p" value="#{controlador.productosDisponibles(tiendaElegida.id_usuario)}" 
+                        <p:dataGrid var="p" value="#{controlador.productosDisponiblesTienda(tiendaElegida.id_usuario)}" 
                                     columns="3" layout="grid" rows="12" paginator="true" id="resultados" >
                             <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
                                 <!--Si del Producto no hay stock no permite la navegacion-->
@@ -42,7 +42,7 @@
                                         <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
                                         <h:outputText value="#{p.nombre}" />
                                         <h:panelGroup>
-                                            <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))}">
+                                            <h:outputText value="#{controlador.precioUnProductoIVA(p.id_producto)}">
                                                 <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                             </h:outputText>
                                             <h:outputText value="/#{p.unidad}"/>

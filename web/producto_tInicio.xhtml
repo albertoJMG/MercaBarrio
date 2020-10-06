@@ -22,7 +22,7 @@
                     <p class="texto--gris col-12">#{productoElegido.breve_descripcion}</p>
                 </div>
                 <div class="row p-2">
-                    <div class="col-sm-12 col-lg-4 p-0 m-0 imagen__producto">
+                    <div class="col-12 col-lg-4 p-0 m-0 imagen__producto">
                         <h:graphicImage url="resources/images/#{productoElegido.nombreFoto}" styleClass="col-sm-6 col-lg-12"/> 
                     </div>
                     <div class="col-sm-12 col-lg-8 mt-sm-5">
@@ -81,11 +81,11 @@
                 <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado'))}">
                     <h:form>
                         <div class="row col-12 centrar--texto my-5 d-flex justify-content-around">
-                            <div class="col-sm-4 col-md-3 col-lg-2">
+                            <div class="col-4 col-md-3 col-lg-2">
                                 <h:outputLabel for="cantidad" value="#{msgs['formulario_producto.cantidad']}"/>
                                 <p:spinner value="#{subPedido.cantidad_producto}" id="cantidad" required="true" stepFactor="1" min="1" styleClass="formulario__input" converterMessage="Introduzca digitos por favor" max="#{productoElegido.stock}" />
                             </div>
-                            <div class="col-sm-2 d-flex align-items-strech">
+                            <div class="col-2 d-flex align-items-strech">
                                 <h:commandButton value="#{msgs['link.add']}" action="#{controlador.addNuevoSubPedido(subPedido)}" styleClass="enlace--boton">
                                     <!--Este parametro es rescatado en el metodo addNuevoSubPedido de la entidad SubPedido-->
                                     <f:param name="id" value="#{producto.id_producto}"/>

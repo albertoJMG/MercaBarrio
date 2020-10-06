@@ -107,7 +107,7 @@
             <!--FIN espacio-->
             <div class="row col-12 menu m-0 p-0">
                 <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado'))}">
-                    <div class="col-8 menu__links">
+                    <div class="col-10 col-sm-8 menu__links">
                         <!--<h:commandLink action="clienteCuenta" value="CUENTA" styleClass="nav-link text-white border col-4 active"/>--> 
                         <h:link outcome="clienteCuenta" value="#{msgs['menu.cuenta']}" styleClass="col-4 menu__enlace"/> 
                         <h:link outcome="clientePedidos" value="#{msgs['menu.pedidos']}" styleClass="col-4 menu__enlace"/> 
@@ -115,7 +115,7 @@
                     </div>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{controlador.esTienda(session.getValue('usuarioLogeado'))}">
-                    <div class="col-8  menu__links">
+                    <div class="col-10 col-sm-8  menu__links">
                         <h:link outcome="tiendaCuenta" value="#{msgs['menu.cuenta']}" styleClass="col-4 menu__enlace"/> 
                         <h:link outcome="tiendaGestionPedidos" value="#{msgs['menu.pedidos']}" styleClass="col-4 menu__enlace"/> 
                         <h:link outcome="tiendaProductos" value="#{msgs['menu.productos']}" styleClass="col-4 menu__enlace"/> 

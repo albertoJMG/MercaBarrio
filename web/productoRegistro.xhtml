@@ -97,15 +97,16 @@
                                     <h:message for="stock" styleClass="mensaje__error"/>
                                 </div>
                                 <div class="col-4">
-                                    <p:spinner id="cantidaPorUnidad" value="#{producto.cantidadSuministro}" required="true" styleClass="formulario__input" converterMessage="Solo enteros" stepFactor="50" min="100"/>
+                                    <p:spinner id="cantidaPorUnidad" value="#{producto.cantidadSuministro}" required="true" styleClass="formulario__input" converterMessage="Solo enteros" stepFactor="1"/>
                                     <h:outputLabel for="cantidadPorUnidad" value="#{msgs['formulario_producto.rango']} " styleClass="mr-5"/>
                                     <h:message for="cantidadPorUnidad" styleClass="mensaje__error"/>
                                 </div>
                                 <div class="col-4" >
                                     <p:selectOneMenu id="unidadPorVenta" value="#{producto.unidadSuministro}" required="true" styleClass="formulario__input texto--der">
                                         <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
-                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramos"/>
                                         <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
+                                        <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_mililitro']}" itemValue="mililitros"/>
                                         <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_unidad']}" itemValue="unidad"/>
                                     </p:selectOneMenu>
                                     <br/>

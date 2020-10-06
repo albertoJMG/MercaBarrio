@@ -28,7 +28,7 @@
             <!--FIN-->
             <!--Muestra todas las Tiendas-->
             <h:form styleClass="mb-4"> 
-                <p:dataScroller value="#{controlador.tiendas()}" var="tiend" chunkSize="5" styleClass="container">
+                <p:dataScroller value="#{controlador.todasLasTiendas()}" var="tiend" chunkSize="5" styleClass="container">
                     <f:facet name="header">
                         <h:outputText value="#{msgs['admin.tabla_cabecera']}"/>
                     </f:facet>

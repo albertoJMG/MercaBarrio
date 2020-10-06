@@ -19,7 +19,7 @@
                 <h:outputText value="#{msgs['cliente_pedidos.historico']}"/>
             </h1>
             <!--Si no hay Pedidos realizados(que esten confirmados) muestra un mensaje-->
-            <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() == 0 }">
+            <h:panelGroup rendered="#{controlador.pedidosRealizados(clienteG.id_usuario).size() == 0 }">
                 <div class="row my-5 mensaje-vacio">
                     <h3 class="centrar--texto mensaje-vacio__texto">
                         <h:outputText value="#{msgs['pedido.vacio_mensaje']}" />
@@ -28,10 +28,10 @@
                 </div>
             </h:panelGroup>
             <!--Si el cliente ha realizado Pedidos, estos se mostraran-->
-            <h:panelGroup rendered="#{controlador.verHistoricoPedidos(clienteG.id_usuario).size() > 0}" id="hola">
+            <h:panelGroup rendered="#{controlador.pedidosRealizados(clienteG.id_usuario).size() > 0}" >
                 <h:form id="form">
                     <!--Tabla con la informacion de cada uno de los Pedidos realizados-->
-                    <p:dataTable value="#{controlador.verHistoricoPedidos(clienteG.id_usuario)}" var="p" styleClass="tabla-pedidos centrar--texto container my-5 " reflow="true" rows="10" paginator="true">
+                    <p:dataTable value="#{controlador.pedidosRealizados(clienteG.id_usuario)}" var="p"  styleClass="tabla-pedidos centrar--texto container my-5 " reflow="true" rows="10" paginator="true">
                         <p:column width="90">
                             <f:facet name="header" >
                                 <h:outputText value="#{msgs['cliente_pedidos.id']}"/>
@@ -64,7 +64,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['cliente_pedidos.articulos']}"/>
                             </f:facet>
-                            <p:commandLink   styleClass="enlace--boton--verde" update=":form:elPanel" oncomplete="PF('pedidoInfo').show()">
+                            <p:commandLink   styleClass="enlace--boton--verde" update=":form:elPanel" oncomplete="PF('pedidoInfo').show()" >
                                 <!--Establecemos en valor a la propiedad del ManageBean Tienda para poder usarlo en la siguiente página-->
                                 <h:outputText value="#{msgs['cliente_pedidos.ver']}"/>
                                 <f:setPropertyActionListener target="#{info.pedidoSeleccionado}" value="#{p}"/>
@@ -100,7 +100,7 @@
                                                 <h:outputText value="#{sp.producto.breve_descripcion}"/>
                                             </p>
                                             <p class="p-0 texto--error texto--der">
-                                                <h:outputText value="#{sp.producto.precio*(1+(sp.producto.tipoIVA/100))}">
+                                                <h:outputText value="#{controlador.precioUnProductoIVA(sp.producto.id_producto)}">
                                                     <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                                 </h:outputText>
                                                 <h:outputText value="/#{sp.producto.unidad}"/>

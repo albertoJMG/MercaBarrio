@@ -31,6 +31,15 @@ public class MercaBarrioModelo {
     /*
      <<<>>> Metodos para LOGIN <<<>>>  
      */
+    /**
+     * Método para el Login de Administrador. Busca al Usuario del tipo
+     * Administrador en la BBDD, crea objeto del tipo Administrador que es usado
+     * por el ManageBean Administrador para crear la sesión
+     *
+     * @param nombreUsuario
+     * @param password
+     * @return Devuelve un objeto de tipo Administrador
+     */
     public static Administrador loginA(String nombreUsuario, String password) {
         Administrador a = null;
         Usuario u = null;
@@ -114,7 +123,7 @@ public class MercaBarrioModelo {
                 consulta.setParameter("nombreUsuarioTienda", nombreUsuario);
                 List<Tienda> resultado = consulta.getResultList();
                 if (resultado.size() > 0) {
-                    if (resultado.get(0).getPassword().equals(MercaBarrioUtil.codificarSHA256(password))) {
+                    if (resultado.get(0).getPassword().equals(MercaBarrioUtil.codificarSHA256(password)) && resultado.get(0).isAceptada()) {
                         t = resultado.get(0);
                     }
                 }
@@ -126,6 +135,14 @@ public class MercaBarrioModelo {
 
     /*
      <<<>>> Metodos de CREACION ENTIDADES <<<>>>  
+     */
+    /**
+     * Método que hace la persistencia del objeto tipo Administrador. Comprueba
+     * si existe un Usuario con el mismo nombre_usuario
+     *
+     * @param a Objeto que se persistira en la BBDD
+     * @return Booleano que indica si se ha tenido exito al hacer la
+     * persistencia.
      */
     public static boolean crearAdmin(Administrador a) {
         boolean exito;
@@ -258,6 +275,11 @@ public class MercaBarrioModelo {
         }
     }
 
+    /**
+     * Método que hace la persistencia del objeto tipo Envio
+     *
+     * @param env Objeto que se persistira en la BBDD
+     */
     public static void crearEnvio(Envio env) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         EnvioJpaController ejc = new EnvioJpaController(emf);
@@ -375,8 +397,23 @@ public class MercaBarrioModelo {
             System.err.println("Error actualizando pedido " + ex.getMessage());
         }
     }
-    
- 
+
+    /**
+     * Método que actualiza un Envio
+     *
+     * @param env Objeto -Envio- que se desea actualizar
+     */
+    public static void actualizarEnvio(Envio env) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        EnvioJpaController ejc = new EnvioJpaController(emf);
+        try {
+            ejc.edit(env);
+        } catch (RollbackFailureException ex) {
+            System.err.println("Error actualizando envio " + ex.getMessage());
+        } catch (Exception ex) {
+            System.err.println("Error actualizando envio " + ex.getMessage());
+        }
+    }
 
     /*
      <<<>>> Metodos de BUSQUEDA<<<>>>  
@@ -402,7 +439,7 @@ public class MercaBarrioModelo {
      * @param id_tienda Id de la Tienda cuyos productos se necesitan
      * @return Lista con todos los Productos de una Tienda
      */
-    public static List<Producto> obtenerProductos(Long id_tienda) {
+    public static List<Producto> buscarProductosPorTienda(Long id_tienda) {
         List<Producto> productosTienda = new LinkedList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         ProductoJpaController ejc = new ProductoJpaController(emf);
@@ -422,7 +459,7 @@ public class MercaBarrioModelo {
      * @param barrio Barrio del Cliente que realiza la peticion/consulta
      * @return Lista con todas las Tiendas del mismo sector que el Cliente
      */
-    public static List<Tienda> tiendasBarrioConcreto(String barrio) {
+    public static List<Tienda> buscarTiendasBarrioConcreto(String barrio) {
         List<Tienda> tiendasSector = new LinkedList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         TiendaJpaController ejc = new TiendaJpaController(emf);
@@ -438,42 +475,42 @@ public class MercaBarrioModelo {
     /**
      * Método que busca una Tienda en concreto
      *
-     * @param id Id de Usuario de la Tienda que se busca
+     * @param id_tienda Id de Usuario de la Tienda que se busca
      * @return Objeto -Tienda- que se busca
      */
-    public static Tienda buscarTiendaModelo(Long id) {
+    public static Tienda buscarTienda(Long id_tienda) {
         Tienda t = new Tienda();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         TiendaJpaController ejc = new TiendaJpaController(emf);
-        t = ejc.findTienda(id);
+        t = ejc.findTienda(id_tienda);
         return t;
     }
 
     /**
      * Método que busca un Cliente
      *
-     * @param id Id de Usuario del Cliente
+     * @param id_usuario Id de Usuario del Cliente
      * @return Objeto -Cliente- que se busca
      */
-    public static Cliente buscarCliente(Long id) {
+    public static Cliente buscarCliente(Long id_usuario) {
         Cliente c = new Cliente();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         ClienteJpaController ejc = new ClienteJpaController(emf);
-        c = ejc.findCliente(id);
+        c = ejc.findCliente(id_usuario);
         return c;
     }
 
     /**
      * Método que busca un Pedido
      *
-     * @param id Id del Pedido que se busca
+     * @param id_pedido Id del Pedido que se busca
      * @return Objeto -Pedido- que se busca
      */
-    public static Pedido buscarPedido(Long id) {
+    public static Pedido buscarPedido(Long id_pedido) {
         Pedido p = new Pedido();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         PedidoJpaController ejc = new PedidoJpaController(emf);
-        p = ejc.findPedido(id);
+        p = ejc.findPedido(id_pedido);
         return p;
     }
 
@@ -503,11 +540,11 @@ public class MercaBarrioModelo {
      * @param id_tienda Id de la Tienda
      * @return Lista del tipo SubPedido
      */
-    public static List<SubPedido> subPedidosTienda(String id_tienda) {
+    public static List<SubPedido> buscarSubPedidosTienda(String id_tienda) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         EntityManager em = emf.createEntityManager();
         Query consultaUsuario = em.createNamedQuery("subPedidosTienda");
-        Tienda t = MercaBarrioModelo.buscarTiendaModelo(Long.parseLong(id_tienda));
+        Tienda t = MercaBarrioModelo.buscarTienda(Long.parseLong(id_tienda));
         consultaUsuario.setParameter("id_tienda", t);
         List<SubPedido> resultadoSubPedidos = consultaUsuario.getResultList();
         em.close();
@@ -526,7 +563,7 @@ public class MercaBarrioModelo {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         EntityManager em = emf.createEntityManager();
         Query consultaUsuario = em.createNamedQuery("subPedidosTienda");
-        Tienda t = MercaBarrioModelo.buscarTiendaModelo(Long.parseLong(id_tienda));
+        Tienda t = MercaBarrioModelo.buscarTienda(Long.parseLong(id_tienda));
         consultaUsuario.setParameter("id_tienda", t);
         List<SubPedido> resultadoSubPedidos = consultaUsuario.getResultList();
         for (SubPedido sp : resultadoSubPedidos) {
@@ -541,15 +578,29 @@ public class MercaBarrioModelo {
     /**
      * Método que devuelve el SubPedido indicando su ID
      *
-     * @param id Id del SubPedido
+     * @param id_subPedido Id del SubPedido
      * @return SubPedido que se busca
      */
-    public static SubPedido buscarSubPedido(Long id) {
+    public static SubPedido buscarSubPedido(Long id_subPedido) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         SubPedidoJpaController ejc = new SubPedidoJpaController(emf);
-        SubPedido sp = ejc.findSubPedido(id);
+        SubPedido sp = ejc.findSubPedido(id_subPedido);
         emf.close();
         return sp;
+    }
+
+    /**
+     * Método que busca y devuelve un Envio
+     *
+     * @param id_envio Id del Envio para su busqueda
+     * @return Devuleve un Objeto -Envio-
+     */
+    public static Envio buscarEnvio(Long id_envio) {
+        Envio env;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        EnvioJpaController ejc = new EnvioJpaController(emf);
+        env = ejc.findEnvio(id_envio);
+        return env;
     }
 
     /*
@@ -558,13 +609,13 @@ public class MercaBarrioModelo {
     /**
      * Método que borra un Pedido
      *
-     * @param id Id del Pedido a borrar
+     * @param id_pedido Id del Pedido a borrar
      */
-    public static void borrarPedido(Long id) {
+    public static void borrarPedido(Long id_pedido) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         PedidoJpaController ejc = new PedidoJpaController(emf);
         try {
-            ejc.destroy(id);
+            ejc.destroy(id_pedido);
         } catch (RollbackFailureException ex) {
             System.err.println("Error al borrar Pedido" + ex.getMessage());
         } catch (Exception ex) {
@@ -576,53 +627,72 @@ public class MercaBarrioModelo {
      * Método que borra un Producto. Lo que hace es que no este disponible
      * cambiando el estado del Producto
      *
-     * @param id Id del Producto a borrar
+     * @param id_producto Id del Producto a borrar
      */
-    public static void borrarProducto(Long id) {
+    public static void borrarProducto(Long id_producto) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         ProductoJpaController ejc = new ProductoJpaController(emf);
-        Producto p = ejc.findProducto(id);
+        Producto p = ejc.findProducto(id_producto);
         p.setEstadoProducto(false);
         MercaBarrioModelo.actualizarProducto(p);
     }
 
-    public static Cliente borrarArticuloCarrito(Long id) {
+    /**
+     * Método que borra los articulos del carrito actualizando el Pedido y el
+     * Cliente
+     *
+     * @param id_subPedido Id del SubPedido a borrar
+     * @return Devuleve un Objeto -Cliente-
+     */
+    public static Cliente borrarArticuloCarrito(Long id_subPedido) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         SubPedidoJpaController ejc = new SubPedidoJpaController(emf);
-        SubPedido sp = MercaBarrioModelo.buscarSubPedido(id);
+        SubPedido sp = MercaBarrioModelo.buscarSubPedido(id_subPedido);
         Pedido p = sp.getPedido();
         p.getSubPedido().remove(sp);
         MercaBarrioModelo.actualizarPedido(p);
         Cliente c = p.getCliente();
         MercaBarrioModelo.actualizarCliente(c);
         try {
-            ejc.destroy(id);
+            ejc.destroy(id_subPedido);
         } catch (RollbackFailureException ex) {
             System.err.println("Error al borrar SubPedido" + ex.getMessage());
         } catch (Exception ex) {
             System.err.println("Error al borrar SubPedido" + ex.getMessage());
         }
-
         return c;
     }
 
+    /**
+     * Método que devuelve una lista todas las Tiendas registradas en la
+     * aplicacion
+     *
+     * @return Lista con las Tiendas
+     */
+    public static List<Tienda> buscarTiendas() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        TiendaJpaController ejc = new TiendaJpaController(emf);
+        List<Tienda> t = ejc.findTiendaEntities();
+        return t;
+    }
+
     /*
-     <<<>>> Metodos de OTROS<<<>>>  
+     <<<>>> Métodos OTROS<<<>>>  
      */
     /**
      * Método que comprueba si existe un Usuario con el mismo nombre de usuario
      *
-     * @param usuario String con el nombre de usuario para su comprobacion
+     * @param nombreUsuario String con el nombre de usuario para su comprobacion
      * @return Devuelve true o false según si existe o no un usuario con dicho
      * nombre de usuario
      */
-    public static boolean existeUsuario(String usuario) {
+    public static boolean existeUsuario(String nombreUsuario) {
         boolean existe = false;
-        Usuario u = null;
+//        Usuario u = null;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         EntityManager em = emf.createEntityManager();
         Query consulta = em.createNamedQuery("existeUsuario");
-        consulta.setParameter("nombreUsuario", usuario);
+        consulta.setParameter("nombreUsuario", nombreUsuario);
         List<Usuario> resultado = consulta.getResultList();
         if (resultado.size() > 0) {
             existe = true;
@@ -636,18 +706,18 @@ public class MercaBarrioModelo {
      * Método que comprueba si existe un Producto con el mismo nombre para una
      * determinada Tienda
      *
-     * @param nombreProduct Nombre del Producto que se comprueba
+     * @param nombreProducto Nombre del Producto que se comprueba
      * @param tienda Tienda que va a registrar ese Producto
      * @return Devuelve true o false según si existe o no un Producto con ese
      * nombre en la Tienda
      */
-    public static boolean existeProducto(String nombreProduct, Tienda tienda) {
+    public static boolean existeProducto(String nombreProducto, Tienda tienda) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         EntityManager em = emf.createEntityManager();
         Query consulta = em.createNamedQuery("existeProducto");
-        consulta.setParameter("nombreProducto", nombreProduct);
+        consulta.setParameter("nombreProducto", nombreProducto);
         consulta.setParameter("tiendaProducto", tienda);
-        List<Usuario> resultado = consulta.getResultList();
+        List<Producto> resultado = consulta.getResultList();
         if (resultado.size() > 0) {
             return true;
         } else {
@@ -655,38 +725,12 @@ public class MercaBarrioModelo {
         }
     }
 
+    ////////////////////////////////////////////////////////////// Pendiente de ver su utilidad
+    
     public static List buscarProductos() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         ProductoJpaController ejc = new ProductoJpaController(emf);
         List<Producto> p = ejc.findProductoEntities();
         return p;
     }
-
-    public static List buscarTiendas() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
-        TiendaJpaController ejc = new TiendaJpaController(emf);
-        List<Tienda> t = ejc.findTiendaEntities();
-        return t;
-    }
-    
-    public static void actualizarEnvio(Envio env) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
-        EnvioJpaController ejc = new EnvioJpaController(emf);
-        try {
-            ejc.edit(env);
-        } catch (RollbackFailureException ex) {
-            System.err.println("Error actualizando envio " + ex.getMessage());
-        } catch (Exception ex) {
-            System.err.println("Error actualizando envio " + ex.getMessage());
-        }
-    }
-    
-    public static Envio buscarEnvio(Long id) {
-        Envio env;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
-        EnvioJpaController ejc = new EnvioJpaController(emf);
-        env = ejc.findEnvio(id);
-        return env;
-    }
-
 }

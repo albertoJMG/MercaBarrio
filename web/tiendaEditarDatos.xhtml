@@ -59,7 +59,7 @@
                                         <h:message for="tipoVia" styleClass="mensaje__error"/>
                                     </div>
                                     <div class="col-lg-8 mb-sm-2">
-                                        <p:selectOneMenu id="direccion" value="#{tienda.direccion}" label="direccion" styleClass="formulario__input" filter="true">
+                                        <p:selectOneMenu id="direccion" value="#{tienda.direccion}" label="direccion" styleClass="formulario__input" filter="true" style="min-width: fit-content">
                                             <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').direccion}" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{controlador.callesSevilla()}"/>
                                         </p:selectOneMenu>
@@ -81,7 +81,7 @@
                                         <h:message for="cp" styleClass="mensaje__error"/>
                                     </div>
                                     <div class="col-md-8 mb-sm-2" >
-                                        <p:selectOneMenu id="barrio" value="#{tienda.barrio}" label="barrio" styleClass="formulario__input" filter="true" >
+                                        <p:selectOneMenu id="barrio" value="#{tienda.barrio}" label="barrio" styleClass="formulario__input" filter="true" style="min-width: fit-content" >
                                             <f:selectItem itemLabel="#{session.getValue('usuarioLogeado').barrio}" itemValue="" noSelectionOption="true" />
                                             <f:selectItems value="#{controlador.barriosSevilla()}"/>
                                         </p:selectOneMenu>

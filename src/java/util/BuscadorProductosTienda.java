@@ -40,7 +40,7 @@ public class BuscadorProductosTienda implements Serializable{
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Usuario u = (Usuario) sessionMap.get("usuarioLogeado");
-        productos = MercaBarrioModelo.obtenerProductos(u.getId_usuario());
+        productos = MercaBarrioModelo.buscarProductosPorTienda(u.getId_usuario());
     }
     
     public boolean filtroProductos(Object value, Object filter, Locale locale){

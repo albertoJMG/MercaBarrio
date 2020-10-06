@@ -25,12 +25,12 @@
                 <h3 class="centrar--texto col-12 my-3">
                     <h:outputText value="#{p.nombre}"/>
                 </h3>
-                <div class="row mb-3 d-flex align-items-center">
-                    <h:graphicImage value="resources/images/#{p.nombreFoto}" style="height: 10em" styleClass="col-sm-4 col-md-3 m-0" />
-                    <div class="row col-sm-8 col-md-9 ">
+                <div class="row mb-3  d-flex align-items-center">
+                    <h:graphicImage value="resources/images/#{p.nombreFoto}" style="height: 10em" styleClass="col-4 col-md-3 m-0" />
+                    <div class="row col-8 col-md-9 ">
                         <p class="mb-5"><h:outputText value="#{p.breve_descripcion}"></h:outputText></p>
                         <p class="texto--error col-12 texto--der" >
-                            <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))}">
+                            <h:outputText value="#{controlador.precioUnProductoIVA(p.id_producto)}">
                                 <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                             </h:outputText>
                             <h:outputText value="/#{p.unidad}"/>
@@ -48,14 +48,14 @@
             </div>
             <!--FIN-->
             <!--Muestra productos aleatorios de la Tienda para atraer su compra-->
-            <h:panelGroup rendered="#{controlador.productosRamdom(tienda.id_usuario).size() gt 2}">
+            <h:panelGroup rendered="#{controlador.productosRandom(tienda.id_usuario).size() gt 2}">
                 <div class="container producto_detalle centrar--texto mb-5 pb-3">
                     <h2 class="my-3">
                         <h:outputText value="#{msgs['producto.otros']}"/>
                     </h2>
                     <h:form id="form" styleClass="container">
                         <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
-                        <p:dataGrid var="random" value="#{controlador.productosRamdom(tienda.id_usuario)}" columns="3" layout="grid" rows="3" paginator="false">
+                        <p:dataGrid var="random" value="#{controlador.productosRandom(tienda.id_usuario)}" columns="3" layout="grid" rows="3" paginator="false">
                             <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
                                 <h:panelGrid columns="1" styleClass="col-12"  >
                                     <h:commandLink action="producto_tInicio" >

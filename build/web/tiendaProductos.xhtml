@@ -19,7 +19,7 @@
                 <h:outputText value="#{msgs['menu.productos']}" />
             </h2>
             <!--Mensaje en el caso de que la Tienda aun no tenga productos-->
-            <h:panelGroup rendered="#{controlador.verProductos(tiendaG.id_usuario).size() == 0 }">
+            <h:panelGroup rendered="#{controlador.todosProductosTienda(tiendaG.id_usuario).size() == 0 }">
                 <div class="row my-5 mensaje-vacio">
                     <h3 class="centrar--texto mensaje-vacio__texto">
                         <h:outputText value="#{msgs['producto.vacio_mensaje']}" />
@@ -29,9 +29,9 @@
             </h:panelGroup>
             <!--FIN Mensaje-->
             <!--Tabla con los Producto su informacion y gestion-->
-            <h:panelGroup rendered="#{controlador.verProductos(tiendaG.id_usuario).size() gt 0 }">
+            <h:panelGroup rendered="#{controlador.todosProductosTienda(tiendaG.id_usuario).size() gt 0 }">
                 <h:form>
-                    <p:dataTable value="#{controlador.verProductos(tiendaG.id_usuario)}" widgetVar="productosTabla" var="prod" styleClass="container my-5 centrar--texto tablaResponsive" reflow="true" paginator="true"
+                    <p:dataTable value="#{controlador.todosProductosTienda(tiendaG.id_usuario)}" widgetVar="productosTabla" var="prod" styleClass="container my-5 centrar--texto tablaResponsive" reflow="true" paginator="true"
                                  filteredValue="#{buscadorProductosTienda.productos}" globalFilterFunction="#{buscadorProductosTienda.filtroProductos}" tableStyle="table-layout:auto">
                         <f:facet name="header">
                             <p:outputPanel styleClass="texto--der">
@@ -70,9 +70,9 @@
                             </f:facet>
                             <h:outputText value="#{prod.tipoIVA} "/>
                         </p:column>
-                        <p:column width="100" sortBy="#{prod.stock}" priority="5">
+                        <p:column width="100" sortBy="#{prod.stock}" priority="5" styleClass="#{prod.stock lt 5?'texto--error':''}">
                             <f:facet name="header">
-                                <h:outputText value="#{msgs['formulario_producto.stock']}"/>
+                                <h:outputText value="#{msgs['formulario_producto.stock']}" />
                             </f:facet>
                             <h:outputText value="#{prod.stock} "/>
                         </p:column>

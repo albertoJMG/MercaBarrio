@@ -70,7 +70,7 @@
                         <!--FIN-->
                         <!--Venatana modal con la información de la Tienda seleccionada-->
                         <!--Como hemos cargado el ManageBean Info con el objeto Tienda, ahora podemos rescatar la información de ese objeto Tienda-->
-                        <p:dialog header="Info Tienda " widgetVar="tiendaVentana" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                        <p:dialog header="Info Tienda " widgetVar="tiendaVentana" modal="true" showEffect="blind" hideEffect="explode" resizable="false" closeOnEscape="true" >
                             <p:outputPanel id="tiendaDetalle" styleClass="tabla-info">
                                 <h:panelGrid  columns="2" rendered="true" columnClasses="col-4,col-8" styleClass="tabla-info__grid">
                                     <h:panelGroup>

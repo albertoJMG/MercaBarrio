@@ -614,9 +614,9 @@ a{
     background-color: $colorMercaBarrio_R !important;
 }
 
-.ui-datagrid{
+/*.ui-datagrid{
     background-color: red;
-}
+}*/
 
 .ultimosProductos .ui-widget-content{
     border: none;
@@ -739,6 +739,10 @@ table .ui-icon{
         display: flex;
         justify-content: center;
     }
+    
+    .ui-panel .ui-panel-content{
+        padding: 0em !important;
+    }
 }
 
 
@@ -815,6 +819,10 @@ table .ui-icon{
 
     .espacio_menu{
         height: 6.6rem;
+    }
+    
+    .tablas-datos__imagen-list{
+        display: none;
     }
 
 }
