@@ -26,7 +26,7 @@
                 <h:panelGroup rendered="#{tiendaElegida.productos.size() gt 0}">
                     <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
                     <h:form id="form" styleClass="container mb-5" >
-                        <p:inputText value="#{buscadorProductosCliente.textoABuscar}">
+                        <p:inputText value="#{buscadorProductosCliente.textoABuscar}" disabled="true">
                             
                         </p:inputText>
                         <p:commandButton value="buscar" update="resultados" action="#{buscadorProductosCliente.filtrar()}">

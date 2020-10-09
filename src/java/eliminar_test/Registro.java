@@ -260,7 +260,7 @@ public class Registro extends HttpServlet {
         t.setPassword("t");
         t.setDescripcion("Papeleria y libreria. Expertos en material escolar");
         t.setNombreAvatar("test.jpg");
-        t.setAceptada(false);
+        t.setAceptada(true);
         
         s.setCif("H88888888");
         s.setNombre("Pescaderia La Gamba");
@@ -292,7 +292,7 @@ public class Registro extends HttpServlet {
         r.setPassword("r");
         r.setDescripcion("Pasteleria casera");
         r.setNombreAvatar("test.jpg");
-        r.setAceptada(false);
+        r.setAceptada(true);
         
         q.setCif("H12121212");
         q.setNombre("Ferreteria Perez");

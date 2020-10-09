@@ -39,7 +39,7 @@ public class Producto implements Serializable {
     @Column(name = "unidad", length = 10)
     private String unidad;
     @Column(name = "precio")
-    private Double precio;
+    private double precio;
     @Column(name = "tipoIVA")
     private int tipoIVA;
     @Column(name = "stock")
@@ -55,7 +55,7 @@ public class Producto implements Serializable {
     @Column(name = "estadoProducto")
     private boolean estadoProducto;
     @Column(name = "cantidad_suministro")
-    private int cantidadSuministro;
+    private double cantidadSuministro;
     @Column(name = "unidad_suministro", length = 20)
     private String unidadSuministro;
     @Transient
@@ -107,11 +107,11 @@ public class Producto implements Serializable {
         this.unidad = unidad;
     }
 
-    public Double getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
@@ -171,11 +171,11 @@ public class Producto implements Serializable {
         this.estadoProducto = estadoProducto;
     }
 
-    public int getCantidadSuministro() {
+    public double getCantidadSuministro() {
         return cantidadSuministro;
     }
 
-    public void setCantidadSuministro(int cantidadSuministro) {
+    public void setCantidadSuministro(double cantidadSuministro) {
         this.cantidadSuministro = cantidadSuministro;
     }
 

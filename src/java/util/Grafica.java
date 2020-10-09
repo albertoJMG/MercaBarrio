@@ -75,7 +75,7 @@ public class Grafica {
         List<SubPedido> subPedidosDiciembre = new LinkedList<>();
         List<SubPedido> subPedidos = MercaBarrioModelo.buscarSubPedidosTienda(Long.toString(t.getId_usuario()));
         Date fechaActual = new Date();
-        System.out.println(fechaActual);
+        
         Calendar calPedidos = Calendar.getInstance();
         Calendar calActual = Calendar.getInstance();
         calActual.setTime(fechaActual);

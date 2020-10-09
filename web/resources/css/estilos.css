@@ -293,6 +293,12 @@ and open the template in the editor.
 .infoPedido {
   width: 55vw; }
 
+.importeTotal {
+  color: #cc0433;
+  padding: 5px;
+  font-size: 2rem;
+  font-weight: bold; }
+
 /*Modificadores*/
 .panel--gridView {
   height: 22rem; }
@@ -521,6 +527,13 @@ table .ui-icon {
 
 .nombreArchivo {
   display: block; }
+
+.carrito_numero {
+  background-color: white;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 50%;
+  color: darkorange; }
 
 /* RESPONSIVE */
 @media screen and (max-width: 991px) {

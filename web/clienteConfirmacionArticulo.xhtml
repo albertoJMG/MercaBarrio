@@ -19,21 +19,38 @@
             </h2>
             <!--FIN-->
             <!--Obtenemos el ultimo articulo añadido al Pedido-->
-            <ui:param name="p" value="#{controlador.productoSeleccionado()}"/>
+            <ui:param name="subP" value="#{controlador.productoSeleccionado()}"/>
             <!--Mostramos el articulo añadido al Pedido-->
             <div class="container producto_detalle">
                 <h3 class="centrar--texto col-12 my-3">
-                    <h:outputText value="#{p.nombre}"/>
+                    <h:outputText value="#{subP.producto.nombre}"/>
                 </h3>
                 <div class="row mb-3  d-flex align-items-center">
-                    <h:graphicImage value="resources/images/#{p.nombreFoto}" style="height: 10em" styleClass="col-4 col-md-3 m-0" />
+                    <h:graphicImage value="resources/images/#{subP.producto.nombreFoto}" style="height: 10em" styleClass="col-4 col-md-3 m-0" />
                     <div class="row col-8 col-md-9 ">
-                        <p class="mb-5"><h:outputText value="#{p.breve_descripcion}"></h:outputText></p>
-                        <p class="texto--error col-12 texto--der" >
-                            <h:outputText value="#{controlador.precioUnProductoIVA(p.id_producto)}">
+                        <p class="col-12 mb-4">
+                            <h:outputText value="#{subP.producto.breve_descripcion}"/>
+                        </p>
+                        <p class="col-12 texto--gris mb-2" >
+                            <h:outputText value="#{controlador.precioUnProductoIVA(subP.producto.id_producto)}">
                                 <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                             </h:outputText>
-                            <h:outputText value="/#{p.unidad}"/>
+                            <h:outputText value="/#{subP.producto.unidad}. "/>
+                        </p>
+                        <p class="col-12 texto--gris mb-2">
+                            <h:outputText value="#{subP.producto.cantidadSuministro}">
+                                <f:convertNumber type="number" locale="es-ES"/>
+                            </h:outputText>
+                            <h:outputText value=" #{subP.producto.unidadSuministro}/s la unidad. "/>
+                        </p>
+                        <p class="col-12 texto--gris">
+                            <h:outputText value=" #{msgs['cliente_carrito.cantidad']} #{subP.cantidad_producto}"/>
+                        </p>
+                        <p class="col-12 texto--verde texto--der">
+                            <h:outputText value="#{msgs['cliente_pedidos.importe']}: "/>
+                            <h:outputText value="#{controlador.importeSubPedido(subP)}">
+                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                            </h:outputText>
                         </p>
                     </div>
                 </div>

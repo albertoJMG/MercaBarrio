@@ -31,7 +31,7 @@
             <h:panelGroup rendered="#{controlador.pedidosRealizados(clienteG.id_usuario).size() > 0}" >
                 <h:form id="form">
                     <!--Tabla con la informacion de cada uno de los Pedidos realizados-->
-                    <p:dataTable value="#{controlador.pedidosRealizados(clienteG.id_usuario)}" var="p"  styleClass="tabla-pedidos centrar--texto container my-5 " reflow="true" rows="10" paginator="true">
+                    <p:dataTable value="#{controlador.pedidosRealizados(clienteG.id_usuario)}" var="p"  styleClass="tabla-pedidos centrar--texto container my-5 " reflow="true" tableStyle="table-layout:auto" rows="10" paginator="true">
                         <p:column width="90">
                             <f:facet name="header" >
                                 <h:outputText value="#{msgs['cliente_pedidos.id']}"/>
@@ -85,12 +85,12 @@
                         <p:outputPanel id="elPanel" >
                             <div class="col-12 px-0">
                                 <p class="articulos__encabezado centrar--texto my-2 p-2">
-                                    <h:outputText value="#{info.pedidoSeleccionado.id_pedido}"/>
+                                    <h:outputText value="#{msgs['tienda.infoPedidos_idPedido']}: #{info.pedidoSeleccionado.id_pedido}"/>
                                 </p>
                                 <ui:repeat value="#{info.pedidoSeleccionado.subPedido}" var="sp">
                                     <div class="row producto_detalle pt-3 mx-0 mb-2">
                                         <div class="col-2 mx-0 mb-2">
-                                            <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em"/>
+                                            <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 7em; height: 7em"/>
                                         </div>
                                         <div class="col-10 mx-0 pl-5">
                                             <h4>
@@ -99,12 +99,27 @@
                                             <p class="p-0 m-2">
                                                 <h:outputText value="#{sp.producto.breve_descripcion}"/>
                                             </p>
-                                            <p class="p-0 texto--error texto--der">
+                                            <p class="ml-2 p-0 texto--gris">
                                                 <h:outputText value="#{controlador.precioUnProductoIVA(sp.producto.id_producto)}">
                                                     <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                                 </h:outputText>
                                                 <h:outputText value="/#{sp.producto.unidad}"/>
                                             </p>
+                                            <p class="ml-2 texto--gris">
+                                                <h:outputText value="#{sp.producto.cantidadSuministro}">
+                                                    <f:convertNumber type="number" locale="es-ES"/>
+                                                </h:outputText>
+                                                <h:outputText value=" #{sp.producto.unidadSuministro}/s la unidad. "/>
+                                            </p>
+                                            <p class="ml-2 texto--gris">
+                                                <h:outputText value=" #{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/>
+                                            </p>
+                                            <p class="col-12 texto--der texto--MB">
+                                                <h:outputText value="#{controlador.importeSubPedido(sp)}">
+                                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                </h:outputText>
+                                            </p>
+
                                         </div>
                                     </div>
                                 </ui:repeat>

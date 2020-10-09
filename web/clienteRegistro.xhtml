@@ -85,6 +85,7 @@
                                         <f:selectItem itemLabel="Seleccione barrio" itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{controlador.barriosSevilla()}"/>
                                     </p:selectOneMenu>
+                                    <p:tooltip id="toolTipFade" for="barrio" value="Alberto: En la BD solo hay tiendas registradas para los barrios: AEROPUERTO VIEJO, ALFALFA, AMATE" position="top"/>
                                     <h:outputLabel for="barrio" value="#{msgs['formulario.barrio']} "/>
                                     <h:message for="barrio" styleClass="mensaje__error"/>
                                 </div>
@@ -108,7 +109,7 @@
                             <div class="row mb-3 mb-sm-2">
                                 <div class="col-lg-8 offset-lg-2">
                                     <div class="md-form">
-                                        <p:password id="password" feedback="true" value="#{cliente.password}" required="true" label="password" styleClass="formulario__input"  weakLabel="Débil" strongLabel="Fuerte" promptLabel="Porfavor, introduzca una contraseña"/>
+                                        <p:password id="password" feedback="true" value="#{cliente.password}" required="true" label="password" styleClass="formulario__input"  weakLabel="Débil" goodLabel="Correcto" strongLabel="Fuerte" promptLabel="Porfavor, introduzca una contraseña"/>
                                         <h:outputLabel for="password" value="#{msgs['formulario.password']} "/>
                                         <h:message for="password" styleClass="mensaje__error"/>
                                     </div>

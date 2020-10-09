@@ -5,6 +5,7 @@
  */
 package util;
 
+import entidades.Pedido;
 import entidades.SubPedido;
 import entidades.Tienda;
 import java.io.File;
@@ -27,14 +28,16 @@ import javax.servlet.http.Part;
  */
 public class MercaBarrioUtil {
 
-    public static void subirFoto(Part p) {
+    public static void subirFoto(Part p, String id) {
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
 
+        
+        
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ServletContext servletContext = (ServletContext) externalContext.getContext();
-        String rutaGuardadoFoto = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + p.getSubmittedFileName();
+        String rutaGuardadoFoto = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator +id+p.getSubmittedFileName();
         File outputFile = new File(rutaGuardadoFoto);
         byte[] buffer = new byte[1024];
         int bytesRead = 0;
@@ -64,9 +67,8 @@ public class MercaBarrioUtil {
                 hexString.append(hex);
             }
         } catch (NoSuchAlgorithmException ex) {
-
+            System.out.println("Error codificacion password" + ex.getMessage());
         }
-
         return hexString.toString();
     }
 
@@ -81,10 +83,27 @@ public class MercaBarrioUtil {
                 ganancias = ganancias + sp.getCantidad_producto() * sp.getProducto().getPrecio();
             }
         }
-
         return ganancias;
     }
-    
 
-
+    /**
+     * Método que calcula el importe total del Cliente
+     *
+     * @param p Objeto -Pedido- del que se quiere recalcular el mporte
+     * @return
+     */
+    public static double recalcularImporteTotal(Pedido p) {
+        double importeTotal = 0;
+        List<SubPedido> listaSubPedidos = p.getSubPedido();
+        for (SubPedido sp : listaSubPedidos) {
+            String opcion = sp.getProducto().getUnidadSuministro();
+            if (opcion.equals("gramo") || opcion.equals("mililitros")) {
+                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
+                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            } else {
+                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            }
+        }
+        return importeTotal;
+    }
 }

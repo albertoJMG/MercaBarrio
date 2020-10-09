@@ -29,7 +29,7 @@
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {
                 if (args.validationFailed || !args.loggedIn) {
-                    PF('dlg').jq.effect("shake", {times: 5}, 200);
+                    PF('dlg').jq.effect("", {times: 5}, 200);
                 } else {
                     PF('dlg').hide();
                     $('#loginLink').fadeOut();
@@ -64,7 +64,7 @@
                                         <h:outputText value="#{msgs['link.acceso']}"/>
                                     </h:outputLink>
 
-                                    <p:growl id="growl" sticky="false" life="2000"/>
+                                    <p:growl id="growl" sticky="false" life="2000" />
 
                                     <p:dialog header="#{msgs['link.acceso']}" widgetVar="dlg" resizable="false">
                                         <h:panelGrid columns="2" cellpadding="5">
@@ -107,18 +107,27 @@
             <!--FIN espacio-->
             <div class="row col-12 menu m-0 p-0">
                 <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado'))}">
-                    <div class="col-10 col-sm-8 menu__links">
+                    <div class="col-12 col-sm-10 col-md-8 menu__links">
                         <!--<h:commandLink action="clienteCuenta" value="CUENTA" styleClass="nav-link text-white border col-4 active"/>--> 
-                        <h:link outcome="clienteCuenta" value="#{msgs['menu.cuenta']}" styleClass="col-4 menu__enlace"/> 
-                        <h:link outcome="clientePedidos" value="#{msgs['menu.pedidos']}" styleClass="col-4 menu__enlace"/> 
-                        <h:link outcome="clienteCarrito" value="#{msgs['menu.carrito']} #{fn:length(controlador.listaArticulosCarrito())>0? fn:length(controlador.listaArticulosCarrito()):''}" styleClass="col-4 menu__enlace"/> 
+                        <h:link outcome="clienteInicio" value=" INICIO  " styleClass="col-3 menu__enlace">
+                            <h:outputText styleClass="pi pi-home"/>
+                        </h:link>
+                        <h:link outcome="clienteCuenta" value="#{msgs['menu.cuenta']}" styleClass="col-3 menu__enlace"/> 
+                        <h:link outcome="clientePedidos" value="#{msgs['menu.pedidos']}" styleClass="col-3 menu__enlace"/> 
+                        <h:link outcome="clienteCarrito" styleClass="col-3 menu__enlace">
+                            <h:outputText value="#{msgs['menu.carrito']} "/>
+                            <h:outputText value="#{fn:length(controlador.listaArticulosCarrito())>0? fn:length(controlador.listaArticulosCarrito()):''}" styleClass="#{fn:length(controlador.listaArticulosCarrito())>0? 'carrito_numero':''}"/>
+                        </h:link>
                     </div>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{controlador.esTienda(session.getValue('usuarioLogeado'))}">
                     <div class="col-10 col-sm-8  menu__links">
-                        <h:link outcome="tiendaCuenta" value="#{msgs['menu.cuenta']}" styleClass="col-4 menu__enlace"/> 
-                        <h:link outcome="tiendaGestionPedidos" value="#{msgs['menu.pedidos']}" styleClass="col-4 menu__enlace"/> 
-                        <h:link outcome="tiendaProductos" value="#{msgs['menu.productos']}" styleClass="col-4 menu__enlace"/> 
+                        <h:link outcome="tiendaInicio" value=" INICIO  " styleClass="col-3 menu__enlace">
+                            <h:outputText styleClass="pi pi-home"/>
+                        </h:link>
+                        <h:link outcome="tiendaCuenta" value="#{msgs['menu.cuenta']}" styleClass="col-3 menu__enlace"/> 
+                        <h:link outcome="tiendaGestionPedidos" value="#{msgs['menu.pedidos']}" styleClass="col-3 menu__enlace"/> 
+                        <h:link outcome="tiendaProductos" value="#{msgs['menu.productos']}" styleClass="col-3 menu__enlace"/> 
                     </div>
                 </h:panelGroup>
             </div>

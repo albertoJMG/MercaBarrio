@@ -53,7 +53,10 @@
                             </div>
                             <div class="col-12 mt-5 texto--der">
                                 <p class="mb-3">
-                                    <h:outputText value="#{productoElegido.cantidadSuministro} #{productoElegido.unidadSuministro} la unidad " /> 
+                                    <h:outputText value="#{productoElegido.cantidadSuministro}">
+                                        <f:convertNumber type="number" locale="es-ES"/>
+                                    </h:outputText>
+                                    <h:outputText value=" #{productoElegido.unidadSuministro}/s la unidad "/>
                                 </p>
                                 
                             </div>

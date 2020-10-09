@@ -644,15 +644,10 @@ public class MercaBarrioModelo {
      * @param id_subPedido Id del SubPedido a borrar
      * @return Devuleve un Objeto -Cliente-
      */
-    public static Cliente borrarArticuloCarrito(Long id_subPedido) {
+    public static void borrarArticuloCarrito(Long id_subPedido) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         SubPedidoJpaController ejc = new SubPedidoJpaController(emf);
-        SubPedido sp = MercaBarrioModelo.buscarSubPedido(id_subPedido);
-        Pedido p = sp.getPedido();
-        p.getSubPedido().remove(sp);
-        MercaBarrioModelo.actualizarPedido(p);
-        Cliente c = p.getCliente();
-        MercaBarrioModelo.actualizarCliente(c);
+        
         try {
             ejc.destroy(id_subPedido);
         } catch (RollbackFailureException ex) {
@@ -660,7 +655,7 @@ public class MercaBarrioModelo {
         } catch (Exception ex) {
             System.err.println("Error al borrar SubPedido" + ex.getMessage());
         }
-        return c;
+        
     }
 
     /**

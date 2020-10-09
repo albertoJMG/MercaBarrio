@@ -415,6 +415,13 @@ $responsive-MaxMD-BP: 991px;
     width: 55vw ;
 }
 
+.importeTotal{
+    color: $colorMercaBarrio_R;
+    padding: 5px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 /*Modificadores*/
 .panel--gridView{
     height: 22rem;
@@ -709,6 +716,19 @@ table .ui-icon{
 .nombreArchivo{
     display: block;
 }
+
+.carrito_numero{
+    background-color: white;
+    padding:{
+        left: 8px;
+        right: 8px;
+    }
+    border-radius: 50%;
+    color: darkorange;
+    
+}
+
+
 
 
 

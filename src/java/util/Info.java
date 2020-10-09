@@ -8,10 +8,16 @@ package util;
 import entidades.Pedido;
 import entidades.Tienda;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -41,9 +47,19 @@ public class Info implements Serializable {
     public void setPedidoSeleccionado(Pedido pedidoSeleccionado) {
         this.pedidoSeleccionado = pedidoSeleccionado;
     }
-    
-    
-    
-    
-    
+
+    public void validateFile(Object value) {
+        List<FacesMessage> msgs = new ArrayList<FacesMessage>();
+        Part file = (Part) value;
+        if (file.getSize() > 1024) {
+            msgs.add(new FacesMessage("file too big"));
+        }
+        if (!"image/jpg".equals(file.getContentType())) {
+            msgs.add(new FacesMessage("No es un archivo de imagen"));
+        }
+        if (!msgs.isEmpty()) {
+            throw new ValidatorException(msgs);
+        }
+    }
+
 }

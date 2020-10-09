@@ -185,9 +185,11 @@ public class Controlador {
         if (t.getFotoSubida() == null) {
             t.setNombreAvatar("logoMB.svg");
         } else {
-            String imagen = t.getFotoSubida().getSubmittedFileName();
+            String indice = Integer.toString(MercaBarrioModelo.buscarTiendas().size());
+            String imagen = indice+t.getFotoSubida().getSubmittedFileName();
             t.setNombreAvatar(imagen);
-            MercaBarrioUtil.subirFoto(t.getFotoSubida());
+            
+            MercaBarrioUtil.subirFoto(t.getFotoSubida(), indice);
         }
         ////// DE MOMENTO TODA TIENDA QUE SE REGISTE ES INMEDIATAMENTE ACEPTADA EN LA PLATAFORMA,esta funcion deberia ser realizada por los Administradores
         t.setAceptada(true);
@@ -264,8 +266,9 @@ public class Controlador {
             return "productoRegistro";
         } else {
             //Nombre y ruta de guardado de la foto del Producto
-            String imagen = p.getFotoSubida().getSubmittedFileName();
-            MercaBarrioUtil.subirFoto(p.getFotoSubida());
+            String indice = Integer.toString(MercaBarrioModelo.buscarProductos().size());
+            String imagen = indice+p.getFotoSubida().getSubmittedFileName();
+            MercaBarrioUtil.subirFoto(p.getFotoSubida(), indice);
             p.setEstadoProducto(true);
             p.setNombreFoto(imagen);
             p.setTiendaP(t);
@@ -524,15 +527,15 @@ public class Controlador {
      *
      * @return Devuelve el -Producto-
      */
-    public Producto productoSeleccionado() {
+    public SubPedido productoSeleccionado() {
         Cliente c;
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         c = (Cliente) sessionMap.get("usuarioLogeado");
         Pedido pe = c.getPedidos().get(c.getPedidos().size() - 1);
         SubPedido sp = pe.getSubPedido().get(pe.getSubPedido().size() - 1);
-        Producto p = sp.getProducto();
-        return p;
+//        Producto p = sp.getProducto();
+        return sp;
     }
 
     /**
@@ -643,7 +646,18 @@ public class Controlador {
      */
     public void borrarArticuloCarrito(String id_subPedido) {
 //        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        Cliente c = MercaBarrioModelo.borrarArticuloCarrito(Long.parseLong(id_subPedido));
+        SubPedido sp = MercaBarrioModelo.buscarSubPedido(Long.parseLong(id_subPedido));
+        Pedido p = sp.getPedido();
+        p.getSubPedido().remove(sp);
+        p.setImporte(MercaBarrioUtil.recalcularImporteTotal(p));
+        MercaBarrioModelo.actualizarPedido(p);
+        Cliente c = p.getCliente();
+        System.out.println("IMPORTE---------->------------> " + p.getImporte());
+        System.out.println("IMPORTE---------->------------> " + c.getPedidos().get(c.getPedidos().size() - 1).getImporte());
+        MercaBarrioModelo.actualizarCliente(c);
+        MercaBarrioModelo.borrarArticuloCarrito(Long.parseLong(id_subPedido));
+
+//        Cliente c = MercaBarrioModelo.borrarArticuloCarrito(Long.parseLong(id_subPedido));
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", c);
     }
 
@@ -781,8 +795,8 @@ public class Controlador {
             tiendaAModificar.setEmail(t.getEmail());
         }
         if (t.getFotoSubida() != null) {
-            String imagen = t.getFotoSubida().getSubmittedFileName();
-            MercaBarrioUtil.subirFoto(t.getFotoSubida());
+            String imagen = tiendaAModificar.getId_usuario()+t.getFotoSubida().getSubmittedFileName();
+            MercaBarrioUtil.subirFoto(t.getFotoSubida(), Long.toString(tiendaAModificar.getId_usuario()));
 
             tiendaAModificar.setNombreAvatar(imagen);
         }
@@ -815,37 +829,53 @@ public class Controlador {
 
         Producto productoEditar = MercaBarrioModelo.buscarProducto(Long.parseLong(id_producto));
         //Comprobación de los campos de formulario
-        if (!p.getAlergenos().isEmpty()) {
-            productoEditar.setAlergenos(p.getAlergenos());
+        if (!p.getNombre().isEmpty()) {
+            productoEditar.setNombre(p.getNombre());
         }
         if (!p.getBreve_descripcion().isEmpty()) {
             productoEditar.setBreve_descripcion(p.getBreve_descripcion());
         }
-        if (!p.getCond_conservacion().isEmpty()) {
-            productoEditar.setCond_conservacion(p.getCond_conservacion());
-        }
-        if (!p.getControles().isEmpty()) {
-            productoEditar.setControles(p.getControles());
-        }
         if (!p.getDescripcion().isEmpty()) {
             productoEditar.setDescripcion(p.getDescripcion());
         }
-        if (!p.getNombre().isEmpty()) {
-            productoEditar.setNombre(p.getNombre());
-        }
-
-        if (p.getPrecio() != null) {
+        
+        //UNIDAD
+        
+        if (p.getPrecio() > 0) {
             productoEditar.setPrecio(p.getPrecio());
         }
+        
+        productoEditar.setTipoIVA(p.getTipoIVA());
+               
+        if(p.getStock()>0){
+            productoEditar.setStock(p.getStock());
+        }
+        
+        if (!p.getControles().isEmpty()) {
+            productoEditar.setControles(p.getControles());
+        }
+        if (!p.getCond_conservacion().isEmpty()) {
+            productoEditar.setCond_conservacion(p.getCond_conservacion());
+        }
+        
+        if (!p.getAlergenos().isEmpty()) {
+            productoEditar.setAlergenos(p.getAlergenos());
+        }
+
 
         if (p.getFotoSubida() != null) {
-            String imagen = p.getFotoSubida().getSubmittedFileName();
-            MercaBarrioUtil.subirFoto(p.getFotoSubida());
+            String imagen = productoEditar.getId_producto()+p.getFotoSubida().getSubmittedFileName();
+            MercaBarrioUtil.subirFoto(p.getFotoSubida(), Long.toString(productoEditar.getId_producto()));
 
             productoEditar.setNombreFoto(imagen);
         }
+        
+        if(p.getCantidadSuministro()>0){
+            productoEditar.setCantidadSuministro(p.getCantidadSuministro());
+        }
+        
+        //UNIDAD SUMINISTRO
 
-        productoEditar.setTipoIVA(p.getTipoIVA());
         try {
             MercaBarrioModelo.actualizarProducto(productoEditar);
         } catch (Exception ex) {
@@ -1104,6 +1134,26 @@ public class Controlador {
     }
 
     /**
+     * Método que calcula el importe de un SubPedido (o lo que es lo mismo de un
+     * Producto)
+     *
+     * @param sp Objeto -SubPedido- del que se quiere obtener el importe
+     * @return double del importe total del SubPedido
+     */
+    public double importeSubPedido(SubPedido sp) {
+        double importe;
+
+        String opcion = sp.getProducto().getUnidadSuministro();
+        if (opcion.equals("gramo") || opcion.equals("mililitros")) {
+            importe = precioUnProductoIVA(sp.getProducto().getId_producto()) * (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000));
+        } else {
+            importe = precioUnProductoIVA(sp.getProducto().getId_producto()) * (sp.getCantidad_producto() * sp.getProducto().getCantidadSuministro());
+        }
+
+        return importe;
+    }
+
+    /**
      * Método que calcula el importe total del Pedido
      *
      * @return Devuelve el importe del Pedido
@@ -1112,25 +1162,22 @@ public class Controlador {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         Cliente c = (Cliente) sessionMap.get("usuarioLogeado");
-        double importeTotal = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
-
+        double importeTotal = 0;
         List<SubPedido> listaSubPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
         for (SubPedido sp : listaSubPedidos) {
             String opcion = sp.getProducto().getUnidadSuministro();
-            if (opcion.equals("gramos") || opcion.equals("mililitros")) {
-                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
-                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+            if (opcion.equals("gramo") || opcion.equals("mililitros")) {
+                importeTotal += precioUnProductoIVA(sp.getProducto().getId_producto()) * (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000));
             } else {
-                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
+                importeTotal += precioUnProductoIVA(sp.getProducto().getId_producto()) * (sp.getCantidad_producto() * sp.getProducto().getCantidadSuministro());
             }
-
         }
         return importeTotal;
     }
 
     /**
      * Método que calcula el importe total del Pedido
-     * 
+     *
      * @return Devuelve el importe del Pedido
      */
     public double importe() {
@@ -1141,20 +1188,4 @@ public class Controlador {
         return importe;
     }
 
-//    public double importeTotal(Pedido p) {
-//        double importeTotal = 0;
-//        List<SubPedido> listaSubPedidos = p.getSubPedido();
-//        for (SubPedido sp : listaSubPedidos) {
-//            String opcion = sp.getProducto().getUnidadSuministro();
-//            if (opcion.equals("gramos") || opcion.equals("mililitros")) {
-//                importeTotal = importeTotal + (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000))
-//                        * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
-//            } else {
-//                importeTotal = importeTotal + sp.getCantidad_producto() * (sp.getProducto().getPrecio() * (1 + (double) sp.getProducto().getTipoIVA() / 100));
-//            }
-//
-//        }
-//        return importeTotal;
-//
-//    }
 }

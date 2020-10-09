@@ -23,10 +23,26 @@
                         <div class="row mb-3 d-flex align-items-center">
                             <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 10em; height: 10em" styleClass="col-4 col-md-3 m-0" />
                             <div class="row col-8 col-md-9 ">
-                                <p class="mb-5"><h:outputText value="#{sp.producto.breve_descripcion}"></h:outputText></p>
-                                <p><h:outputText value="#{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/></p>
-                                <p class="texto--error col-12 texto--der">
+                                <p class="col-12 mb-4 ">
+                                    <h:outputText value="#{sp.producto.breve_descripcion}"/>
+                                </p>
+                                <p class="col-12 texto--gris mb-2">
                                     <h:outputText value="#{controlador.precioUnProductoIVA(sp.producto.id_producto)}">
+                                        <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                    </h:outputText>
+                                    <h:outputText value="/#{sp.producto.unidad}. "/>
+                                </p>
+                                <p class="col-12  texto--gris mb-2">
+                                    <h:outputText value="#{sp.producto.cantidadSuministro}">
+                                        <f:convertNumber type="number" locale="es-ES"/>
+                                    </h:outputText>
+                                    <h:outputText value=" #{sp.producto.unidadSuministro}/s la unidad. "/>
+                                </p>
+                                <p class="col-12 texto--gris">
+                                    <h:outputText value="#{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/>
+                                </p>
+                                <p class="col-12 texto--verde texto--der">
+                                    <h:outputText value="#{controlador.importeSubPedido(sp)}">
                                         <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                                     </h:outputText>
                                     <h:outputText value="/#{sp.producto.unidad}"/>
@@ -40,7 +56,8 @@
                 </ui:repeat>
                 <!--FIN-->
                 <!--Muestra el importe total del pedido-->
-                <p class="container texto--der"> Importe: 
+                <p class="container texto--der importeTotal"> 
+                    <h:outputText value="#{msgs['cliente_pedidos.importe']}: " />
                     <h:outputText value="#{controlador.importe()}">
                         <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
                     </h:outputText>
