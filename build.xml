@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="MB_PFv01" default="default" basedir=".">
-    <description>Builds, tests, and runs the project MB_PFv01.</description>
+<project name="mercaBarrio" default="default" basedir=".">
+    <description>Builds, tests, and runs the project mercaBarrio.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 

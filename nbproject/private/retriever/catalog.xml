@@ -4,4 +4,5 @@
     <system systemId="http://schemas.opengis.net/kml/2.2.0/atom-author-link.xsd" uri="schemas.opengis.net/kml/2.2.0/atom-author-link.xsd"/>
     <system systemId="http://docs.oasis-open.org/election/external/xAL.xsd" uri="docs.oasis-open.org/election/external/xAL.xsd"/>
     <system systemId="http://xmlns.jcp.org" uri="www.oracle.com/webfolder/technetwork/jsc/xml/ns/index.html"/>
+    <system systemId="http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd" uri="www.ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd"/>
 </catalog>

@@ -97,6 +97,21 @@ public class Controlador {
     }
 
     /**
+     * Método para comporbar si el Usuario loguerado es del tipo Tienda
+     *
+     * @param u Objeto -Usuario-
+     * @return Booleano para determinar en template.xhtml que zona mostrar (la
+     * destinada al Cliente o a la Tienda)
+     */
+    public boolean esAdmin(Usuario u) {
+        boolean tipo = false;
+        if (u instanceof Administrador) {
+            tipo = true;
+        }
+        return tipo;
+    }
+
+    /**
      * Metodo que determina los casos de navegacion según tipo de usuario
      * logeado, cuando se hace click en el logo
      *
@@ -186,9 +201,9 @@ public class Controlador {
             t.setNombreAvatar("logoMB.svg");
         } else {
             String indice = Integer.toString(MercaBarrioModelo.buscarTiendas().size());
-            String imagen = indice+t.getFotoSubida().getSubmittedFileName();
+            String imagen = indice + t.getFotoSubida().getSubmittedFileName();
             t.setNombreAvatar(imagen);
-            
+
             MercaBarrioUtil.subirFoto(t.getFotoSubida(), indice);
         }
         ////// DE MOMENTO TODA TIENDA QUE SE REGISTE ES INMEDIATAMENTE ACEPTADA EN LA PLATAFORMA,esta funcion deberia ser realizada por los Administradores
@@ -240,7 +255,7 @@ public class Controlador {
             System.err.println(ex.getStackTrace());
         }
 
-        return "clienteConfirmacionArticulo";
+        return "clienteConfirmacionArticulo?faces-redirect=true";
     }
 
     /**
@@ -267,7 +282,7 @@ public class Controlador {
         } else {
             //Nombre y ruta de guardado de la foto del Producto
             String indice = Integer.toString(MercaBarrioModelo.buscarProductos().size());
-            String imagen = indice+p.getFotoSubida().getSubmittedFileName();
+            String imagen = indice + p.getFotoSubida().getSubmittedFileName();
             MercaBarrioUtil.subirFoto(p.getFotoSubida(), indice);
             p.setEstadoProducto(true);
             p.setNombreFoto(imagen);
@@ -284,7 +299,7 @@ public class Controlador {
             //se machaca el usuario logueado con la Tienda
             sessionMap.put("usuarioLogeado", t);
             if (exito) {
-                return "tiendaProductos?faces-redirect=true";
+                return "tiendaProductos";
             } else {
                 String msg = "Revise el formulario";
                 FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
@@ -593,7 +608,7 @@ public class Controlador {
      * los mas recientes
      */
     public List<SubPedido> subPedidosPendientes(String id_tienda) {
-        List<SubPedido> subPedidos = MercaBarrioModelo.subPedidosTiendaPendientes(id_tienda);
+        List<SubPedido> subPedidos = MercaBarrioModelo.buscarSubPedidosTiendaPendientes(id_tienda);
         Collections.reverse(subPedidos);
         return subPedidos;
     }
@@ -681,7 +696,7 @@ public class Controlador {
         Usuario usuarioAModificar = (Usuario) sessionMap.get("usuarioLogeado");
         if (u.getNombre_usuario() != null && !MercaBarrioModelo.existeUsuario(u.getNombre_usuario())) {
             usuarioAModificar.setNombre_usuario(u.getNombre_usuario());
-            usuarioAModificar.setPassword(u.getPassword());
+            usuarioAModificar.setPassword(MercaBarrioUtil.codificarSHA256(u.getPassword()));
             try {
                 MercaBarrioModelo.actualizarUsuario(usuarioAModificar);
                 return cerrarSesion();
@@ -795,7 +810,7 @@ public class Controlador {
             tiendaAModificar.setEmail(t.getEmail());
         }
         if (t.getFotoSubida() != null) {
-            String imagen = tiendaAModificar.getId_usuario()+t.getFotoSubida().getSubmittedFileName();
+            String imagen = tiendaAModificar.getId_usuario() + t.getFotoSubida().getSubmittedFileName();
             MercaBarrioUtil.subirFoto(t.getFotoSubida(), Long.toString(tiendaAModificar.getId_usuario()));
 
             tiendaAModificar.setNombreAvatar(imagen);
@@ -838,52 +853,57 @@ public class Controlador {
         if (!p.getDescripcion().isEmpty()) {
             productoEditar.setDescripcion(p.getDescripcion());
         }
-        
-        //UNIDAD
-        
+
+        if (!productoEditar.getUnidad().equals(p.getUnidad()) && !p.getUnidad().equals("0")) {
+            productoEditar.setUnidad(p.getUnidad());
+        }
         if (p.getPrecio() > 0) {
             productoEditar.setPrecio(p.getPrecio());
         }
-        
-        productoEditar.setTipoIVA(p.getTipoIVA());
-               
-        if(p.getStock()>0){
+
+        if(productoEditar.getTipoIVA() != p.getTipoIVA() && p.getTipoIVA() != 0){
+            productoEditar.setTipoIVA(p.getTipoIVA());
+        }
+
+        if (p.getStock() > 0) {
             productoEditar.setStock(p.getStock());
         }
-        
+
         if (!p.getControles().isEmpty()) {
             productoEditar.setControles(p.getControles());
         }
         if (!p.getCond_conservacion().isEmpty()) {
             productoEditar.setCond_conservacion(p.getCond_conservacion());
         }
-        
+
         if (!p.getAlergenos().isEmpty()) {
             productoEditar.setAlergenos(p.getAlergenos());
         }
 
-
         if (p.getFotoSubida() != null) {
-            String imagen = productoEditar.getId_producto()+p.getFotoSubida().getSubmittedFileName();
+            String imagen = productoEditar.getId_producto() + p.getFotoSubida().getSubmittedFileName();
             MercaBarrioUtil.subirFoto(p.getFotoSubida(), Long.toString(productoEditar.getId_producto()));
 
             productoEditar.setNombreFoto(imagen);
         }
-        
-        if(p.getCantidadSuministro()>0){
+
+        if (p.getCantidadSuministro() > 0) {
             productoEditar.setCantidadSuministro(p.getCantidadSuministro());
         }
         
-        //UNIDAD SUMINISTRO
+        if(!productoEditar.getUnidadSuministro().equals(p.getUnidadSuministro()) && !p.getUnidadSuministro().equals("0")){
+            productoEditar.setUnidadSuministro(p.getUnidadSuministro());
+        }
 
+        //UNIDAD SUMINISTRO
         try {
             MercaBarrioModelo.actualizarProducto(productoEditar);
         } catch (Exception ex) {
             System.err.println("No se ha podido actualizar el producto: " + ex.getMessage());
         }
 
-        return "tiendaProductos";
-//        return "tiendaProductos?faces-redirect=true";
+//        return "tiendaProductos";
+        return "tiendaProductos?faces-redirect=true";
     }
 
     /**
@@ -950,6 +970,8 @@ public class Controlador {
         pedidoActual.setFecha_pedido(fechaActual);
         pedidoActual.setConfimacion_cliente(true);
         pedidoActual.setMetodo_pago(pedido.getMetodo_pago());
+        pedidoActual.setDestinatario(c.getNombre()+ " " + c.getApellidos());
+        pedidoActual.setLugar_entrega(c.getTipoVIA() + "/ " + c.getDireccion());
 
         Envio env = new Envio();
         env.setEstado_envio(Envio.EstadoEnvio.EN_PROCESO);
@@ -969,7 +991,7 @@ public class Controlador {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogeado", c);
 
-        return "clientePedidos";
+        return "clientePedidos?faces-redirect=true";
     }
 
     /**
@@ -1187,5 +1209,16 @@ public class Controlador {
         double importe = c.getPedidos().get(c.getPedidos().size() - 1).getImporte();
         return importe;
     }
+
+    public String irAEditarProducto(String id) {
+        //ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        //Map<String, Object> sessionMap = externalContext.getSessionMap();
+        Producto p = MercaBarrioModelo.buscarProducto(Long.parseLong(id));
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productoEditar", p);
+
+        return "productoEditar";
+    }
+
+    
 
 }

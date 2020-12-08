@@ -11,93 +11,102 @@
             <!--Espacio del menu-->
             <div class="espacio_menu"></div>
             <!--FIN espacio-->
-            <ui:param name="c" value="#{session.getValue('usuarioLogeado')}"/>
-            <h1 class="centrar--texto m-5">
-                <h:outputText value="#{msgs['cliente_proceder.tramitar']}"/>
-            </h1>
-            <div class="container p-0 mb-5">
-                <h:form>
-                    <div class="row mx-0 px-0 d-lg-flex justify-content-lg-around">
-                        <!--Panel con los Datos de Envio y el Método de Pago-->
-                        <div class="col-12 col-lg-5 d-md-flex justify-content-md-between px-0 mx-0 d-lg-block">
-                            <div class="col-12 col-md-4 col-lg-12 producto_detalle pb-3 mb-3">
-                                <h2 class="my-3">
-                                    <h:outputText value="#{msgs['cliente_proceder.datos_envio']}"/>
-                                </h2>
-                                <p><h:outputText value="#{c.tipoVIA} #{c.direccion} #{c.numeroVia}"/></p>
-                                <p><h:outputText value="#{c.barrio}"/></p>
-                                <p><h:outputText value="#{c.cp}"/></p>
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq true}">
+                <ui:param name="c" value="#{session.getValue('usuarioLogeado')}"/>
+                <h1 class="centrar--texto m-5">
+                    <h:outputText value="#{msgs['cliente_proceder.tramitar']}"/>
+                </h1>
+                <div class="container p-0 mb-5">
+                    <h:form>
+                        <div class="row mx-0 px-0 d-lg-flex justify-content-lg-around">
+                            <!--Panel con los Datos de Envio y el Método de Pago-->
+                            <div class="col-12 col-lg-5 d-md-flex justify-content-md-between px-0 mx-0 d-lg-block">
+                                <div class="col-12 col-md-4 col-lg-12 producto_detalle pb-3 mb-3">
+                                    <h2 class="my-3">
+                                        <h:outputText value="#{msgs['cliente_proceder.datos_envio']}"/>
+                                    </h2>
+                                    <p><h:outputText value="#{c.tipoVIA} #{c.direccion} #{c.numeroVia}"/></p>
+                                    <p><h:outputText value="#{c.barrio}"/></p>
+                                    <p><h:outputText value="#{c.cp}"/></p>
+                                </div>
+                                <div class="col-12 col-md-7 col-lg-12 producto_detalle mb-3 pb-2">
+                                    <h2 class="my-3">
+                                        <h:outputText value="#{msgs['cliente_proceder.metodo']}"/>
+                                    </h2>
+                                    <p:selectOneRadio value="#{pedido.metodo_pago}" layout="responsive" columns="2" required="true">
+                                        <f:selectItem itemLabel="A la entrega" itemValue="reembolso"/>
+                                        <f:selectItem itemLabel="Transferencia" itemValue="transferencia"/>
+                                        <f:selectItem itemLabel="Tarjeta" itemValue="tarjeta"/>
+                                        <f:selectItem itemLabel="PayPal" itemValue="paypal"/>
+                                    </p:selectOneRadio>
+                                </div>
                             </div>
-                            <div class="col-12 col-md-7 col-lg-12 producto_detalle mb-3 pb-2">
-                                <h2 class="my-3">
-                                    <h:outputText value="#{msgs['cliente_proceder.metodo']}"/>
+                            <!--FIN Panel-->
+                            <!--Resumen de la compra-->
+                            <div class=" col-12 col-lg-6 producto_detalle">
+                                <h2 class="centrar--texto my-3">
+                                    <h:outputText value="#{msgs['cliente_proceder.compra']}"/>
                                 </h2>
-                                <p:selectOneRadio value="#{pedido.metodo_pago}" layout="responsive" columns="2" required="true">
-                                    <f:selectItem itemLabel="A la entrega" itemValue="reembolso"/>
-                                    <f:selectItem itemLabel="Transferencia" itemValue="transferencia"/>
-                                    <f:selectItem itemLabel="Tarjeta" itemValue="tarjeta"/>
-                                    <f:selectItem itemLabel="PayPal" itemValue="paypal"/>
-                                </p:selectOneRadio>
-                            </div>
-                        </div>
-                        <!--FIN Panel-->
-                        <!--Resumen de la compra-->
-                        <div class=" col-12 col-lg-6 producto_detalle">
-                            <h2 class="centrar--texto my-3">
-                                <h:outputText value="#{msgs['cliente_proceder.compra']}"/>
-                            </h2>
-                            <div class="col-12">
-                                <ui:repeat value="#{controlador.listaArticulosCarrito()}" var="sp">
-                                    <div class="container producto_detalle mb-2">
-                                        <h4 class="centrar--texto col-12 my-3">
-                                            <h:outputText value="#{sp.producto.nombre}"/>
-                                        </h4>
-                                        <div class="row mb-3 d-flex align-items-center">
-                                            <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em" styleClass="col-sm-4 col-md-3 m-0" />
-                                            <div class="row col-8 col-md-9 ">
-                                                <p class="col-12 mb-3 ">
-                                                    <h:outputText value="#{sp.producto.breve_descripcion}"/>
-                                                </p>
-                                                <p class="col-12 texto--gris mb-2" >
-                                                    <h:outputText value="#{controlador.precioUnProductoIVA(sp.producto.id_producto)}">
-                                                        <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                                    </h:outputText>
-                                                    <h:outputText value="/#{sp.producto.unidad}. "/>
-                                                </p>
-                                                <p class="col-12 texto--gris mb-2">
-                                                    <h:outputText value="#{sp.producto.cantidadSuministro}">
-                                                        <f:convertNumber type="number" locale="es-ES"/>
-                                                    </h:outputText>
-                                                    <h:outputText value=" #{sp.producto.unidadSuministro}/s la unidad. "/>
-                                                </p>
-                                                <p class="col-12 texto--gris">
-                                                    <h:outputText value="#{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/>
-                                                </p>
-                                                <p class="col-12 texto--verde texto--der">
-                                                    <h:outputText value="#{msgs['cliente_pedidos.importe']}: "/>
-                                                    <h:outputText value="#{controlador.importeSubPedido(sp)}">
-                                                        <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                                    </h:outputText>
-                                                </p>
+                                <div class="col-12">
+                                    <ui:repeat value="#{controlador.listaArticulosCarrito()}" var="sp">
+                                        <div class="container producto_detalle mb-2">
+                                            <h4 class="centrar--texto col-12 my-3">
+                                                <h:outputText value="#{sp.producto.nombre}"/>
+                                            </h4>
+                                            <div class="row mb-3 d-flex align-items-center">
+                                                <h:graphicImage value="resources/images/#{sp.producto.nombreFoto}" style="width: 6em; height: 6em" styleClass="col-sm-4 col-md-3 m-0" />
+                                                <div class="row col-8 col-md-9 ">
+                                                    <p class="col-12 mb-3 ">
+                                                        <h:outputText value="#{sp.producto.breve_descripcion}"/>
+                                                    </p>
+                                                    <p class="col-12 texto--gris mb-2" >
+                                                        <h:outputText value="#{controlador.precioUnProductoIVA(sp.producto.id_producto)}">
+                                                            <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                        </h:outputText>
+                                                        <h:outputText value="/#{sp.producto.unidad}. "/>
+                                                    </p>
+                                                    <p class="col-12 texto--gris mb-2">
+                                                        <h:outputText value="#{sp.producto.cantidadSuministro}">
+                                                            <f:convertNumber type="number" locale="es-ES"/>
+                                                        </h:outputText>
+                                                        <h:outputText value=" #{sp.producto.unidadSuministro}/s la unidad. "/>
+                                                    </p>
+                                                    <p class="col-12 texto--gris">
+                                                        <h:outputText value="#{msgs['cliente_carrito.cantidad']} #{sp.cantidad_producto}"/>
+                                                    </p>
+                                                    <p class="col-12 texto--verde texto--der">
+                                                        <h:outputText value="#{msgs['cliente_pedidos.importe']}: "/>
+                                                        <h:outputText value="#{controlador.importeSubPedido(sp)}">
+                                                            <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                        </h:outputText>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </ui:repeat>
-                                <p class="importeTotal my-3 centrar--texto">
-                                    <h:outputText value="#{msgs['cliente_proceder.importe']}: "/>
-                                    <h:outputText value="#{controlador.importe()}"> 
-                                        <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                    </h:outputText>
-                                </p>
+                                    </ui:repeat>
+                                    <p class="importeTotal my-3 centrar--texto">
+                                        <h:outputText value="#{msgs['cliente_proceder.importe']}: "/>
+                                        <h:outputText value="#{controlador.importe()}"> 
+                                            <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                        </h:outputText>
+                                    </p>
+                                </div>
                             </div>
+                            <!--FIN Resumen-->
                         </div>
-                        <!--FIN Resumen-->
-                    </div>
-                    <div class="texto--der mt-3 mr-4">
-                        <h:commandLink action="#{controlador.confirmarCompra(pedido)}" value="Comprar" styleClass="enlace--boton"/>
-                    </div>
-                </h:form>
-            </div>
+                        <div class="texto--der mt-3 mr-4">
+                            <h:commandLink action="#{controlador.confirmarCompra(pedido)}" value="Comprar" styleClass="enlace--boton"/>
+                        </div>
+                    </h:form>
+                </div>
+            </h:panelGroup>
+            <!--Evitar el acceso mediante URL-->
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq false}">
+
+                <ui:include src="errorAcceso.xhtml"/>
+
+            </h:panelGroup>
+            <!--FIN-->
         </ui:define>
     </ui:composition>
 

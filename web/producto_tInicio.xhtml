@@ -12,111 +12,120 @@
             <!--Espacio del menu-->
             <div class="espacio_menu"></div>
             <!--FIN espacio-->
-            <!--producto.id_usuario tiene el ID del Producto seleccionado por el Cliente en clienteProductosTienda.xhtml con la etiqueta <f:setPropertyActionListener>-->
-            <ui:param name="productoElegido" value="#{controlador.buscarProducto(producto.id_producto)}"/>
-            <!--Informacion del Producto-->
-            <div class="container producto_detalle my-4">
-                <div class="row  mb-4">
-                    <h1 class="mt-5 col-12">#{productoElegido.nombre}</h1>
-                    <h3 class="texto--gris col-12">ID: #{productoElegido.id_producto}</h3>
-                    <p class="texto--gris col-12">#{productoElegido.breve_descripcion}</p>
-                </div>
-                <div class="row p-2">
-                    <div class="col-12 col-lg-4 p-0 m-0 imagen__producto">
-                        <h:graphicImage url="resources/images/#{productoElegido.nombreFoto}" styleClass="col-sm-6 col-lg-12"/> 
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq true || controlador.esTienda(session.getValue('usuarioLogeado')) eq true}">
+                <!--producto.id_usuario tiene el ID del Producto seleccionado por el Cliente en clienteProductosTienda.xhtml con la etiqueta <f:setPropertyActionListener>-->
+                <ui:param name="productoElegido" value="#{controlador.buscarProducto(producto.id_producto)}"/>
+                <!--Informacion del Producto-->
+                <div class="container producto_detalle my-4">
+                    <div class="row  mb-4">
+                        <h1 class="mt-5 col-12">#{productoElegido.nombre}</h1>
+                        <h3 class="texto--gris col-12">ID: #{productoElegido.id_producto}</h3>
+                        <p class="texto--gris col-12">#{productoElegido.breve_descripcion}</p>
                     </div>
-                    <div class="col-sm-12 col-lg-8 mt-sm-5">
-                        <div class="row">
-                            <div class="col-12 ">
-                                <p class="mb-3">
-                                    <h:outputText value="#{msgs['formulario_producto.descripcion_corta']}"/>
-                                </p>
-                                <p class="mb-3 texto--sangria" >#{productoElegido.descripcion}</p>
-                            </div>
-                            <div class="col-12 ">
-                                <p class="mb-3">
-                                    <h:outputText value="#{msgs['formulario_producto.alergenos']}"/>
-                                </p>
-                                <p class="mb-3 texto--sangria" >#{productoElegido.alergenos}</p>
-                            </div>
-                            <div class="col-12 ">
-                                <p class="mb-3">
-                                    <h:outputText value="#{msgs['formulario_producto.conservacion']}"/>
-                                </p>
-                                <p class="mb-3 texto--sangria" >#{productoElegido.cond_conservacion}</p>
-                            </div>
-                            <div class="col-12 ">
-                                <p class="mb-3">
-                                    <h:outputText value="#{msgs['formulario_producto.controles']}"/>
-                                </p>
-                                <p class="mb-3 texto--sangria" >#{productoElegido.controles}</p>
-                            </div>
-                            <div class="col-12 mt-5 texto--der">
-                                <p class="mb-3">
-                                    <h:outputText value="#{productoElegido.cantidadSuministro}">
-                                        <f:convertNumber type="number" locale="es-ES"/>
-                                    </h:outputText>
-                                    <h:outputText value=" #{productoElegido.unidadSuministro}/s la unidad "/>
-                                </p>
-                                
-                            </div>
-                            <div class="col-12 mt-1" >
-                                <p:panel styleClass="col-12 centrar--texto fondo--claro " >
-                                    <h:panelGrid columns="3" styleClass="col-12">
-                                        <h:outputText value="#{msgs['formulario_producto.stock']}"/>
-                                        <h:outputText value="#{msgs['formulario_producto.iva']}"/>
-                                        <h:outputText value="#{msgs['formulario_producto.precio']} Iva Incluido"/>
-                                        <h:outputText value="#{productoElegido.stock}"/>
-                                        <h:outputText value="#{productoElegido.tipoIVA} %"/>
-                                        <h:panelGroup>
-                                            <h:outputText value="#{productoElegido.precio*(1+(productoElegido.tipoIVA/100))}">
-                                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                            </h:outputText>
-                                            <h:outputText value="/#{productoElegido.unidad}"/>
-                                        </h:panelGroup>
-                                    </h:panelGrid>
-                                </p:panel>
+                    <div class="row p-2">
+                        <div class="col-12 col-lg-4 p-0 m-0 imagen__producto">
+                            <h:graphicImage url="resources/images/#{productoElegido.nombreFoto}" styleClass="col-sm-6 col-lg-12"/> 
+                        </div>
+                        <div class="col-sm-12 col-lg-8 mt-sm-5">
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <p class="mb-3 texto--gris">
+                                        <h:outputText value="#{msgs['formulario_producto.descripcion_corta']}"/>
+                                    </p>
+                                    <p class="mb-3 texto--sangria" >#{productoElegido.descripcion}</p>
+                                </div>
+                                <div class="col-12 ">
+                                    <p class="mb-3 texto--gris">
+                                        <h:outputText value="#{msgs['formulario_producto.alergenos']}"/>
+                                    </p>
+                                    <p class="mb-3 texto--sangria" >#{productoElegido.alergenos}</p>
+                                </div>
+                                <div class="col-12 ">
+                                    <p class="mb-3 texto--gris">
+                                        <h:outputText value="#{msgs['formulario_producto.conservacion']}"/>
+                                    </p>
+                                    <p class="mb-3 texto--sangria" >#{productoElegido.cond_conservacion}</p>
+                                </div>
+                                <div class="col-12 ">
+                                    <p class="mb-3 texto--gris">
+                                        <h:outputText value="#{msgs['formulario_producto.controles']}"/>
+                                    </p>
+                                    <p class="mb-3 texto--sangria" >#{productoElegido.controles}</p>
+                                </div>
+                                <div class="col-12 mt-5 texto--der">
+                                    <p class="mb-3">
+                                        <h:outputText value="#{productoElegido.cantidadSuministro}">
+                                            <f:convertNumber type="number" locale="es-ES"/>
+                                        </h:outputText>
+                                        <h:outputText value=" #{productoElegido.unidadSuministro}/s la unidad "/>
+                                    </p>
+
+                                </div>
+                                <div class="col-12 mt-1" >
+                                    <p:panel styleClass="col-12 centrar--texto fondo--claro " >
+                                        <h:panelGrid columns="3" styleClass="col-12">
+                                            <h:outputText value="#{msgs['formulario_producto.stock']}"/>
+                                            <h:outputText value="#{msgs['formulario_producto.iva']}"/>
+                                            <h:outputText value="#{msgs['formulario_producto.precio']} Iva Incluido"/>
+                                            <h:outputText value="#{productoElegido.stock}"/>
+                                            <h:outputText value="#{productoElegido.tipoIVA} %"/>
+                                            <h:panelGroup>
+                                                <h:outputText value="#{productoElegido.precio*(1+(productoElegido.tipoIVA/100))}">
+                                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                </h:outputText>
+                                                <h:outputText value="/#{productoElegido.unidad}"/>
+                                            </h:panelGroup>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!--Solo visible si el usuario logueado es Cliente-->
+                    <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado'))}">
+                        <h:form>
+                            <div class="row col-12 centrar--texto my-5 d-flex justify-content-around">
+                                <div class="col-4 col-md-3 col-lg-2">
+                                    <h:outputLabel for="cantidad" value="#{msgs['formulario_producto.cantidad']}"/>
+                                    <p:spinner value="#{subPedido.cantidad_producto}" id="cantidad" required="true" stepFactor="1" min="1" styleClass="formulario__input" converterMessage="Introduzca digitos por favor" max="#{productoElegido.stock}" />
+                                </div>
+                                <div class="col-2 d-flex align-items-strech">
+                                    <h:commandButton value="#{msgs['link.add']}" action="#{controlador.addNuevoSubPedido(subPedido)}" styleClass="enlace--boton">
+                                        <!--Este parametro es rescatado en el metodo addNuevoSubPedido de la entidad SubPedido-->
+                                        <f:param name="id" value="#{producto.id_producto}"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </h:form>
+                    </h:panelGroup>
+                    <!--FIN Cliente-->
+                    <!--Solo visible si el usuario es Tienda-->
+                    <h:panelGroup rendered="#{controlador.esTienda(session.getValue('usuarioLogeado'))}">
+                        <h:form >
+                            <div class="row col-12 centrar--texto m-0 my-5 p-0 justify-content-around " >
+                                <div class="col-sm-2 d-flex align-items-strech">
+                                    <h:commandLink value="#{msgs['link.borrar']}" action="#{controlador.borrarProducto()}" styleClass="enlace--boton  ">
+                                        <f:param name="elProductoABorrar" value="#{productoElegido.id_producto}"/>
+                                        <f:param name="destino" value="tiendaInicio"/>
+                                    </h:commandLink>
+                                </div>
+                                <div class="col-sm-2 d-flex align-items-strech mr-5">
+                                    <h:link value="#{msgs['link.volver']}" outcome="tiendaInicio" styleClass="enlace--boton"/>
+                                </div>
+                            </div>
+                        </h:form>
+                    </h:panelGroup>
+                    <!--FIN Tienda-->
                 </div>
-                <!--Solo visible si el usuario logueado es Cliente-->
-                <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado'))}">
-                    <h:form>
-                        <div class="row col-12 centrar--texto my-5 d-flex justify-content-around">
-                            <div class="col-4 col-md-3 col-lg-2">
-                                <h:outputLabel for="cantidad" value="#{msgs['formulario_producto.cantidad']}"/>
-                                <p:spinner value="#{subPedido.cantidad_producto}" id="cantidad" required="true" stepFactor="1" min="1" styleClass="formulario__input" converterMessage="Introduzca digitos por favor" max="#{productoElegido.stock}" />
-                            </div>
-                            <div class="col-2 d-flex align-items-strech">
-                                <h:commandButton value="#{msgs['link.add']}" action="#{controlador.addNuevoSubPedido(subPedido)}" styleClass="enlace--boton">
-                                    <!--Este parametro es rescatado en el metodo addNuevoSubPedido de la entidad SubPedido-->
-                                    <f:param name="id" value="#{producto.id_producto}"/>
-                                </h:commandButton>
-                            </div>
-                        </div>
-                    </h:form>
-                </h:panelGroup>
-                <!--FIN Cliente-->
-                <!--Solo visible si el usuario es Tienda-->
-                <h:panelGroup rendered="#{controlador.esTienda(session.getValue('usuarioLogeado'))}">
-                    <h:form >
-                        <div class="row col-12 centrar--texto m-0 my-5 p-0 justify-content-around " >
-                            <div class="col-sm-2 d-flex align-items-strech">
-                                <h:commandLink value="#{msgs['link.borrar']}" action="#{controlador.borrarProducto()}" styleClass="enlace--boton  ">
-                                    <f:param name="elProductoABorrar" value="#{productoElegido.id_producto}"/>
-                                    <f:param name="destino" value="tiendaInicio"/>
-                                </h:commandLink>
-                            </div>
-                            <div class="col-sm-2 d-flex align-items-strech mr-5">
-                                <h:link value="#{msgs['link.volver']}" outcome="tiendaInicio" styleClass="enlace--boton"/>
-                            </div>
-                        </div>
-                    </h:form>
-                </h:panelGroup>
-                <!--FIN Tienda-->
-            </div>
-            <!--FIN Informacion Producto-->
+                <!--FIN Informacion Producto-->
+            </h:panelGroup>
+            <!--Evitar el acceso mediante URL-->
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq false and controlador.esTienda(session.getValue('usuarioLogeado')) eq false}">
+
+                <ui:include src="errorAcceso.xhtml"/>
+
+            </h:panelGroup>
+            <!--FIN-->
         </ui:define>
     </ui:composition>
 </html>

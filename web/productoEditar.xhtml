@@ -12,7 +12,7 @@
             <!--Espacio del menu-->
             <div class="espacio_menu"></div>
             <!--FIN espacio-->
-            <ui:param name="p" value="#{controlador.buscarProducto(producto.id_producto)}"/>
+            <ui:param name="p" value="#{controlador.buscarProducto(session.getValue('productoEditar').id_producto)}"/>
             <div class="container" >
                 <div class="row py-5">
                     <div class="col-sm-12 col-lg-2 banner py-2">
@@ -40,6 +40,7 @@
                                         </div>
                                         <div class=" col-4 mx-0">
                                             <p:selectOneMenu id="tipoIVA" value="#{producto.tipoIVA}" styleClass="formulario__input mx-0"  >
+                                                <f:selectItem itemLabel=" " itemValue="0"  noSelectionOption="false" />
                                                 <f:selectItem itemLabel="4 %" itemValue="4"/>
                                                 <f:selectItem itemLabel="10 %" itemValue="10"/>
                                                 <f:selectItem itemLabel="21 %" itemValue="21"/>
@@ -49,6 +50,7 @@
                                         </div>
                                         <div class="col-4 pr-0" >
                                             <p:selectOneMenu id="unidad" value="#{producto.unidad}" styleClass="formulario__input">
+                                                <f:selectItem itemLabel=" " itemValue="0" noSelectionOption="false" />
                                                 <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
                                                 <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
                                                 <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
@@ -101,11 +103,18 @@
                                     </div>
                                     <div class="col-4">
                                         <p:spinner id="cantidaPorUnidad" value="#{producto.cantidadSuministro}" a:placeholder="#{p.cantidadSuministro}" styleClass="formulario__input" converterMessage="Solo enteros" stepFactor="1" min="1"/>
-                                        <h:outputLabel for="cantidadPorUnidad" value="#{msgs['formulario_producto.rango']} " styleClass="mr-5"/>
+                                        <p class="mr-5">
+                                            <h:outputLabel for="cantidadPorUnidad" value="#{msgs['formulario_producto.rango']} (" />
+                                            <h:outputLabel for="cantidadPorUnidad" value="#{p.cantidadSuministro}" >
+                                                <f:convertNumber type="number" locale="es-ES"/>
+                                            </h:outputLabel>
+                                            <h:outputLabel for="cantidadPorUnidad" value="/#{p.unidadSuministro}) " />
+                                        </p>
                                         <h:message for="cantidadPorUnidad" styleClass="mensaje__error"/>
                                     </div>
                                     <div class="col-4" >
                                         <p:selectOneMenu id="unidadPorVenta" value="#{producto.unidadSuministro}" required="true" styleClass="formulario__input texto--der">
+                                            <f:selectItem itemLabel="" itemValue="0" noSelectionOption="false" />
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_kilo']}" itemValue="kilo"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_gramo']}" itemValue="gramo"/>
                                             <f:selectItem itemLabel="#{msgs['formulario_producto.unidad_litro']}" itemValue="litro"/>
@@ -122,7 +131,9 @@
                                         <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="imagen--avatar"/>
                                     </div>
                                     <div class="col-sm-12 col-lg-4 centrar--texto ">
-                                        <h:inputFile value="#{producto.fotoSubida}" id="foto" styleClass="subirArchivo"/>
+                                        <h:inputFile value="#{producto.fotoSubida}" id="foto" styleClass="subirArchivo">
+                                            <f:validator validatorId="validarImagen" for="foto" />
+                                        </h:inputFile>
                                         <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass="subirArchivoEtiqueta"/>
                                         <span class="nombreArchivo"></span>
                                         <h:message for="foto" styleClass="mensaje__error"/>

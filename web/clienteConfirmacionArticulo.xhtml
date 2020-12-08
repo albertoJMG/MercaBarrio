@@ -12,90 +12,99 @@
             <!--Espacio del menu-->
             <div class="espacio_menu"></div>
             <!--FIN espacio-->
-            <!--Mensaje de confirmacion-->
-            <h2 class="texto--verde mt-5 centrar--texto mb-5">
-                <span class="material-icons">check</span>
-                <h:outputText value="#{msgs['producto.exito']}"/>
-            </h2>
-            <!--FIN-->
-            <!--Obtenemos el ultimo articulo añadido al Pedido-->
-            <ui:param name="subP" value="#{controlador.productoSeleccionado()}"/>
-            <!--Mostramos el articulo añadido al Pedido-->
-            <div class="container producto_detalle">
-                <h3 class="centrar--texto col-12 my-3">
-                    <h:outputText value="#{subP.producto.nombre}"/>
-                </h3>
-                <div class="row mb-3  d-flex align-items-center">
-                    <h:graphicImage value="resources/images/#{subP.producto.nombreFoto}" style="height: 10em" styleClass="col-4 col-md-3 m-0" />
-                    <div class="row col-8 col-md-9 ">
-                        <p class="col-12 mb-4">
-                            <h:outputText value="#{subP.producto.breve_descripcion}"/>
-                        </p>
-                        <p class="col-12 texto--gris mb-2" >
-                            <h:outputText value="#{controlador.precioUnProductoIVA(subP.producto.id_producto)}">
-                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                            </h:outputText>
-                            <h:outputText value="/#{subP.producto.unidad}. "/>
-                        </p>
-                        <p class="col-12 texto--gris mb-2">
-                            <h:outputText value="#{subP.producto.cantidadSuministro}">
-                                <f:convertNumber type="number" locale="es-ES"/>
-                            </h:outputText>
-                            <h:outputText value=" #{subP.producto.unidadSuministro}/s la unidad. "/>
-                        </p>
-                        <p class="col-12 texto--gris">
-                            <h:outputText value=" #{msgs['cliente_carrito.cantidad']} #{subP.cantidad_producto}"/>
-                        </p>
-                        <p class="col-12 texto--verde texto--der">
-                            <h:outputText value="#{msgs['cliente_pedidos.importe']}: "/>
-                            <h:outputText value="#{controlador.importeSubPedido(subP)}">
-                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                            </h:outputText>
-                        </p>
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq true}">
+                <!--Mensaje de confirmacion-->
+                <h2 class="texto--verde mt-5 centrar--texto mb-5">
+                    <span class="material-icons">check</span>
+                    <h:outputText value="#{msgs['producto.exito']}"/>
+                </h2>
+                <!--FIN-->
+                <!--Obtenemos el ultimo articulo añadido al Pedido-->
+                <ui:param name="subP" value="#{controlador.productoSeleccionado()}"/>
+                <!--Mostramos el articulo añadido al Pedido-->
+                <div class="container producto_detalle">
+                    <h3 class="centrar--texto col-12 my-3">
+                        <h:outputText value="#{subP.producto.nombre}"/>
+                    </h3>
+                    <div class="row mb-3  d-flex align-items-center">
+                        <h:graphicImage value="resources/images/#{subP.producto.nombreFoto}" style="height: 10em" styleClass="col-4 col-md-3 m-0" />
+                        <div class="row col-8 col-md-9 ">
+                            <p class="col-12 mb-4">
+                                <h:outputText value="#{subP.producto.breve_descripcion}"/>
+                            </p>
+                            <p class="col-12 texto--gris mb-2" >
+                                <h:outputText value="#{controlador.precioUnProductoIVA(subP.producto.id_producto)}">
+                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                </h:outputText>
+                                <h:outputText value="/#{subP.producto.unidad}. "/>
+                            </p>
+                            <p class="col-12 texto--gris mb-2">
+                                <h:outputText value="#{subP.producto.cantidadSuministro}">
+                                    <f:convertNumber type="number" locale="es-ES"/>
+                                </h:outputText>
+                                <h:outputText value=" #{subP.producto.unidadSuministro}/s la unidad. "/>
+                            </p>
+                            <p class="col-12 texto--gris">
+                                <h:outputText value=" #{msgs['cliente_carrito.cantidad']} #{subP.cantidad_producto}"/>
+                            </p>
+                            <p class="col-12 texto--verde texto--der">
+                                <h:outputText value="#{msgs['cliente_pedidos.importe']}: "/>
+                                <h:outputText value="#{controlador.importeSubPedido(subP)}">
+                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                </h:outputText>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!--FIN-->
-            <!--Links/botones para continuar con la operacion o continuar comprando-->
-            <div class="container my-5">
-                <div class="row col-12  mx-0 d-flex justify-content-around">
-                    <h:link value="#{msgs['link.seguir']}" outcome="clienteProductosTienda" styleClass="enlace--boton "/>
-                    <h:link value="#{msgs['link.continuar']}" outcome="clienteCarrito" styleClass="enlace--boton fondo--amarillo "/>
+                <!--FIN-->
+                <!--Links/botones para continuar con la operacion o continuar comprando-->
+                <div class="container my-5">
+                    <div class="row col-12  mx-0 d-flex justify-content-around">
+                        <h:link value="#{msgs['link.seguir']}" outcome="clienteProductosTienda" styleClass="enlace--boton "/>
+                        <h:link value="#{msgs['link.continuar']}" outcome="clienteCarrito" styleClass="enlace--boton fondo--amarillo "/>
+                    </div>
                 </div>
-            </div>
-            <!--FIN-->
-            <!--Muestra productos aleatorios de la Tienda para atraer su compra-->
-            <h:panelGroup rendered="#{controlador.productosRandom(tienda.id_usuario).size() gt 2}">
-                <div class="container producto_detalle centrar--texto mb-5 pb-3">
-                    <h2 class="my-3">
-                        <h:outputText value="#{msgs['producto.otros']}"/>
-                    </h2>
-                    <h:form id="form" styleClass="container">
-                        <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
-                        <p:dataGrid var="random" value="#{controlador.productosRandom(tienda.id_usuario)}" columns="3" layout="grid" rows="3" paginator="false">
-                            <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
-                                <h:panelGrid columns="1" styleClass="col-12"  >
-                                    <h:commandLink action="producto_tInicio" >
-                                        <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
-                                        <p:graphicImage url="resources/images/#{random.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
-                                    </h:commandLink>
-                                    <h:outputText value="#{random.nombre}" />
-                                    <h:panelGroup>
-                                        <h:outputText value="#{random.precio*(1+(random.tipoIVA/100))}">
-                                            <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                        </h:outputText>
-                                        <h:outputText value="/#{random.unidad}"/>
-                                    </h:panelGroup>
-                                    <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces-grid">
-                                        <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
-                                        <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
-                                    </h:commandLink>
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:dataGrid>
-                        <!--FIN-->
-                    </h:form>
-                </div>
+                <!--FIN-->
+                <!--Muestra productos aleatorios de la Tienda para atraer su compra-->
+                <h:panelGroup rendered="#{controlador.productosRandom(tienda.id_usuario).size() gt 2}">
+                    <div class="container producto_detalle centrar--texto mb-5 pb-3">
+                        <h2 class="my-3">
+                            <h:outputText value="#{msgs['producto.otros']}"/>
+                        </h2>
+                        <h:form id="form" styleClass="container">
+                            <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
+                            <p:dataGrid var="random" value="#{controlador.productosRandom(tienda.id_usuario)}" columns="3" layout="grid" rows="3" paginator="false">
+                                <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
+                                    <h:panelGrid columns="1" styleClass="col-12"  >
+                                        <h:commandLink action="producto_tInicio" >
+                                            <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
+                                            <p:graphicImage url="resources/images/#{random.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
+                                        </h:commandLink>
+                                        <h:outputText value="#{random.nombre}" />
+                                        <h:panelGroup>
+                                            <h:outputText value="#{random.precio*(1+(random.tipoIVA/100))}">
+                                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                            </h:outputText>
+                                            <h:outputText value="/#{random.unidad}"/>
+                                        </h:panelGroup>
+                                        <h:commandLink action="#{controlador.irAProducto(random.id_producto)}" value="#{msgs['cliente.tablas_producto']} #{random.id_producto}" styleClass="tablas-datos__enlaces-grid">
+                                            <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
+                                            <f:setPropertyActionListener target="#{producto.id_producto}" value="#{random.id_producto}"/>
+                                        </h:commandLink>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:dataGrid>
+                            <!--FIN-->
+                        </h:form>
+                    </div>
+                </h:panelGroup>
+                <!--FIN-->
+            </h:panelGroup>
+            <!--Evitar el acceso mediante URL-->
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq false}">
+
+                <ui:include src="errorAcceso.xhtml"/>
+
             </h:panelGroup>
             <!--FIN-->
         </ui:define>

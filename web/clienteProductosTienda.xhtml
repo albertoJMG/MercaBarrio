@@ -14,73 +14,82 @@
                 <!--Espacio del menu-->
                 <div class="espacio_menu"></div>
                 <!--FIN espacio-->
-                <ui:param name="tiendaElegida" value="#{controlador.buscarTienda(tienda.id_usuario)}"/>
-                <!--Cabecera Tienda-->
-                <div class="row cabecera m-0 mb-4"  >
-                    <p:graphicImage url="resources/images/#{tiendaElegida.nombreAvatar}" styleClass="cabecera__logo"/>
-                    <h1 class="">
-                        <h:outputText value="#{tiendaElegida.nombre}" />
-                    </h1>
-                </div>
-                <!--FIN-->
-                <h:panelGroup rendered="#{tiendaElegida.productos.size() gt 0}">
-                    <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
-                    <h:form id="form" styleClass="container mb-5" >
-                        <p:inputText value="#{buscadorProductosCliente.textoABuscar}" disabled="true">
-                            
-                        </p:inputText>
-                        <p:commandButton value="buscar" update="resultados" action="#{buscadorProductosCliente.filtrar()}">
-                            <f:setPropertyActionListener target="#{buscadorProductosCliente.t}" value="#{tiendaElegida}"/>
-                        </p:commandButton> 
-                        <!--value="#{buscadorProductosCliente.productos}" para el value del dataGrid--> 
-                        <p:dataGrid var="p" value="#{controlador.productosDisponiblesTienda(tiendaElegida.id_usuario)}" 
-                                    columns="3" layout="grid" rows="12" paginator="true" id="resultados" >
-                            <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
-                                <!--Si del Producto no hay stock no permite la navegacion-->
-                                <h:panelGroup rendered="#{p.stock lt 3}">
-                                    <h:panelGrid columns="1" styleClass="col-12"  >
-                                        <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
-                                        <h:outputText value="#{p.nombre}" />
-                                        <h:panelGroup>
-                                            <h:outputText value="#{controlador.precioUnProductoIVA(p.id_producto)}">
-                                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                            </h:outputText>
-                                            <h:outputText value="/#{p.unidad}"/>
-                                        </h:panelGroup>
-                                        <h:outputText value="Sin Stock" styleClass="texto--error"/>
-                                    </h:panelGrid>
-                                </h:panelGroup>
-                                <!--Si el Producto tiene stock permite la navegación para poder hacer un Pedido-->
-                                <h:panelGroup rendered="#{p.stock gt 3 or p.stock eq 3}">
-                                    <h:panelGrid columns="1" styleClass="col-12"  >
-                                        <h:commandLink action="producto_tInicio" >
-                                            <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
-                                            <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
-                                        </h:commandLink>
-                                        <h:outputText value="#{p.nombre}" />
-                                        <h:panelGroup>
-                                            <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))}">
-                                                <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
-                                            </h:outputText>
-                                            <h:outputText value="/#{p.unidad}"/>
-                                        </h:panelGroup>
-                                        <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces-grid">
-                                            <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
-                                            <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
-                                        </h:commandLink>
-                                    </h:panelGrid>
-                                </h:panelGroup>
-                            </p:panel>
-                        </p:dataGrid>
-                    </h:form>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{tiendaElegida.productos.size() eq 0}">
-                    <div class="row my-5 mensaje-vacio m-0 p-0" >
-                        <h3 class="centrar--texto mensaje-vacio__texto" >
-                            <h:outputText value="#{msgs['tienda.vacio_mensaje']}" />
-                        </h3>
-                        <h:graphicImage url="resources/images/sin_pedidos.png" styleClass="mensaje-vacio__imagen"/>
+                <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq true}">
+                    <ui:param name="tiendaElegida" value="#{controlador.buscarTienda(tienda.id_usuario)}"/>
+                    <!--Cabecera Tienda-->
+                    <div class="row cabecera m-0 mb-4"  >
+                        <p:graphicImage url="resources/images/#{tiendaElegida.nombreAvatar}" styleClass="cabecera__logo"/>
+                        <h1 class="">
+                            <h:outputText value="#{tiendaElegida.nombre}" />
+                        </h1>
                     </div>
+                    <!--FIN-->
+                    <h:panelGroup rendered="#{tiendaElegida.productos.size() gt 0}">
+                        <!--Mostrara los todos los Productos de la Tienda en forma de parrilla-->
+                        <h:form id="form" styleClass="container mb-5" >
+                            <p:inputText value="#{buscadorProductosCliente.textoABuscar}" disabled="true">
+
+                            </p:inputText>
+                            <p:commandButton value="buscar" update="resultados" action="#{buscadorProductosCliente.filtrar()}">
+                                <f:setPropertyActionListener target="#{buscadorProductosCliente.t}" value="#{tiendaElegida}"/>
+                            </p:commandButton> 
+                            <!--value="#{buscadorProductosCliente.productos}" para el value del dataGrid--> 
+                            <p:dataGrid var="p" value="#{controlador.productosDisponiblesTienda(tiendaElegida.id_usuario)}" 
+                                        columns="3" layout="grid" rows="12" paginator="true" id="resultados" >
+                                <p:panel   styleClass="tablas-datos centrar--texto altura--panel">
+                                    <!--Si del Producto no hay stock no permite la navegacion-->
+                                    <h:panelGroup rendered="#{p.stock lt 3}">
+                                        <h:panelGrid columns="1" styleClass="col-12"  >
+                                            <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
+                                            <h:outputText value="#{p.nombre}" />
+                                            <h:panelGroup>
+                                                <h:outputText value="#{controlador.precioUnProductoIVA(p.id_producto)}">
+                                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                </h:outputText>
+                                                <h:outputText value="/#{p.unidad}"/>
+                                            </h:panelGroup>
+                                            <h:outputText value="Sin Stock" styleClass="texto--error"/>
+                                        </h:panelGrid>
+                                    </h:panelGroup>
+                                    <!--Si el Producto tiene stock permite la navegación para poder hacer un Pedido-->
+                                    <h:panelGroup rendered="#{p.stock gt 3 or p.stock eq 3}">
+                                        <h:panelGrid columns="1" styleClass="col-12"  >
+                                            <h:commandLink action="producto_tInicio" >
+                                                <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                                <p:graphicImage url="resources/images/#{p.nombreFoto}" styleClass="tablas-datos__imagen-grid"/>
+                                            </h:commandLink>
+                                            <h:outputText value="#{p.nombre}" />
+                                            <h:panelGroup>
+                                                <h:outputText value="#{p.precio*(1+(p.tipoIVA/100))}">
+                                                    <f:convertNumber type="currency" currencySymbol="€" maxIntegerDigits="5" maxFractionDigits="2" locale="es-ES"/>
+                                                </h:outputText>
+                                                <h:outputText value="/#{p.unidad}"/>
+                                            </h:panelGroup>
+                                            <h:commandLink action="producto_tInicio" value="#{msgs['cliente.tablas_producto']}" styleClass="tablas-datos__enlaces-grid">
+                                                <!--Establecemos en valor a la propiedad del ManageBean Producto para poder usarlo en la siguiente página-->
+                                                <f:setPropertyActionListener target="#{producto.id_producto}" value="#{p.id_producto}"/>
+                                            </h:commandLink>
+                                        </h:panelGrid>
+                                    </h:panelGroup>
+                                </p:panel>
+                            </p:dataGrid>
+                        </h:form>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{tiendaElegida.productos.size() eq 0}">
+                        <div class="row my-5 mensaje-vacio m-0 p-0" >
+                            <h3 class="centrar--texto mensaje-vacio__texto" >
+                                <h:outputText value="#{msgs['tienda.vacio_mensaje']}" />
+                            </h3>
+                            <h:graphicImage url="resources/images/sin_pedidos.png" styleClass="mensaje-vacio__imagen"/>
+                        </div>
+                    </h:panelGroup>
+                    <!--FIN-->
+                </h:panelGroup>
+                <!--Evitar el acceso mediante URL-->
+                <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq false}">
+
+                    <ui:include src="errorAcceso.xhtml"/>
+
                 </h:panelGroup>
                 <!--FIN-->
             </ui:define>

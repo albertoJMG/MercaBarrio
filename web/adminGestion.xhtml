@@ -12,50 +12,59 @@
             <!--Espacio del menu-->
             <div class="espacio_menu"></div>
             <!--FIN espacio-->
-            <h1 class="centrar--texto my-5">
-                <h:outputText value="#{msgs['admin.administracion']}"/>
-            </h1>
-            <!--Funcionalidad solo para el SuperAdmin. Subir las imagenes de los Productos por primera vez-->
-            <h:panelGroup  rendered="#{session.getValue('usuarioLogeado').nombre_usuario == 'superAdmin'}" layout="block">
-                <div class="container my-5 ">
-                    <h1>Subida de fotos iniciales</h1>
-                    <h:form enctype="multipart/form-data">        
-                        <p:fileUpload value="#{subiMultiplesArchivos.archivos}" mode="simple" skinSimple="true"  multiple="true" label="Seleccionar" />
-                        <p:commandButton value="Subir" ajax="false" action="#{subiMultiplesArchivos.subirMultiple()}"  />
-                    </h:form>
-                </div>
-            </h:panelGroup>
-            <!--FIN-->
-            <!--Muestra todas las Tiendas-->
-            <h:form styleClass="mb-4"> 
-                <p:dataScroller value="#{controlador.todasLasTiendas()}" var="tiend" chunkSize="5" styleClass="container">
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs['admin.tabla_cabecera']}"/>
-                    </f:facet>
+            <h:panelGroup rendered="#{controlador.esAdmin(session.getValue('usuarioLogeado')) eq true}">
+                <h1 class="centrar--texto my-5">
+                    <h:outputText value="#{msgs['admin.administracion']}"/>
+                </h1>
+                <!--Funcionalidad solo para el SuperAdmin. Subir las imagenes de los Productos por primera vez-->
+                <h:panelGroup  rendered="#{session.getValue('usuarioLogeado').nombre_usuario == 'superAdmin'}" layout="block">
+                    <div class="container my-5 ">
+                        <h1>Subida de fotos iniciales</h1>
+                        <h:form enctype="multipart/form-data">        
+                            <p:fileUpload value="#{subiMultiplesArchivos.archivos}" mode="simple" skinSimple="true"  multiple="true" label="Seleccionar" />
+                            <p:commandButton value="Subir" ajax="false" action="#{subiMultiplesArchivos.subirMultiple()}"  />
+                        </h:form>
+                    </div>
+                </h:panelGroup>
+                <!--FIN-->
+                <!--Muestra todas las Tiendas-->
+                <h:form styleClass="mb-4"> 
+                    <p:dataScroller value="#{controlador.todasLasTiendas()}" var="tiend" chunkSize="5" styleClass="container">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['admin.tabla_cabecera']}"/>
+                        </f:facet>
 
-                    <h:panelGrid columns="2" style="border-bottom: 1px solid grey" styleClass="prueba01 d-flex justify-content-between"  >
-                        <p:outputPanel>
-                            <p:graphicImage url="resources/images/#{tiend.nombreAvatar}" styleClass="imagen--avatar"/> 
-                        </p:outputPanel>
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText value="#{msgs['formulario.cif']}:" />
-                            <h:outputText value="#{tiend.cif}" />
+                        <h:panelGrid columns="2" style="border-bottom: 1px solid grey" styleClass="prueba01 d-flex justify-content-between"  >
+                            <p:outputPanel>
+                                <p:graphicImage url="resources/images/#{tiend.nombreAvatar}" styleClass="imagen--avatar"/> 
+                            </p:outputPanel>
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="#{msgs['formulario.cif']}:" />
+                                <h:outputText value="#{tiend.cif}" />
 
-                            <h:outputText value="#{msgs['formulario.nombre']}:" />
-                            <h:outputText value="#{tiend.nombre}" />
+                                <h:outputText value="#{msgs['formulario.nombre']}:" />
+                                <h:outputText value="#{tiend.nombre}" />
 
-                            <h:outputText value="#{msgs['formulario.direccion']}:" />
-                            <h:outputText value="#{tiend.tipoVIA} #{tiend.direccion}"/>
+                                <h:outputText value="#{msgs['formulario.direccion']}:" />
+                                <h:outputText value="#{tiend.tipoVIA} #{tiend.direccion}"/>
 
-                            <h:outputText value="#{msgs['formulario.telefono']}:" />
-                            <h:outputText value="#{tiend.telefono}" />
+                                <h:outputText value="#{msgs['formulario.telefono']}:" />
+                                <h:outputText value="#{tiend.telefono}" />
+                            </h:panelGrid>
+                            <p:outputPanel styleClass="centrar--texto">
+                                <h:commandButton value="#{msgs['admin.tabla_confirmar']}" action="#{controlador.confirmaTienda(tiend.id_usuario)}" styleClass="enlace--boton " rendered="#{tiend.aceptada == false}"/>
+                            </p:outputPanel>
                         </h:panelGrid>
-                        <p:outputPanel styleClass="centrar--texto">
-                            <h:commandButton value="#{msgs['admin.tabla_confirmar']}" action="#{controlador.confirmaTienda(tiend.id_usuario)}" styleClass="enlace--boton " rendered="#{tiend.aceptada == false}"/>
-                        </p:outputPanel>
-                    </h:panelGrid>
-                </p:dataScroller>
-            </h:form>
+                    </p:dataScroller>
+                </h:form>
+                <!--FIN-->
+            </h:panelGroup>
+            <!--Evitar el acceso mediante URL-->
+            <h:panelGroup rendered="#{controlador.esAdmin(session.getValue('usuarioLogeado')) eq false}">
+
+                <ui:include src="errorAcceso.xhtml"/>
+
+            </h:panelGroup>
             <!--FIN-->
         </ui:define>
     </ui:composition>

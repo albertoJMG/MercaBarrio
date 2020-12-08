@@ -117,7 +117,9 @@
                             </div>
                             <div class="row mt-5 mb-sm-4" >
                                 <div class="col-12 centrar--texto">
-                                    <h:inputFile value="#{producto.fotoSubida}" id="foto" required="true" styleClass="subirArchivo"/>
+                                    <h:inputFile value="#{producto.fotoSubida}" id="foto" required="true" styleClass="subirArchivo">
+                                        <f:validator validatorId="validarImagen"/>
+                                    </h:inputFile>
                                     <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass="subirArchivoEtiqueta"/>
                                     <span class="nombreArchivo"></span>
                                     <h:message for="foto" styleClass="mensaje__error"/>

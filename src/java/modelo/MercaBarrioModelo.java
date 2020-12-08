@@ -6,14 +6,8 @@ package modelo;
 import entidades.*;
 import entidades.dao.*;
 import entidades.dao.exceptions.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -558,7 +552,7 @@ public class MercaBarrioModelo {
      * @param id_tienda Id de la Tienda
      * @return Lista del tipo SubPedido
      */
-    public static List<SubPedido> subPedidosTiendaPendientes(String id_tienda) {
+    public static List<SubPedido> buscarSubPedidosTiendaPendientes(String id_tienda) {
         List<SubPedido> pendientes = new LinkedList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         EntityManager em = emf.createEntityManager();
@@ -601,6 +595,19 @@ public class MercaBarrioModelo {
         EnvioJpaController ejc = new EnvioJpaController(emf);
         env = ejc.findEnvio(id_envio);
         return env;
+    }
+
+    /**
+     * Método que devuelve una lista todas las Tiendas registradas en la
+     * aplicacion
+     *
+     * @return Lista con las Tiendas
+     */
+    public static List<Tienda> buscarTiendas() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
+        TiendaJpaController ejc = new TiendaJpaController(emf);
+        List<Tienda> t = ejc.findTiendaEntities();
+        return t;
     }
 
     /*
@@ -647,7 +654,7 @@ public class MercaBarrioModelo {
     public static void borrarArticuloCarrito(Long id_subPedido) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         SubPedidoJpaController ejc = new SubPedidoJpaController(emf);
-        
+
         try {
             ejc.destroy(id_subPedido);
         } catch (RollbackFailureException ex) {
@@ -655,20 +662,7 @@ public class MercaBarrioModelo {
         } catch (Exception ex) {
             System.err.println("Error al borrar SubPedido" + ex.getMessage());
         }
-        
-    }
 
-    /**
-     * Método que devuelve una lista todas las Tiendas registradas en la
-     * aplicacion
-     *
-     * @return Lista con las Tiendas
-     */
-    public static List<Tienda> buscarTiendas() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
-        TiendaJpaController ejc = new TiendaJpaController(emf);
-        List<Tienda> t = ejc.findTiendaEntities();
-        return t;
     }
 
     /*
@@ -721,7 +715,6 @@ public class MercaBarrioModelo {
     }
 
     ////////////////////////////////////////////////////////////// Pendiente de ver su utilidad
-    
     public static List buscarProductos() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU);
         ProductoJpaController ejc = new ProductoJpaController(emf);

@@ -24,7 +24,9 @@
                         <h:form enctype="multipart/form-data">
                             <div class="row mb-3 mb-sm-2">
                                 <div class="col-lg-6 mb-sm-2">
-                                    <p:inputText id="cif" value="#{tienda.cif}" required="true" label="cif" styleClass="formulario__input" maxlength="9"/>
+                                    <p:inputText id="cif" value="#{tienda.cif}" required="true" label="cif" styleClass="formulario__input" maxlength="9" validatorMessage="Debe tener 9 elementos">
+                                        <f:validateLength minimum="9" maximum="9"/>
+                                    </p:inputText>
                                     <h:outputLabel for="cif" value="#{msgs['formulario.cif']}"/>
                                     <h:message for="cif" styleClass="mensaje__error"/>
                                 </div>
@@ -41,8 +43,9 @@
                                     <h:message for="responsable" styleClass="mensaje__error"/>
                                 </div>
                                 <div class="col-md-6 mb-sm-2">
-                                    <p:inputText id="telefono" value="#{tienda.telefono}" required="true" label="telefono" styleClass="formulario__input" maxlength="9">
+                                    <p:inputText id="telefono" value="#{tienda.telefono}" required="true" label="telefono" styleClass="formulario__input" maxlength="9" validatorMessage="Debe tener 9 números">
                                         <p:keyFilter regEx="/(\d)/"/>
+                                        <f:validateLength minimum="9" maximum="9"/>
                                     </p:inputText>
                                     <h:outputLabel for="telefono" value="#{msgs['formulario.telefono']} "/>
                                     <h:message for="telefono" styleClass="mensaje__error"/>
@@ -81,8 +84,9 @@
                                     <h:message for="numeroVia" styleClass="mensaje__error"/>
                                 </div>
                                 <div class="col-md-2 mb-sm-2">
-                                    <p:inputText id="cp" value="#{tienda.cp}" required="true" label="cp" styleClass="formulario__input" maxlength="5">
+                                    <p:inputText id="cp" value="#{tienda.cp}" required="true" label="cp" styleClass="formulario__input" maxlength="5" validatorMessage="Debe tener 5 elementos">
                                         <p:keyFilter regEx="/[0-9]/"/>
+                                        <f:validateLength minimum="5" maximum="5"/>
                                     </p:inputText>
                                     <h:outputLabel for="cp" value="#{msgs['formulario.cp']}"/>
                                     <h:message for="cp" styleClass="mensaje__error"/>
@@ -99,14 +103,18 @@
 
                             <div class="row mb-3 mb-sm-2">
                                 <div class="col-md-12 mb-sm-2">
-                                    <p:inputText id="email" value="#{tienda.email}" a:type="email" required="true" label="email" styleClass="formulario__input"/>
+                                    <p:inputText id="email" value="#{tienda.email}" a:type="email" required="true" label="email" styleClass="formulario__input" validatorMessage="No es un correo valido">
+                                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                    </p:inputText>
                                     <h:outputLabel for="email" value="#{msgs['formulario.email']} "/>
                                     <h:message for="email" styleClass="mensaje__error"/>
                                 </div>
                             </div>
                             <div class="row mb-3 mb-sm-4" >
                                 <div class="col-12 centrar--texto">
-                                    <h:inputFile value="#{tienda.fotoSubida}" id="foto" styleClass="subirArchivo"/>
+                                    <h:inputFile value="#{tienda.fotoSubida}" id="foto" styleClass="subirArchivo">
+                                        <f:validator validatorId="validarImagen"/>
+                                    </h:inputFile>
                                     <h:outputLabel for="foto" value="#{msgs['formulario_producto.foto']}" styleClass="subirArchivoEtiqueta"/>
                                     <span class="nombreArchivo"></span>
                                     <h:message for="foto" styleClass="mensaje__error"/>

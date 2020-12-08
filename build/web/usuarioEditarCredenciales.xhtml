@@ -10,29 +10,38 @@
             <!--Espacio del menu-->
             <div class="espacio_menu"></div>
             <!--FIN espacio-->
-            <!--Formulario Editar credenciales-->
-            <div class="container-lg col-sm-10 offset-sm-1 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 formulario-sinBanner fondo--blanco my-5 py-5">
-                <h1 class="centrar--texto mb-2">
-                    <h:outputText value="#{msgs['editar.titulo']}"/>
-                </h1>
-                <h:form styleClass="m-0 p-0">
-                    <h:panelGrid columns="1" styleClass="col-12">
-                        <h:outputLabel for="username" value="#{msgs['login.usuario']}"/>
-                        <p:inputText id="username" value="#{usuario.nombre_usuario}" styleClass="formulario__input" label="Usuario"/>
-                        <h:message for="username" styleClass="mensaje__error"/>
-                        <h:outputLabel for="password" value="#{msgs['login.password']}"/>
-                        <p:password id="password" value="#{usuario.password}" required="true" styleClass="formulario__input" match="repetir_password" />
-                        <h:message for="password" styleClass="mensaje__error"/>
-                        <h:outputLabel for="repetir_password" value="#{msgs['editar.repetir']} #{msgs['login.password']}"/>
-                        <p:password id="repetir_password" value="#{usuario.password}" required="true" styleClass="formulario__input"  />
-                        <h:message for="repetir_password" styleClass="mensaje__error"/>
-                        
-                        <h:messages globalOnly="true" styleClass="text-danger mensaje-info" />
-                    </h:panelGrid>
-                    <h:commandButton action="#{controlador.editarCredencialesUsuario(usuario)}" value="Cambiar" styleClass="col-12 enlace--boton mt-5"></h:commandButton>
-                </h:form>
-            </div>
-            <!--FIN Formulario-->
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq true || controlador.esTienda(session.getValue('usuarioLogeado')) eq true}">
+                <!--Formulario Editar credenciales-->
+                <div class="container-lg col-sm-10 offset-sm-1 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 formulario-sinBanner fondo--blanco my-5 py-5">
+                    <h1 class="centrar--texto mb-2">
+                        <h:outputText value="#{msgs['editar.titulo']}"/>
+                    </h1>
+                    <h:form styleClass="m-0 p-0">
+                        <h:panelGrid columns="1" styleClass="col-12">
+                            <h:outputLabel for="username" value="#{msgs['login.usuario']}"/>
+                            <p:inputText id="username" value="#{usuario.nombre_usuario}" styleClass="formulario__input" label="Usuario"/>
+                            <h:message for="username" styleClass="mensaje__error"/>
+                            <h:outputLabel for="password" value="#{msgs['login.password']}"/>
+                            <p:password id="password" value="#{usuario.password}" required="true" styleClass="formulario__input" match="repetir_password" />
+                            <h:message for="password" styleClass="mensaje__error"/>
+                            <h:outputLabel for="repetir_password" value="#{msgs['editar.repetir']} #{msgs['login.password']}"/>
+                            <p:password id="repetir_password" value="#{usuario.password}" required="true" styleClass="formulario__input"  />
+                            <h:message for="repetir_password" styleClass="mensaje__error"/>
+
+                            <h:messages globalOnly="true" styleClass="text-danger mensaje-info" />
+                        </h:panelGrid>
+                        <h:commandButton action="#{controlador.editarCredencialesUsuario(usuario)}" value="Cambiar" styleClass="col-12 enlace--boton mt-5"></h:commandButton>
+                    </h:form>
+                </div>
+                <!--FIN Formulario-->
+            </h:panelGroup>
+            <!--Evitar el acceso mediante URL-->
+            <h:panelGroup rendered="#{controlador.esCliente(session.getValue('usuarioLogeado')) eq false and controlador.esTienda(session.getValue('usuarioLogeado')) eq false}">
+
+                <ui:include src="errorAcceso.xhtml"/>
+
+            </h:panelGroup>
+            <!--FIN-->
         </ui:define>
     </ui:composition>
 </html>

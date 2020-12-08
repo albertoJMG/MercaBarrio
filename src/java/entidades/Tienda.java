@@ -118,4 +118,6 @@ public class Tienda extends Usuario implements Serializable {
         this.aceptada = aceptada;
     }
     
+    
+    
 }

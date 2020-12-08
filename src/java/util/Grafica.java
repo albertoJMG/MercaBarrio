@@ -122,11 +122,11 @@ public class Grafica {
 
             }
             if (calPedidos.get(Calendar.MONTH) == 10 && calPedidos.get(Calendar.YEAR) == calActual.get(Calendar.YEAR)) {
-                subPedidosOctubre.add(sp);
+                subPedidosNoviembre.add(sp);
 
             }
             if (calPedidos.get(Calendar.MONTH) == 11 && calPedidos.get(Calendar.YEAR) == calActual.get(Calendar.YEAR)) {
-                subPedidosOctubre.add(sp);
+                subPedidosDiciembre.add(sp);
 
             }
         }
