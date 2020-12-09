@@ -80,7 +80,7 @@ public class MercaBarrioUtil {
                 ganancias = ganancias + (sp.getCantidad_producto() * (((double) sp.getProducto().getCantidadSuministro() / 1000))
                         * (sp.getProducto().getPrecio()));
             } else {
-                ganancias = ganancias + sp.getCantidad_producto() * sp.getProducto().getPrecio();
+                ganancias = ganancias + sp.getCantidad_producto() * sp.getProducto().getPrecio() * sp.getProducto().getCantidadSuministro();
             }
         }
         return Math.floor(ganancias*100)/100;

@@ -1188,7 +1188,7 @@ public class Controlador {
         List<SubPedido> listaSubPedidos = c.getPedidos().get(c.getPedidos().size() - 1).getSubPedido();
         for (SubPedido sp : listaSubPedidos) {
             String opcion = sp.getProducto().getUnidadSuministro();
-            if (opcion.equals("gramo") || opcion.equals("mililitros")) {
+            if (opcion.equals("gramo") || opcion.equals("mililitro")) {
                 importeTotal += precioUnProductoIVA(sp.getProducto().getId_producto()) * (sp.getCantidad_producto() * ((double) sp.getProducto().getCantidadSuministro() / 1000));
             } else {
                 importeTotal += precioUnProductoIVA(sp.getProducto().getId_producto()) * (sp.getCantidad_producto() * sp.getProducto().getCantidadSuministro());
